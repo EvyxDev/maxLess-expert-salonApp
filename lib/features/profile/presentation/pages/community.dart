@@ -163,7 +163,6 @@ class CommunityPage extends StatelessWidget {
             Text(
               "post_description".tr(context),
               style: TextStyle(
-                color: Colors.grey,
                 fontSize: 14.sp,
                 height: 1.5,
               ),
@@ -179,7 +178,7 @@ class CommunityPage extends StatelessWidget {
                 ),
                 SizedBox(width: 5.w),
                 Text(
-                  "likes_count".tr(context),
+                  "100".tr(context),
                   style: TextStyle(
                     color: AppColors.primaryColor,
                     fontSize: 14.sp,

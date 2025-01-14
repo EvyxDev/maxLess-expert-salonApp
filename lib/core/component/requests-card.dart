@@ -21,6 +21,16 @@ class _RequestCardState extends State<RequestCard>
 
   @override
   Widget build(BuildContext context) {
+    String timeRange = "9:00 AM - 10:00 AM";
+    List<String> timeParts = timeRange.split(" - ");
+
+    String startTime = timeParts[0]
+        .replaceAll("AM", "am".tr(context))
+        .replaceAll("PM", "pm".tr(context));
+    String endTime = timeParts[1]
+        .replaceAll("AM", "am".tr(context))
+        .replaceAll("PM", "pm".tr(context));
+
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut,
@@ -68,7 +78,7 @@ class _RequestCardState extends State<RequestCard>
                 ),
               ),
               Text(
-                "9:00 AM - 10:00 AM",
+                "$startTime - $endTime",
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Color(0xff525252),
@@ -240,15 +250,7 @@ class _RequestCardState extends State<RequestCard>
                                 child: OutlinedButton(
                                   onPressed: () {
                                     print("Cancelled");
-                                    Fluttertoast.showToast(
-                                      msg:
-                                          "toast_request_cancelled".tr(context),
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      textColor: Colors.black,
-                                      backgroundColor: Colors.white,
-                                      fontSize: 16.sp,
-                                    );
+                                    _showCancelDialogReason(context);
                                   },
                                   style: OutlinedButton.styleFrom(
                                     side: BorderSide(
@@ -341,6 +343,215 @@ class _RequestCardState extends State<RequestCard>
           ),
         ],
       ),
+    );
+  }
+
+  void _showCancelDialogReason(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        alignment: Alignment.center,
+        title: Text(
+          "cancel_dialog_title".tr(context),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w600,
+              color: Colors.black),
+        ),
+        // content: Text(
+        //   "You will not be able to reply to this chat again.",
+        //   textAlign: TextAlign.center,
+        //   style: TextStyle(
+        //     fontSize: 12.sp,
+        //     fontWeight: FontWeight.w400,
+        //     color: AppColors.primaryColor,
+        //   ),
+        // ),
+        shape:
+            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: CustomElevatedButton(
+                  text: "yes_button".tr(context),
+                  color: Colors.white,
+                  borderRadius: 10,
+                  borderColor: AppColors.primaryColor,
+                  textColor: AppColors.primaryColor,
+                  onPressed: () {
+                    Navigator.pop(context); // Close the dialog
+                    // Navigator.pushAndRemoveUntil(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => CartPage()),
+                    //   (route) =>
+                    //       route.isFirst, // يبقي فقط أول صفحة (عادةً صفحة Home)
+                    // );
+                    _showReasonDialog(context);
+                  },
+                ),
+              ),
+              SizedBox(width: 10.h), // مسافة بين الأزرار
+
+              Expanded(
+                child: CustomElevatedButton(
+                  text: "no_button".tr(context),
+                  borderRadius: 10,
+                  color: AppColors.primaryColor,
+                  textColor: Colors.white,
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // Navigator.pop(context); // إغلاق المودال
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showReasonDialog(BuildContext context) {
+    TextEditingController reasonController = TextEditingController();
+    bool isEmergencyChecked = false; // Track checkbox state
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              alignment: Alignment.center,
+              title: Text(
+                "reason_dialog_title".tr(context),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xff09031B),
+                ),
+              ),
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // TextField for custom reason
+                    TextField(
+                      controller: reasonController,
+                      maxLines: 5,
+                      decoration: InputDecoration(
+                        hintText: "reason_dialog_checkbox".tr(context),
+                        hintStyle: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.grey,
+                        ),
+                        fillColor: Colors.white,
+                        filled: true,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 16.w,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1.5,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade300,
+                            width: 1.5,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                          borderSide: BorderSide(
+                            color: AppColors.primaryColor,
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+
+                    // Checkbox for predefined reason
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isEmergencyChecked,
+                          activeColor: AppColors.primaryColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(100),
+                            side: BorderSide(
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                          checkColor: AppColors.white,
+                          onChanged: (value) {
+                            setState(() {
+                              isEmergencyChecked = value ?? false;
+                              if (isEmergencyChecked) {
+                                reasonController.text =
+                                    "reason_dialog_checkbox".tr(context);
+                              } else {
+                                reasonController
+                                    .clear(); // Clear reason if unchecked
+                              }
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Text(
+                            "reason_dialog_checkbox".tr(context),
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomElevatedButton(
+                        text: "reason_dialog_send_button".tr(context),
+                        color: AppColors.primaryColor,
+                        borderRadius: 10,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context); // Close the dialog
+                          // navigateTo(context, HistoryScreen());
+                          Fluttertoast.showToast(
+                            msg: "toast_request_cancelled".tr(context),
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            textColor: Colors.black,
+                            backgroundColor: Colors.white,
+                            fontSize: 16.sp,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

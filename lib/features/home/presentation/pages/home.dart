@@ -49,11 +49,13 @@ class HomePage extends StatelessWidget {
                           _scaffoldKey.currentState
                               ?.openDrawer(); // فتح القائمة الجانبية
                         },
-                        child: Image.asset(
-                          "lib/assets/icons/new/menu.png",
-                          width: 19.w,
-                          height: 16.w,
-                        ),
+                        child: Directionality.of(context) == TextDirection.rtl
+                            ? SvgPicture.asset("lib/assets/sidrtl.svg")
+                            : Image.asset(
+                                "lib/assets/icons/new/menu.png",
+                                width: 19.w,
+                                height: 16.w,
+                              ),
                       ),
                       SizedBox(
                         width: 10.w,
@@ -151,7 +153,7 @@ class HomePage extends StatelessWidget {
                                     Column(
                                       children: [
                                         Text(
-                                          "${9 + index}AM",
+                                          "${"1:40"} ${"am".tr(context)}",
                                           style: TextStyle(
                                               color: Color(0xff585A66),
                                               fontSize: 12.sp,
@@ -166,7 +168,7 @@ class HomePage extends StatelessWidget {
                                         ),
                                         SizedBox(height: 5.h),
                                         Text(
-                                          "${10 + index}AM",
+                                          "${"1:40"} ${"am".tr(context)}",
                                           style: TextStyle(
                                               color: Color(0xff585A66),
                                               fontSize: 12.sp,
@@ -247,7 +249,7 @@ class HomePage extends StatelessWidget {
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        "${11} AM",
+                                                        "${"1:40"} ${"am".tr(context)}",
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 12.sp,
@@ -257,7 +259,7 @@ class HomePage extends StatelessWidget {
                                                       ),
                                                       SizedBox(width: 10.w),
                                                       Text(
-                                                        "${12} PM",
+                                                        "${"1:40"} ${"pm".tr(context)}",
                                                         style: TextStyle(
                                                           color: Colors.white,
                                                           fontSize: 12.sp,
@@ -282,7 +284,7 @@ class HomePage extends StatelessWidget {
                                   children: [
                                     // الوقت على اليسار
                                     Text(
-                                      "${11}AM",
+                                      "${"1:40"} ${"am".tr(context)}",
                                       style: TextStyle(
                                         color: Color(0xff585A66),
                                         fontSize: 12.sp,

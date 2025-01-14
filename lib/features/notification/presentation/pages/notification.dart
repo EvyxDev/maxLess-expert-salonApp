@@ -5,38 +5,45 @@ import 'package:maxless/core/component/custom-header.dart';
 import 'package:maxless/core/component/custom-notification.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
+import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 
 class NotificationPage extends StatelessWidget {
-  final List<Map<String, String>> notifications = [
-    {
-      "title": "Protein session #123456789",
-      "description":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-      "image": "./lib/assets/feminism.png",
-    },
-    {
-      "title": "After care session #123456789",
-      "description":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-      "image": "./lib/assets/testProducts.png",
-    },
-    {
-      "title": "Protein session #123456789",
-      "description":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-      "image": "./lib/assets/feminism.png",
-    },
-    {
-      "title": "After care session #123456789",
-      "description":
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-      "image": "./lib/assets/testProducts.png",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> notifications = [
+      {
+        "title": "beauty_expert_notification_title".tr(context), // نص ديناميكي
+        "description":
+            "beauty_expert_notification_description".tr(context), // نص ديناميكي
+        "image": "./lib/assets/feminism.png",
+      },
+      {
+        "title": "order_shipped_notification_title".tr(context), // نص ديناميكي
+        "description":
+            "order_shipped_notification_description".tr(context), // نص ديناميكي
+        "image": "./lib/assets/testProducts.png",
+      },
+      {
+        "title":
+            "order_confirmed_notification_title".tr(context), // نص ديناميكي
+        "description": "order_confirmed_notification_description"
+            .tr(context), // نص ديناميكي
+        "image": "./lib/assets/testProducts2.png",
+      },
+      {
+        "title": "hot_sale_notification_title".tr(context), // نص ديناميكي
+        "description":
+            "hot_sale_notification_description".tr(context), // نص ديناميكي
+        "image": "./lib/assets/testProduct.png",
+      },
+      {
+        "title": "order_canceled_notification_title".tr(context), // نص ديناميكي
+        "description": "order_canceled_notification_description"
+            .tr(context), // نص ديناميكي
+        "image": "./lib/assets/test.png",
+      },
+    ];
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Column(
@@ -45,7 +52,7 @@ class NotificationPage extends StatelessWidget {
           SizedBox(height: 20.h),
 
           CustomHeader(
-            title: "Notification",
+            title: "notification_title".tr(context),
             onBackPress: () {
               Navigator.pop(context);
             },

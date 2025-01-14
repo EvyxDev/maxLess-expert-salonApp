@@ -37,6 +37,8 @@ class MaxLiss extends StatelessWidget {
                     ? 'Beiruti'
                     : "Jost",
                 textTheme: ThemeData.dark().textTheme.apply(
+                      bodyColor: Colors.black,
+                      displayColor: Colors.black,
                       fontFamily: context.read<GlobalCubit>().language == "ar"
                           ? 'Beiruti'
                           : "Jost",

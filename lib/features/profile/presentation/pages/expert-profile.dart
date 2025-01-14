@@ -116,7 +116,7 @@ class ExpertProfilePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Text("Posts",
+                  Text("posts_title".tr(context),
                       style: TextStyle(
                           fontSize: 16.sp, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10.h),
@@ -318,7 +318,7 @@ class ExpertProfilePage extends StatelessWidget {
       builder: (context) => AlertDialog(
         alignment: Alignment.center,
         title: Text(
-          "Do you Want To Delete This Post?",
+          "delete_post_confirmation".tr(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18.sp,
@@ -333,7 +333,7 @@ class ExpertProfilePage extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomElevatedButton(
-                  text: "Yes",
+                  text: "yes_button".tr(context),
                   color: Colors.white,
                   borderRadius: 10,
                   borderColor: AppColors.primaryColor,
@@ -343,7 +343,7 @@ class ExpertProfilePage extends StatelessWidget {
 
                     // عرض التوست
                     Fluttertoast.showToast(
-                      msg: "This Post Deleted",
+                      msg: "post_deleted_toast".tr(context),
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.CENTER,
                       backgroundColor: Colors.white,
@@ -356,7 +356,7 @@ class ExpertProfilePage extends StatelessWidget {
               SizedBox(width: 10.h), // مسافة بين الأزرار
               Expanded(
                 child: CustomElevatedButton(
-                  text: "No",
+                  text: "no_button".tr(context),
                   borderRadius: 10,
                   color: AppColors.primaryColor,
                   textColor: Colors.white,

@@ -19,6 +19,16 @@ class _HistoryCardState extends State<HistoryCard>
 
   @override
   Widget build(BuildContext context) {
+    String timeRange = "9:00 AM - 10:00 AM";
+    List<String> timeParts = timeRange.split(" - ");
+
+    String startTime = timeParts[0]
+        .replaceAll("AM", "am".tr(context))
+        .replaceAll("PM", "pm".tr(context));
+    String endTime = timeParts[1]
+        .replaceAll("AM", "am".tr(context))
+        .replaceAll("PM", "pm".tr(context));
+
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       curve: Curves.easeInOut, // اجعل الأنيميشن سموث
@@ -63,7 +73,7 @@ class _HistoryCardState extends State<HistoryCard>
                 ),
               ),
               Text(
-                "9:00 AM - 10:00 AM",
+                "$startTime - $endTime",
                 style: TextStyle(
                   fontSize: 12.sp,
                   color: Color(0xff525252),

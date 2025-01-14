@@ -108,7 +108,7 @@ class _HistoryScreenState extends State<HistoryScreen>
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 10.h),
 
                   // Tab content
                   Expanded(
@@ -131,7 +131,7 @@ class _HistoryScreenState extends State<HistoryScreen>
 
   Widget _buildHistoryList({required bool completed}) {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+      // padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
       itemCount: 5,
       itemBuilder: (context, index) {
         return HistoryCard(completed: completed);

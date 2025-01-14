@@ -71,65 +71,92 @@ class _LocationScreenState extends State<LocationScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
-                              padding: EdgeInsets.all(0),
-                              icon: Icon(
-                                CupertinoIcons.clear_circled,
-                                color: AppColors.primaryColor,
-                                size: 35.sp,
+                            if (Localizations.localeOf(context).languageCode ==
+                                'ar')
+                              Positioned(
+                                right: 0,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(
+                                    CupertinoIcons.clear_circled,
+                                    color: AppColors.primaryColor,
+                                    size: 35.sp,
+                                  ),
+                                  onPressed: () {
+                                    _showCancelDialog(context);
+                                  },
+                                ),
                               ),
-                              onPressed: () {
-                                _showCancelDialog(context);
-                              },
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "tracking_time_text".tr(context),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 24.sp,
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(width: 4.w),
+                                      Icon(
+                                        Icons.directions_walk,
+                                        color: AppColors.primaryColor,
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(height: 8.h),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "tracking_distance_text".tr(context),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Text(
+                                        "${"1:40"} ${"pm".tr(context)}",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 16.sp,
+                                          color: Color(0xff000000),
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                            Spacer(),
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      "20 min",
-                                      style: TextStyle(
-                                        fontSize: 24.sp,
-                                        color: Color(0xff000000),
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Icon(
-                                      Icons.directions_walk,
-                                      color: AppColors.primaryColor,
-                                    )
-                                  ],
+                            if (Localizations.localeOf(context).languageCode !=
+                                'ar')
+                              Positioned(
+                                left: 0,
+                                child: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  icon: Icon(
+                                    CupertinoIcons.clear_circled,
+                                    color: AppColors.primaryColor,
+                                    size: 35.sp,
+                                  ),
+                                  onPressed: () {
+                                    _showCancelDialog(context);
+                                  },
                                 ),
-                                SizedBox(height: 8.h),
-                                Row(
-                                  children: [
-                                    Text(
-                                      "1.4 km",
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: Color(0xff000000),
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.w),
-                                    Text(
-                                      "1:40 PM",
-                                      style: TextStyle(
-                                        fontSize: 16.sp,
-                                        color: Color(0xff000000),
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Spacer(),
+                              ),
                           ],
                         ),
 

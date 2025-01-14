@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/core/locale/app_loacl.dart';
 
 class AvailableDaysAndHoursSection extends StatefulWidget {
   @override
@@ -14,29 +15,6 @@ class _AvailableDaysAndHoursSectionState
   int selectedDayIndex = -1; // لتخزين اليوم المختار
   int selectedHourIndex = -1; // لتخزين الساعة المختارة
   int currentMonthIndex = DateTime.now().month - 1; // الشهر الحالي
-
-  final List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ]; // أسماء الشهور
-
-  final List<String> days = [
-    "7\nSun",
-    "8\nMon",
-    "9\nTue",
-    "10\nWed",
-    "11\nThu",
-  ]; // قائمة الأيام
 
   final List<String> hours = [
     "11:00 AM",
@@ -51,6 +29,30 @@ class _AvailableDaysAndHoursSectionState
 
   @override
   Widget build(BuildContext context) {
+    final List<String> months = [
+      "january".tr(context),
+      "february".tr(context),
+      "march".tr(context),
+      "april".tr(context),
+      "may".tr(context),
+      "june".tr(context),
+      "july".tr(context),
+      "august".tr(context),
+      "september".tr(context),
+      "october".tr(context),
+      "november".tr(context),
+      "december".tr(context),
+    ];
+
+    final List<String> days = [
+      "7\n${"sunday".tr(context)}",
+      "8\n${"monday".tr(context)}",
+      "9\n${"tuesday".tr(context)}",
+      "10\n${"wednesday".tr(context)}",
+      "11\n${"thursday".tr(context)}",
+    ];
+// قائمة الأيام
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

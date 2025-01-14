@@ -32,6 +32,7 @@ class _RequestsScreenState extends State<RequestsScreen>
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Column(
@@ -109,7 +110,7 @@ class _RequestsScreenState extends State<RequestsScreen>
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.h),
+                  SizedBox(height: 10.h),
 
                   // Tab content
                   Expanded(
@@ -132,7 +133,6 @@ class _RequestsScreenState extends State<RequestsScreen>
 
   Widget _buildHistoryList({required bool completed}) {
     return ListView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 0.w, vertical: 10.h),
       itemCount: 5,
       itemBuilder: (context, index) {
         return RequestCard(completed: completed);
