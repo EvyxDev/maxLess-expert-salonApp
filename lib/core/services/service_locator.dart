@@ -7,6 +7,7 @@ import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/network/network_info.dart';
 import 'package:maxless/features/auth/data/repository/auth_repo.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
+import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 
 final sl = GetIt.instance;
 void initServiceLocator() {
@@ -21,4 +22,5 @@ void initServiceLocator() {
   //! Repositories
   sl.registerLazySingleton(() => AuthRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => CommunityRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => ProfileRepo(sl<DioConsumer>()));
 }

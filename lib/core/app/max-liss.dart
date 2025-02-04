@@ -5,6 +5,7 @@ import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/localization_settings.dart';
 import 'package:maxless/features/base/intro/presentation/presentation/pages/splash.dart';
 
+import '../constants/app_colors.dart';
 import '../services/service_locator.dart';
 
 class MaxLiss extends StatelessWidget {
@@ -43,6 +44,11 @@ class MaxLiss extends StatelessWidget {
                           ? 'Beiruti'
                           : "Jost",
                     ),
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: AppColors.primaryColor,
+                  selectionColor: AppColors.primaryColor.withOpacity(.3),
+                  selectionHandleColor: AppColors.primaryColor,
+                ),
                 primarySwatch: Colors.blue,
               ),
               //!App Scroll Behavior

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/component/custom-header.dart';
@@ -7,7 +6,7 @@ import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/features/chatting/presentation/pages/customer-service/customer-service-chat.dart';
-import 'package:maxless/features/profile/presentation/pages/expert-profile.dart';
+import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 
 class ReservationsPage extends StatelessWidget {
   @override

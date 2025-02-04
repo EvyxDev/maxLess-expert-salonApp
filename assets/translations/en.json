@@ -479,5 +479,7 @@
   "thisFieldIsRequired": "This field is required",
   "otpRequired" : "Otp is required",
   "addPost" : "Add Post",
-  "addAtLeastOneImage" : "Add at least one image"
+  "addAtLeastOneImage" : "Add at least one image",
+  "years" : "years",
+  "updatePost" : "Update post"
 }

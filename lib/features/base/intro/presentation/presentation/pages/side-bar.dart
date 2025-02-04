@@ -13,7 +13,7 @@ import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
-import 'package:maxless/features/profile/presentation/pages/expert-profile.dart';
+import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 
 import '../widgets/logout_alert_dialog.dart';

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 
-import 'custom_shimmer.dart';
-
 class CustomNetworkImage extends StatefulWidget {
   const CustomNetworkImage({
     super.key,
@@ -41,13 +39,6 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
         height: 200.h,
         width: double.infinity,
         fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          return CustomShimmer(
-            w: double.infinity,
-            h: 200.h,
-            borderRadius: 15,
-          );
-        },
         errorBuilder: (context, error, stackTrace) {
           return Container(
             width: double.infinity,

@@ -8,7 +8,7 @@ import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/presentation/cubit/community_cubit.dart';
-import 'package:maxless/features/profile/presentation/pages/expert-profile.dart';
+import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.model});

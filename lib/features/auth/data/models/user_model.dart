@@ -3,7 +3,7 @@ import 'package:maxless/core/database/api/end_points.dart';
 import 'slot_model.dart';
 
 class UserModel {
-  final int? id;
+  final int? id, experience, ratingCount;
   final double? rating;
   final String? name,
       email,
@@ -33,6 +33,8 @@ class UserModel {
     required this.createdAt,
     required this.updatedAt,
     required this.slots,
+    required this.experience,
+    required this.ratingCount,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
@@ -50,6 +52,8 @@ class UserModel {
       price: map[ApiKey.price],
       createdAt: map[ApiKey.createdAt],
       updatedAt: map[ApiKey.updatedAt],
+      experience: map[ApiKey.experience],
+      ratingCount: map[ApiKey.ratingCount],
       slots: map[ApiKey.slots] != null
           ? (map[ApiKey.slots] as List)
               .map((e) => SlotModel.fromJson(e))
@@ -73,6 +77,7 @@ class UserModel {
       ApiKey.price: price,
       ApiKey.createdAt: createdAt,
       ApiKey.updatedAt: updatedAt,
+      ApiKey.experience: experience,
       ApiKey.slots: slots != null
           ? (slots as List<SlotModel>).map((e) => e.toJson()).toList()
           : null,

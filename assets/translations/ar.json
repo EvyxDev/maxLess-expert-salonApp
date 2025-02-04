@@ -479,5 +479,7 @@
   "thisFieldIsRequired": "هذا الحقل مطلوب",
   "otpRequired": "رمز التحقق مطلوب",
   "addPost": "أضف منشور",
-  "addAtLeastOneImage": "أضف صورة واحدة على الأقل"
+  "addAtLeastOneImage": "أضف صورة واحدة على الأقل",
+  "years" : "سنوات",
+  "updatePost" : "تعديل البوست"
 }

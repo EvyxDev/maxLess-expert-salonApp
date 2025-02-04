@@ -7,7 +7,7 @@ class EndPoints {
   //! Logout
   static const String expertLogout = "${baseUrl}expert/logout";
   //! Set Location
-  static const String expertSetLocation ="${baseUrl}expert/update/lon-lat";
+  static const String expertSetLocation = "${baseUrl}expert/update/lon-lat";
   //! Community
   static const String expertCommunity = "${baseUrl}expert/community";
   //! Community Details
@@ -29,6 +29,9 @@ class EndPoints {
 
   //! Like Community
   static const String expertLikeCommunity = "${baseUrl}expert/community/likes";
+
+  //! Profile
+  static const String expertProfile = "${baseUrl}expert/profile";
 }
 
 class ApiKey {
@@ -69,4 +72,6 @@ class ApiKey {
   static const String put = "PUT";
   static const String communityId = "community_id";
   static const String isWishlist = "is_wishlist";
+  static const String posts = "posts";
+  static const String ratingCount = "rating_count";
 }
