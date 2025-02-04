@@ -22,29 +22,6 @@ void navigateTo(BuildContext context, Widget screen) {
   );
 }
 
-// enum  كذا اختيار من حاجة
-
-// ignore: constant_identifier_names
-enum ToastStates { SUCCESS, ERROR, WARNING }
-
-// Color chooseToastColor(ToastStates state) {
-//   Color color;
-//   switch (state) {
-//     case ToastStates.SUCCESS:
-//       color = AppColor.green;
-//       break;
-
-//     case ToastStates.ERROR:
-//       color = AppColor.red;
-//       break;
-
-//     case ToastStates.WARNING:
-//       color = Colors.amber;
-//       break;
-//   }
-//   return color;
-// }
-
 void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(

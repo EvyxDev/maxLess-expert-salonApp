@@ -10,9 +10,9 @@ import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/auth/presentation/pages/get-location.dart';
-import 'package:maxless/features/base/intro/presentation/pages/side-bar.dart';
+import 'package:maxless/features/base/intro/presentation/presentation/pages/side-bar.dart';
 import 'package:maxless/features/notification/presentation/pages/notification.dart';
-import 'package:maxless/features/profile/presentation/pages/community.dart';
+import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/reservation/presentation/pages/scan-qr-salon.dart';
 import 'package:maxless/features/tracking/presentation/pages/track-me.dart';
 

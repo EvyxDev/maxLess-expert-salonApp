@@ -1,14 +1,23 @@
-import 'package:bloc/bloc.dart';
+import 'dart:convert';
+
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maxless/core/constants/AppConstants.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
+import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:restart_app/restart_app.dart';
 
 part 'global_state.dart';
 
 class GlobalCubit extends Cubit<GlobalState> {
   GlobalCubit() : super(GlobalInitial());
+
+  init() async {
+    await getUserData();
+    await getSalonOrExpert();
+  }
+
 //! Salon Or Expert
   bool isSalon = false;
   bool isExpert = false;
@@ -55,5 +64,22 @@ class GlobalCubit extends Cubit<GlobalState> {
     language = sl<CacheHelper>().getCachedLanguage();
     emit(LanguageChangeState());
     Restart.restartApp();
+  }
+
+  //! User Data
+  int? userId;
+  String? userName, userEmail, userPhone, userImageUrl;
+  getUserData() async {
+    if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
+      Map<String, dynamic> userJson =
+          jsonDecode(sl<CacheHelper>().getData(key: AppConstants.user));
+      UserModel model = UserModel.fromJson(userJson);
+      userId = model.id;
+      userName = model.name;
+      userEmail = model.email;
+      userPhone = model.phone;
+      userImageUrl = model.image;
+      emit(GetUserDataState());
+    }
   }
 }

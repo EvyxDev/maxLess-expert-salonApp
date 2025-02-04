@@ -17,7 +17,9 @@ class LoadingState extends GlobalState {}
 class ErrorState extends GlobalState {
   final String errorMessage;
 
-  ErrorState(this.errorMessage);
+  const ErrorState(this.errorMessage);
 }
 
 class LanguageChangeState extends GlobalState {}
+
+class GetUserDataState extends GlobalState {}

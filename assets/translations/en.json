@@ -28,7 +28,7 @@
   "otp_description": "We’ve sent you a code to {email}",
   "verify_button": "Verify",
   "resend_code_ready": "Send code again",
-  "resend_code_timer": "Send code again in 00:{seconds}",
+  "resend_code_timer": "Send code again in ",
   "forgot_password_title": "Forgot Password",
   "reset_password_description": "Don't worry! It happens sometimes. Please enter the email associated with your account.",
   "email_label": "Email",
@@ -475,5 +475,9 @@
   "am": "AM",
   "pm": "PM",
   "delete_post_confirmation": "Do you Want To Delete This Post?",
-  "post_deleted_toast": "This Post Deleted"
+  "post_deleted_toast": "This Post Deleted",
+  "thisFieldIsRequired": "This field is required",
+  "otpRequired" : "Otp is required",
+  "addPost" : "Add Post",
+  "addAtLeastOneImage" : "Add at least one image"
 }
