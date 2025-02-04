@@ -475,5 +475,9 @@
   "am": "ص",
   "pm": "م",
   "delete_post_confirmation": "هل تريد حذف هذا المنشور؟",
-  "post_deleted_toast": "تم حذف هذا المنشور"
+  "post_deleted_toast": "تم حذف هذا المنشور",
+  "thisFieldIsRequired": "هذا الحقل مطلوب",
+  "otpRequired": "رمز التحقق مطلوب",
+  "addPost": "أضف منشور",
+  "addAtLeastOneImage": "أضف صورة واحدة على الأقل"
 }

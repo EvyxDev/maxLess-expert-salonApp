@@ -1,11 +1,7 @@
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:maxless/core/app/max-liss.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/network/local_network.dart';
@@ -20,8 +16,10 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
   //! Status Bar Settings
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+  ));
   //! Service Locator
   initServiceLocator();
   //! Cache Helper
@@ -31,13 +29,10 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<GlobalCubit>(),
+          create: (context) => sl<GlobalCubit>()..init(),
         ),
       ],
-      child: DevicePreview(
-        enabled: !kReleaseMode,
-        builder: (context) => const MaxLiss(),
-      ),
+      child: const MaxLiss(),
     ),
   );
 }

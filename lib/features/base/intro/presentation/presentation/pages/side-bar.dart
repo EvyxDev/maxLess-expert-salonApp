@@ -1,24 +1,22 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_cached_image.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
-import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
-import 'package:maxless/features/auth/presentation/pages/login.dart';
+import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
-import 'package:maxless/features/profile/presentation/pages/community.dart';
 import 'package:maxless/features/profile/presentation/pages/expert-profile.dart';
-import 'package:maxless/features/profile/presentation/pages/wallet.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
+
+import '../widgets/logout_alert_dialog.dart';
 
 class Sidebar extends StatelessWidget {
   bool isArabic = sl<CacheHelper>().getCachedLanguage() == 'ar';
@@ -47,11 +45,11 @@ class Sidebar extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 30.r,
-                    backgroundImage: context.read<GlobalCubit>().isExpert
-                        ? AssetImage('lib/assets/profile.png')
-                        : AssetImage('lib/assets/1.png'),
+                  CustomCachedImage(
+                    imageUrl: context.read<GlobalCubit>().userImageUrl,
+                    w: 60.h,
+                    h: 60.h,
+                    borderRadius: 30,
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
@@ -59,9 +57,7 @@ class Sidebar extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          context.read<GlobalCubit>().isExpert
-                              ? "May Ahmed"
-                              : "Beauty Loft Salon",
+                          context.read<GlobalCubit>().userName ?? "...",
                           style: TextStyle(
                             fontSize: 22.sp,
                             fontWeight: FontWeight.w600,
@@ -69,12 +65,10 @@ class Sidebar extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          context.read<GlobalCubit>().isExpert
-                              ? "Mayahmed@gmail.com"
-                              : "BeautyLoft@gmail.com",
+                          context.read<GlobalCubit>().userEmail ?? "...",
                           style: TextStyle(
                             fontSize: 14.sp,
-                            color: Color(0xff9C9C9C),
+                            color: const Color(0xff9C9C9C),
                           ),
                         ),
                         SizedBox(height: 6.h),
@@ -84,7 +78,7 @@ class Sidebar extends StatelessWidget {
                             (index) => Icon(
                               Icons.star,
                               size: 14.sp,
-                              color: Color(0xffF5BE00),
+                              color: const Color(0xffF5BE00),
                             ),
                           ),
                         ),
@@ -146,15 +140,14 @@ class Sidebar extends StatelessWidget {
           //   },
           // ),
 
-          // Logout
+          //! Logout
           _buildNavItem(
             context,
             icon: "lib/assets/icons/new/logout.svg",
             label: "logout_option_title".tr(context),
             onTap: () {
               Scaffold.of(context).closeDrawer();
-              _showCancelDialog(context);
-              log("message");
+              logoutAlertDialog(context);
             },
             iconColor: AppColors.primaryColor,
           ),
@@ -253,59 +246,6 @@ class Sidebar extends StatelessWidget {
             onTap: onTap,
           ),
           Divider(color: Colors.grey.shade300),
-        ],
-      ),
-    );
-  }
-
-  void _showCancelDialog(
-    BuildContext context,
-  ) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape:
-            ContinuousRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        alignment: Alignment.center,
-        title: Text(
-          "logout_confirmation_message".tr(context), // نص ديناميكي
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w400,
-              color: Colors.black),
-        ),
-        actions: [
-          Row(
-            children: [
-              Expanded(
-                child: CustomElevatedButton(
-                  text: "yes_button".tr(context),
-                  color: Colors.white,
-                  borderRadius: 10,
-                  borderColor: AppColors.primaryColor,
-                  textColor: AppColors.primaryColor,
-                  onPressed: () {
-                    navigateTo(context, Login());
-                  },
-                ),
-              ),
-              SizedBox(width: 10.h), // مسافة بين الأزرار
-
-              Expanded(
-                child: CustomElevatedButton(
-                  text: "no_button".tr(context),
-                  borderRadius: 10,
-                  color: AppColors.primaryColor,
-                  textColor: Colors.white,
-                  onPressed: () {
-                    Navigator.pop(context);
-                    // Navigator.pop(context); // إغلاق المودال
-                  },
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

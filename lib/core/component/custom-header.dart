@@ -2,19 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/constants/app_colors.dart';
 
 class CustomHeader extends StatelessWidget {
   final String title;
   final VoidCallback onBackPress;
   final Widget? trailing; // Optional trailing widget
+  final bool? showPopButton;
 
   const CustomHeader({
-    Key? key,
+    super.key,
     required this.title,
     required this.onBackPress,
     this.trailing, // Add this
-  }) : super(key: key);
+    this.showPopButton,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +40,26 @@ class CustomHeader extends StatelessWidget {
               ),
             ),
             // زر الرجوع
-            Positioned(
-              left: Directionality.of(context) == TextDirection.rtl
-                  ? null
-                  : -34.w, // Adjust position for LTR
-              right: Directionality.of(context) == TextDirection.rtl
-                  ? -34.w
-                  : null, // Adjust position for RTL
-              child: GestureDetector(
-                onTap: onBackPress,
-                child: SvgPicture.asset(
-                  Directionality.of(context) == TextDirection.rtl
-                      ? "lib/assets/rtl.svg" // السهم مخصص لـ RTL
-                      : "lib/assets/Back.svg", // السهم مخصص لـ LTR
-                  width: 80.w, // Responsive width
-                  height: 62.h, // Responsive height
-                ),
-              ),
-            ),
+            showPopButton != false
+                ? Positioned(
+                    left: Directionality.of(context) == TextDirection.rtl
+                        ? null
+                        : -34.w, // Adjust position for LTR
+                    right: Directionality.of(context) == TextDirection.rtl
+                        ? -34.w
+                        : null, // Adjust position for RTL
+                    child: GestureDetector(
+                      onTap: onBackPress,
+                      child: SvgPicture.asset(
+                        Directionality.of(context) == TextDirection.rtl
+                            ? "lib/assets/rtl.svg" // السهم مخصص لـ RTL
+                            : "lib/assets/Back.svg", // السهم مخصص لـ LTR
+                        width: 80.w, // Responsive width
+                        height: 62.h, // Responsive height
+                      ),
+                    ),
+                  )
+                : Container(),
             // زر إضافي اختياري في أقصى اليمين
             if (trailing != null)
               Positioned(

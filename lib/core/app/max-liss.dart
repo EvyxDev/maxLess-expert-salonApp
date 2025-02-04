@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/localization_settings.dart';
-import 'package:maxless/features/base/intro/presentation/pages/splash.dart';
+import 'package:maxless/features/base/intro/presentation/presentation/pages/splash.dart';
 
 import '../services/service_locator.dart';
 
@@ -50,7 +50,7 @@ class MaxLiss extends StatelessWidget {
                   .copyWith(physics: const ClampingScrollPhysics()),
 
               //!Routing
-              home: SplashScreen(),
+              home: const SplashScreen(),
             );
           },
         );

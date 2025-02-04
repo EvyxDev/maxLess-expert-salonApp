@@ -44,7 +44,7 @@ class CacheHelper {
 
 //! this method to get data already saved in local database
 
-  dynamic getData(String salonOrExpert, {required String key}) {
+  dynamic getData({required String key}) {
     return sharedPreferences.get(key);
   }
 
@@ -61,6 +61,10 @@ class CacheHelper {
 //! this method to check if local database contains {key}
   Future<bool> containsKey({required String key}) async {
     return sharedPreferences.containsKey(key);
+  }
+
+  Future<bool> removeKey({required String key}) async {
+    return sharedPreferences.remove(key);
   }
 
   Future<bool> clearData() async {

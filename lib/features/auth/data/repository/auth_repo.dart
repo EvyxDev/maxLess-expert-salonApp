@@ -1,0 +1,93 @@
+import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
+import 'package:maxless/core/database/api/dio_consumer.dart';
+import 'package:maxless/core/database/api/end_points.dart';
+import 'package:maxless/core/errors/exceptions.dart';
+import 'package:maxless/features/auth/data/models/login_model.dart';
+import 'package:maxless/features/auth/data/models/response_model.dart';
+
+class AuthRepo {
+  final DioConsumer api;
+
+  AuthRepo(this.api);
+
+  //! Login
+  Future<Either<String, String>> expertLogin({
+    required String phone,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.expertLogin,
+        isFormData: true,
+        data: {
+          ApiKey.phone: phone,
+        },
+      );
+      return Right(ResponseModel.fromJson(response.data).message ?? "...");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Verify Otp
+  Future<Either<String, LoginModel>> expertLoginVerifyOtp({
+    required String phone,
+    required String otp,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.expertLoginVerifyOtp,
+        isFormData: true,
+        data: {
+          ApiKey.phone: phone,
+          ApiKey.otp: otp,
+        },
+      );
+      return Right(LoginModel.fromJson(response.data));
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Logout
+  Future<Either<String, String>> expertlogout() async {
+    try {
+      final Response response = await api.post(EndPoints.expertLogout);
+      return Right(ResponseModel.fromJson(response.data).message ?? "...");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Set Location
+  Future<Either<String, String>> expertSetLocation({
+    required double lat,
+    required double lon,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.expertSetLocation,
+        isFormData: true,
+        data: {
+          ApiKey.lat: lat,
+          ApiKey.lon: lon,
+        },
+      );
+      return Right(ResponseModel.fromJson(response.data).message ?? "...");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    }
+  }
+}
