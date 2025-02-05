@@ -32,6 +32,10 @@ class EndPoints {
 
   //! Profile
   static const String expertProfile = "${baseUrl}expert/profile";
+
+  //! Bookings
+  static const String expertBookingByDate =
+      "${baseUrl}expert/booking-expert/slots";
 }
 
 class ApiKey {
@@ -74,4 +78,11 @@ class ApiKey {
   static const String isWishlist = "is_wishlist";
   static const String posts = "posts";
   static const String ratingCount = "rating_count";
+  static const String date = "date";
+  static const String question = "question";
+  static const String answer = "answer";
+  static const String orderId = "order_id";
+  static const String answerAndQuestion = "answer&question";
+  static const String status = "status";
+  static const String expertSlot = "expert_slot";
 }
