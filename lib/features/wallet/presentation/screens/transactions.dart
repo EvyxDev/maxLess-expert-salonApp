@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 
 class TransactionsPage extends StatelessWidget {
@@ -58,7 +58,7 @@ class TransactionsPage extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                border: Border.all(width: 1, color: Color(0xff9C9C9C))),
+                border: Border.all(width: 1, color: const Color(0xff9C9C9C))),
             child: CircleAvatar(
               radius: 30.r,
               backgroundColor: AppColors.white,

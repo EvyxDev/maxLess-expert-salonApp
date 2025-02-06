@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
@@ -20,9 +20,9 @@ import 'package:maxless/features/requests/presentation/pages/request.dart';
 import '../widgets/logout_alert_dialog.dart';
 
 class Sidebar extends StatelessWidget {
-  Sidebar({super.key});
+  const Sidebar({super.key});
 
-  bool isArabic = sl<CacheHelper>().getCachedLanguage() == 'ar';
+  static bool isArabic = sl<CacheHelper>().getCachedLanguage() == 'ar';
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class Sidebar extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              navigateTo(context, ExpertProfilePage());
+              navigateTo(context, const ExpertProfilePage());
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
@@ -165,7 +165,7 @@ class Sidebar extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.privacy_tip,
-                      color: Color(0xff9C9C9C),
+                      color: const Color(0xff9C9C9C),
                       size: 20.sp,
                     ),
                     SizedBox(width: 10.w),
@@ -183,7 +183,7 @@ class Sidebar extends StatelessWidget {
                   children: [
                     Icon(
                       CupertinoIcons.question_circle_fill,
-                      color: Color(0xff9C9C9C),
+                      color: const Color(0xff9C9C9C),
                       size: 20.sp,
                     ),
                     SizedBox(width: 10.w),
@@ -235,13 +235,13 @@ class Sidebar extends StatelessWidget {
                     color: Colors.black,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Icon(
                   isRTL
                       ? CupertinoIcons
                           .chevron_forward // إذا كانت RTL، يظهر سهم للخلف
                       : CupertinoIcons.chevron_back,
-                  color: Color(0xff525252),
+                  color: const Color(0xff525252),
                   size: 18.sp,
                 )
               ],
@@ -287,7 +287,7 @@ class Sidebar extends StatelessWidget {
                       "${"language_changed_to".tr(context)} ${isArabic ? "العربية" : "English"}",
                       textAlign: TextAlign.center,
                     ),
-                    duration: Duration(seconds: 2),
+                    duration: const Duration(seconds: 2),
                   ),
                 );
               },

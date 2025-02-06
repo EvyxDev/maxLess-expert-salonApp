@@ -150,13 +150,13 @@ abstract class CustomTextStyle {
   static final roboto400sized10Grey = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 10.sp,
-    color: Color(0xffC7C9D9),
+    color: const Color(0xffC7C9D9),
     overflow: TextOverflow.ellipsis,
   );
   static final roboto400sized14Grey = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14.sp,
-    color: Color(0xffC7C9D9),
+    color: const Color(0xffC7C9D9),
     overflow: TextOverflow.ellipsis,
   );
   static final roboto500sized14Grey = TextStyle(
@@ -270,7 +270,7 @@ abstract class CustomTextStyle {
   static final roboto500sized14White = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 14.sp,
-    color: Color(0xff959595),
+    color: const Color(0xff959595),
     overflow: TextOverflow.ellipsis,
   );
   static final roboto700sized18Black = TextStyle(

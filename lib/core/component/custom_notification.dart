@@ -8,11 +8,11 @@ class NotificationCard extends StatelessWidget {
   final String description;
 
   const NotificationCard({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.title,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

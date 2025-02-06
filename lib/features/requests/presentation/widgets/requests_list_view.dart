@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maxless/core/component/custom_loading_indicator.dart';
 import 'package:maxless/features/home/data/models/booking_item_model.dart';
 import 'package:maxless/features/requests/presentation/cubit/requests_cubit.dart';
-import 'package:maxless/features/requests/presentation/widgets/requests-card.dart';
+import 'package:maxless/features/requests/presentation/widgets/requests_card.dart';
 
 class RequestsListView extends StatelessWidget {
   const RequestsListView(

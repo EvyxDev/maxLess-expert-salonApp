@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
-import 'package:maxless/features/reservation/presentation/pages/camera.dart';
-import 'package:maxless/features/reservation/presentation/pages/receipt-details.dart';
-import 'package:maxless/features/reservation/presentation/pages/reservations.dart';
+import 'package:maxless/features/reservation/presentation/pages/receipt_details.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanQRSalon extends StatefulWidget {
+  const ScanQRSalon({super.key});
+
   @override
   State<ScanQRSalon> createState() => _ScanQRSalonState();
 }
@@ -32,7 +31,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
         _currentStep++;
       });
       _pageController.nextPage(
-          duration: Duration(milliseconds: 300), curve: Curves.ease);
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
   }
 
@@ -43,7 +42,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    this._controller = controller;
+    controller = controller;
     controller.scannedDataStream.listen((scanData) {
       _controller?.pauseCamera(); // إيقاف الكاميرا بعد المسح
       _nextStep(); // الانتقال إلى الخطوة التالية
@@ -60,7 +59,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
         });
       }
     } catch (e) {
-      print("Error picking image: $e");
+      // print("Error picking image: $e");
     }
   }
 
@@ -82,7 +81,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
             // المؤشر: يظهر فقط في الخطوات
             if (_currentStep > 0)
               AnimatedContainer(
-                duration: Duration(milliseconds: 300),
+                duration: const Duration(milliseconds: 300),
                 child: SafeArea(
                   child: Column(
                     children: [
@@ -92,7 +91,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18.sp, // Responsive font size
-                          color: Color(0xff525252),
+                          color: const Color(0xff525252),
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -109,7 +108,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
             Expanded(
               child: PageView(
                 controller: _pageController,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _buildQRStep(), // شاشة QR Code
                   _buildStep1(), // الخطوات الأخرى
@@ -164,7 +163,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.3),
                         blurRadius: 8,
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                       ),
                     ],
                   ),
@@ -330,8 +329,9 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
               textColor: Colors.white,
               onPressed: () {
                 // عرض البوب-أب الأول
-                Future.delayed(Duration(seconds: 1), () {
+                Future.delayed(const Duration(seconds: 1), () {
                   showDialog(
+                    // ignore: use_build_context_synchronously
                     context: context,
                     builder: (BuildContext context) {
                       return Dialog(
@@ -404,7 +404,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
   Widget _buildStepIndicator() {
     int totalSteps = 3;
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       margin: EdgeInsets.only(top: 30.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -416,7 +416,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
             decoration: BoxDecoration(
               color: index <= _currentStep - 1
                   ? AppColors.primaryColor
-                  : Color(0xffD9D9D9),
+                  : const Color(0xffD9D9D9),
               borderRadius: BorderRadius.circular(4.r),
             ),
           );
@@ -477,7 +477,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
                         ),
                         onPressed: () {
                           // تحديث التقييم إذا لزم الأمر
-                          print("Star $index clicked");
+                          // print("Star $index clicked");
                         },
                       );
                     }),
@@ -511,7 +511,7 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ReceiptDetailsPage()),
+                            builder: (context) => const ReceiptDetailsPage()),
                         (route) => route.isFirst,
                         // يبقي فقط أول صفحة (عادةً صفحة Home)
                       );

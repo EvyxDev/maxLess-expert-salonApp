@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/widgets/text-style.dart';
+import 'package:maxless/core/constants/widgets/text_style.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -101,7 +101,7 @@ OutlineInputBorder getBorderStyle(context, borderRadius, borderColor) {
   return OutlineInputBorder(
     borderRadius: BorderRadius.circular(borderRadius ?? 5),
     borderSide: BorderSide(
-      color: borderColor ?? Color(0xffDDE5E9),
+      color: borderColor ?? const Color(0xffDDE5E9),
       width: 0.5,
     ),
   );

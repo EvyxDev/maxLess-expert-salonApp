@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:maxless/features/history/presentation/widgets/history-card.dart';
+import 'package:maxless/features/history/presentation/widgets/history_card.dart';
 import 'package:maxless/features/home/data/models/booking_item_model.dart';
 
 class HistoryListView extends StatelessWidget {

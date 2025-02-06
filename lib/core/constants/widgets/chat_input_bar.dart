@@ -4,22 +4,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/widgets/custom_text_form_field.dart';
 
 class ChatInputBar extends StatefulWidget {
   final Function(String)? onSendMessage; // جعلها اختيارية
   final Function(File)? onImagePicked; // جعلها اختيارية
   final Widget? replyBox;
 
-  ChatInputBar({
+  const ChatInputBar({
+    super.key,
     this.onSendMessage, // اختيارية
     this.onImagePicked, // اختيارية
     this.replyBox,
   });
 
   @override
-  _ChatInputBarState createState() => _ChatInputBarState();
+  State<ChatInputBar> createState() => _ChatInputBarState();
 }
 
 class _ChatInputBarState extends State<ChatInputBar>
@@ -32,7 +31,7 @@ class _ChatInputBarState extends State<ChatInputBar>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
   }
@@ -83,16 +82,16 @@ class _ChatInputBarState extends State<ChatInputBar>
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               ListTile(
-                                leading: Icon(Icons.camera_alt),
-                                title: Text("Take a photo"),
+                                leading: const Icon(Icons.camera_alt),
+                                title: const Text("Take a photo"),
                                 onTap: () {
                                   Navigator.pop(context);
                                   _pickImage(ImageSource.camera);
                                 },
                               ),
                               ListTile(
-                                leading: Icon(Icons.photo_library),
-                                title: Text("Choose from gallery"),
+                                leading: const Icon(Icons.photo_library),
+                                title: const Text("Choose from gallery"),
                                 onTap: () {
                                   Navigator.pop(context);
                                   _pickImage(ImageSource.gallery);
@@ -104,7 +103,7 @@ class _ChatInputBarState extends State<ChatInputBar>
                       );
                     }
                   },
-                  child: Icon(
+                  child: const Icon(
                     CupertinoIcons.plus,
                     color: Color(0xffADB5BD),
                   )),
@@ -114,7 +113,7 @@ class _ChatInputBarState extends State<ChatInputBar>
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Color(0xffF7F7FC), // لون الخلفية المطلوب
+                    color: const Color(0xffF7F7FC), // لون الخلفية المطلوب
                     borderRadius: BorderRadius.circular(10.r), // زوايا دائرية
                   ),
                   child: TextField(
@@ -140,7 +139,7 @@ class _ChatInputBarState extends State<ChatInputBar>
 
               // زر إرسال أو ميكروفون مع أنيميشن
               AnimatedSwitcher(
-                duration: Duration(milliseconds: 300), // مدة الانتقال
+                duration: const Duration(milliseconds: 300), // مدة الانتقال
                 transitionBuilder: (child, animation) => ScaleTransition(
                   scale: animation, // تأثير التكبير/التصغير
                   child: child,
@@ -155,13 +154,13 @@ class _ChatInputBarState extends State<ChatInputBar>
                         _animationController?.reverse();
                       });
                     } else if (!isTyping) {
-                      print("Start voice recording...");
+                      // print("Start voice recording...");
                     }
                   },
                   child: Icon(
                     key: ValueKey<bool>(isTyping), // مفتاح مميز لكل حالة
                     isTyping ? CupertinoIcons.paperplane : CupertinoIcons.mic,
-                    color: Color(0xffADB5BD),
+                    color: const Color(0xffADB5BD),
                   ),
                 ),
               ),

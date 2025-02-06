@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/widgets/chat-input-bar.dart';
+import 'package:maxless/core/constants/widgets/chat_input_bar.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:intl/intl.dart'; // مكتبة لتنسيق الوقت
 
 class CustomerServiceChat extends StatefulWidget {
+  const CustomerServiceChat({super.key});
+
   @override
-  _CustomerServiceChatState createState() => _CustomerServiceChatState();
+  State<CustomerServiceChat> createState() => _CustomerServiceChatState();
 }
 
 class _CustomerServiceChatState extends State<CustomerServiceChat>
@@ -61,7 +63,7 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     _replyBoxAnimation = Tween<double>(begin: 0, end: 1).animate(
@@ -79,7 +81,7 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffFBFBFB),
+      backgroundColor: const Color(0xffFBFBFB),
       body: Column(
         children: [
           SizedBox(height: 20.h),
@@ -146,7 +148,7 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
           ),
           if (!isChatEnded)
             Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: ChatInputBar(
                 onSendMessage: (message) {
                   if (message.isNotEmpty) {
@@ -186,6 +188,7 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
     );
   }
 
+  // ignore: unused_element
   void _showEndChatDialog() {
     showDialog(
       context: context,
@@ -282,7 +285,7 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
             ),
           ),
           IconButton(
-            icon: Icon(Icons.close, color: Colors.grey),
+            icon: const Icon(Icons.close, color: Colors.grey),
             onPressed: () {
               setState(() {
                 replyingMessage = null;
@@ -295,12 +298,13 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
     );
   }
 
+  // ignore: unused_element
   Widget _buildSwipeBackground(bool isUser) {
     return Container(
       alignment: isUser ? Alignment.centerLeft : Alignment.centerRight,
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       color: AppColors.primaryColor.withOpacity(0.1),
-      child: Icon(
+      child: const Icon(
         Icons.reply,
         color: AppColors.primaryColor,
       ),
@@ -312,6 +316,7 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
     final String? repliedTo = message['repliedTo'];
 
     // التحقق من اتجاه اللغة
+    // ignore: unrelated_type_equality_checks
     final bool isRTL = Directionality.of(context) == TextDirection.RTL;
 
     // تنسيق الوقت
@@ -434,10 +439,10 @@ class _CustomerServiceChatState extends State<CustomerServiceChat>
       _animationController.reverse();
     });
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut,
       );
     });

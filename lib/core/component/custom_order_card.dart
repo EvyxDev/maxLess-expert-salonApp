@@ -11,14 +11,14 @@ class OrderCard extends StatelessWidget {
   final int items;
 
   const OrderCard({
-    Key? key,
+    super.key,
     required this.imageUrl,
     required this.orderId,
     required this.status,
     required this.date,
     required this.price,
     required this.items,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class OrderCard extends StatelessWidget {
             height: 80.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image:
                     AssetImage('./lib/assets/icons/shape.png'), // shape خلفية
                 fit: BoxFit.contain,
@@ -76,16 +76,16 @@ class OrderCard extends StatelessWidget {
                   "$items items",
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: Color(0xff525252),
+                    color: const Color(0xff525252),
                   ),
                 ),
                 SizedBox(height: 4.h),
                 // Items and Status
                 Text(
-                  "$status",
+                  status,
                   style: TextStyle(
                     fontSize: 12.sp,
-                    color: Color(0xff525252),
+                    color: const Color(0xff525252),
                   ),
                 ),
                 SizedBox(height: 4.h),

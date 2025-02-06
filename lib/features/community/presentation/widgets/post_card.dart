@@ -42,7 +42,7 @@ class PostCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    navigateTo(context, ExpertProfilePage());
+                    navigateTo(context, const ExpertProfilePage());
                   },
                   child: Row(
                     children: [

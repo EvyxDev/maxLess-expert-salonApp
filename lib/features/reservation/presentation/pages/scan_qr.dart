@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
-import 'package:maxless/features/chatting/presentation/pages/customer-service/customer-service-chat.dart';
-import 'package:maxless/features/reservation/presentation/pages/camera.dart';
+import 'package:maxless/features/chatting/presentation/pages/customer-service/customer_service_chat.dart';
 import 'package:maxless/features/reservation/presentation/pages/reservations.dart';
 
 class ScanQRPage extends StatefulWidget {
+  const ScanQRPage({super.key});
+
   @override
   State<ScanQRPage> createState() => _ScanQRPageState();
 }
@@ -33,7 +33,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
         });
       }
     } catch (e) {
-      print("Error picking image: $e");
+      // print("Error picking image: $e");
     }
   }
 
@@ -43,7 +43,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
         _currentStep++;
       });
       _pageController.nextPage(
-          duration: Duration(milliseconds: 300), curve: Curves.ease);
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
   }
 
@@ -53,10 +53,11 @@ class _ScanQRPageState extends State<ScanQRPage> {
         _currentStep--;
       });
       _pageController.previousPage(
-          duration: Duration(milliseconds: 300), curve: Curves.ease);
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
     }
   }
 
+  // ignore: unused_element
   String _getStepTitle() {
     switch (_currentStep) {
       case 0:
@@ -126,7 +127,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                         ),
                         onPressed: () {
                           // تحديث التقييم إذا لزم الأمر
-                          print("Star $index clicked");
+                          // print("Star $index clicked");
                         },
                       );
                     }),
@@ -158,7 +159,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ReservationsPage()),
+                            builder: (context) => const ReservationsPage()),
                         (route) => route
                             .isFirst, // يبقي فقط أول صفحة (عادةً صفحة Home)
                       );
@@ -195,7 +196,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => CustomerServiceChat()),
+                        builder: (context) => const CustomerServiceChat()),
                     (route) =>
                         route.isFirst, // يبقي فقط أول صفحة (عادةً صفحة Home)
                   );
@@ -210,7 +211,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
 // المؤشر
           if (_currentStep > 0)
             AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               child: SafeArea(
                 child: Column(
                   children: [
@@ -220,7 +221,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18.sp, // حجم الخط استجابة
-                        color: Color(0xff525252),
+                        color: const Color(0xff525252),
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -240,12 +241,12 @@ class _ScanQRPageState extends State<ScanQRPage> {
                   _buildStepIndicator(), // المؤشر
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    child: Container(
+                    child: SizedBox(
                       height: MediaQuery.of(context).size.height *
                           0.7, // تحديد ارتفاع للـ PageView
                       child: PageView(
                         controller: _pageController,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           _buildStep1(),
                           _buildStep2(),
@@ -472,7 +473,7 @@ class _ScanQRPageState extends State<ScanQRPage> {
             color: index <= _currentStep
                 ? AppColors
                     .primaryColor // اللون الأحمر للخطوات التي تمت أو الحالية
-                : Color(0xffD9D9D9), // اللون الرمادي للخطوات القادمة
+                : const Color(0xffD9D9D9), // اللون الرمادي للخطوات القادمة
             borderRadius: BorderRadius.circular(4.r),
           ),
         );

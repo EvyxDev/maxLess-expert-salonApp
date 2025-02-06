@@ -8,13 +8,13 @@ class QuantityCounter extends StatefulWidget {
   final ValueChanged<int> onQuantityChanged;
 
   const QuantityCounter({
-    Key? key,
+    super.key,
     this.initialQuantity = 1,
     required this.onQuantityChanged,
-  }) : super(key: key);
+  });
 
   @override
-  _QuantityCounterState createState() => _QuantityCounterState();
+  State<QuantityCounter> createState() => _QuantityCounterState();
 }
 
 class _QuantityCounterState extends State<QuantityCounter> {
@@ -45,7 +45,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 10),
+      margin: const EdgeInsets.only(top: 10),
       height: 40.h,
       // width: 120.w,
       decoration: BoxDecoration(
@@ -58,7 +58,8 @@ class _QuantityCounterState extends State<QuantityCounter> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           IconButton(
-            icon: Icon(CupertinoIcons.minus, color: AppColors.primaryColor),
+            icon:
+                const Icon(CupertinoIcons.minus, color: AppColors.primaryColor),
             onPressed: _decreaseQuantity,
           ),
           Text(
@@ -70,7 +71,7 @@ class _QuantityCounterState extends State<QuantityCounter> {
             ),
           ),
           IconButton(
-            icon: Icon(CupertinoIcons.add, color: AppColors.primaryColor),
+            icon: const Icon(CupertinoIcons.add, color: AppColors.primaryColor),
             onPressed: _increaseQuantity,
           ),
         ],

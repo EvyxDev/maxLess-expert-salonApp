@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 
 class ReceiptDetailsPage extends StatelessWidget {
+  const ReceiptDetailsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,7 +135,7 @@ class ReceiptDetailsPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Color(0xffFFE2EC)),
+        border: Border.all(color: const Color(0xffFFE2EC)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -164,7 +164,7 @@ class ReceiptDetailsPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Color(0xffFFE2EC)),
+        border: Border.all(color: const Color(0xffFFE2EC)),
       ),
       child: Column(
         children: [
@@ -185,7 +185,7 @@ class ReceiptDetailsPage extends StatelessWidget {
   Widget _buildDetailRow(IconData icon, String title, String value) {
     return Row(
       children: [
-        Icon(icon, size: 20.sp, color: Color(0xff9C9C9C)),
+        Icon(icon, size: 20.sp, color: const Color(0xff9C9C9C)),
         SizedBox(width: 10.w),
         Text(
           title,
@@ -194,7 +194,7 @@ class ReceiptDetailsPage extends StatelessWidget {
             color: Colors.black,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Text(
           value,
           style: TextStyle(
@@ -231,7 +231,7 @@ class ReceiptDetailsPage extends StatelessWidget {
   }
 
   Widget _buildDashedDivider() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       height: 1.h,
       child: LayoutBuilder(

@@ -9,8 +9,10 @@ import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/auth/presentation/pages/login.dart';
 
 class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
+
   @override
-  _OnboardingScreenState createState() => _OnboardingScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
@@ -120,14 +122,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onTap: () {
                   if (_currentPage < onboardingData.length - 1) {
                     _pageController.nextPage(
-                      duration: Duration(milliseconds: 500),
+                      duration: const Duration(milliseconds: 500),
                       curve: Curves.easeInOut,
                     );
                   } else {
                     // انتقل إلى الشاشة التالية (عند انتهاء الـ onboarding)
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => Login()),
+                      MaterialPageRoute(builder: (context) => const Login()),
                     );
                   }
                 },
@@ -156,7 +158,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   onPressed: () {
                     if (_currentPage < onboardingData.length - 1) {
                       _pageController.nextPage(
-                        duration: Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
                     } else {
@@ -164,7 +166,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       //   context,
                       //   MaterialPageRoute(builder: (context) => Login()),
                       // );
-                      navigateAndFinish(context, Login());
+                      navigateAndFinish(context, const Login());
                     }
                   },
                 ),

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
 import 'package:maxless/core/component/custom_loading_indicator.dart';
 import 'package:maxless/core/component/custom_modal_progress_indicator.dart';

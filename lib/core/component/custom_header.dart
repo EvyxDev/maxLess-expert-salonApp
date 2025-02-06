@@ -34,7 +34,7 @@ class CustomHeader extends StatelessWidget {
                 title,
                 style: TextStyle(
                   fontSize: 18.sp, // Responsive font size
-                  color: Color(0xff525252),
+                  color: const Color(0xff525252),
                   fontWeight: FontWeight.w400,
                 ),
               ),

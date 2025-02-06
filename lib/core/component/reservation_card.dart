@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
-import 'package:maxless/features/reservation/presentation/pages/receipt-details.dart';
-import 'package:maxless/features/reservation/presentation/pages/scan-qr.dart';
+import 'package:maxless/features/reservation/presentation/pages/receipt_details.dart';
+import 'package:maxless/features/reservation/presentation/pages/scan_qr.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReservationCard extends StatefulWidget {
@@ -18,7 +18,8 @@ class ReservationCard extends StatefulWidget {
   final VoidCallback? onViewProfile;
   final VoidCallback? onCancel;
 
-  ReservationCard({
+  const ReservationCard({
+    super.key,
     required this.name,
     required this.date,
     required this.time,
@@ -30,7 +31,7 @@ class ReservationCard extends StatefulWidget {
   });
 
   @override
-  _ReservationCardState createState() => _ReservationCardState();
+  State<ReservationCard> createState() => _ReservationCardState();
 }
 
 class _ReservationCardState extends State<ReservationCard>
@@ -43,7 +44,7 @@ class _ReservationCardState extends State<ReservationCard>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       vsync: this,
     );
     _animation = CurvedAnimation(
@@ -82,7 +83,7 @@ class _ReservationCardState extends State<ReservationCard>
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 8,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -118,14 +119,14 @@ class _ReservationCardState extends State<ReservationCard>
                             widget.date,
                             style: TextStyle(
                               fontSize: 10.sp,
-                              color: Color(0xff525252),
+                              color: const Color(0xff525252),
                             ),
                           ),
                           Text(
                             widget.time,
                             style: TextStyle(
                               fontSize: 10.sp,
-                              color: Color(0xff525252),
+                              color: const Color(0xff525252),
                             ),
                           ),
                         ],
@@ -191,7 +192,7 @@ class _ReservationCardState extends State<ReservationCard>
                             onTap: () {
                               // توجيه المستخدم إلى تطبيق الخرائط
                               // مثال: يمكنك استخدام مكتبة `url_launcher`
-                              final locationUrl =
+                              const locationUrl =
                                   "https://www.google.com/maps/search/?api=1&query=Salon+Location";
                               launchUrl(Uri.parse(locationUrl));
                             },
@@ -226,7 +227,7 @@ class _ReservationCardState extends State<ReservationCard>
                           child: GestureDetector(
                             onTap: () {
                               // إجراء مكالمة باستخدام `url_launcher`
-                              final phoneNumber = "tel:+0123456789";
+                              const phoneNumber = "tel:+0123456789";
                               launchUrl(Uri.parse(phoneNumber));
                             },
                             child: Row(
@@ -271,7 +272,7 @@ class _ReservationCardState extends State<ReservationCard>
                               size: 30.sp,
                             ),
                             onPressed: () {
-                              navigateTo(context, ScanQRPage());
+                              navigateTo(context, const ScanQRPage());
                             },
                           ),
                         )
@@ -307,7 +308,7 @@ class _ReservationCardState extends State<ReservationCard>
               children: [
                 GestureDetector(
                   onTap: () {
-                    navigateTo(context, ReceiptDetailsPage());
+                    navigateTo(context, const ReceiptDetailsPage());
                   },
                   child: Container(
                     padding:
@@ -323,7 +324,7 @@ class _ReservationCardState extends State<ReservationCard>
                         BoxShadow(
                           color: Colors.grey.shade300,
                           blurRadius: 5,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -374,7 +375,7 @@ class _ReservationCardState extends State<ReservationCard>
                     "Canceled",
                     style: TextStyle(
                       fontSize: 14.sp,
-                      color: Color(0xff9C9C9C),
+                      color: const Color(0xff9C9C9C),
                       fontWeight: FontWeight.w400,
                     ),
                   ),

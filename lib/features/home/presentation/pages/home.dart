@@ -8,13 +8,13 @@ import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
-import 'package:maxless/features/base/intro/presentation/presentation/pages/side-bar.dart';
+import 'package:maxless/features/base/intro/presentation/presentation/pages/side_bar.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/home/presentation/cubit/home_cubit.dart';
 import 'package:maxless/features/home/presentation/widgets/custom_calender_home.dart';
 import 'package:maxless/features/notification/presentation/pages/notification.dart';
-import 'package:maxless/features/reservation/presentation/pages/scan-qr-salon.dart';
-import 'package:maxless/features/tracking/presentation/pages/track-me.dart';
+import 'package:maxless/features/reservation/presentation/pages/scan_qr_salon.dart';
+import 'package:maxless/features/tracking/presentation/pages/track_me.dart';
 
 class HomePage extends StatelessWidget {
   final Color backgroundColor = const Color(0xFFFFE2EC);
@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           final cubit = context.read<HomeCubit>();
           return Scaffold(
-            drawer: Sidebar(),
+            drawer: const Sidebar(),
             key: _scaffoldKey,
             backgroundColor: backgroundColor,
             body: SafeArea(
@@ -84,7 +84,8 @@ class HomePage extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => NotificationPage()),
+                                          builder: (_) =>
+                                              const NotificationPage()),
                                     );
                                   },
                                 ),
@@ -96,7 +97,8 @@ class HomePage extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (_) => CommunityPage()),
+                                          builder: (_) =>
+                                              const CommunityPage()),
                                     );
                                   },
                                 ),
@@ -391,7 +393,7 @@ class HomePage extends StatelessWidget {
                                                                   ?.end ??
                                                               "00:00:00"),
                                                           style: TextStyle(
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xff585A66),
                                                             fontSize: 12.sp,
                                                             fontWeight:
@@ -514,7 +516,8 @@ class HomePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20.r),
-                    border: Border.all(width: 2.w, color: Color(0xffFFB017))),
+                    border:
+                        Border.all(width: 2.w, color: const Color(0xffFFB017))),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -524,7 +527,7 @@ class HomePage extends StatelessWidget {
                     Text(
                       "service_name".tr(context),
                       style: TextStyle(
-                        color: Color(0xFFB2284C),
+                        color: const Color(0xFFB2284C),
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
@@ -544,7 +547,8 @@ class HomePage extends StatelessWidget {
                       children: [
                         CircleAvatar(
                           radius: 20.r,
-                          backgroundImage: AssetImage('lib/assets/profile.png'),
+                          backgroundImage:
+                              const AssetImage('lib/assets/profile.png'),
                         ),
                         SizedBox(width: 10.w),
                         Expanded(
@@ -579,12 +583,12 @@ class HomePage extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                             context.read<GlobalCubit>().isExpert
-                                ? navigateTo(context, LocationScreen())
-                                : navigateTo(context, ScanQRSalon());
+                                ? navigateTo(context, const LocationScreen())
+                                : navigateTo(context, const ScanQRSalon());
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color(0xFFB2284C),
+                              color: const Color(0xFFB2284C),
                               borderRadius: BorderRadius.circular(10.r),
                             ),
                             padding: EdgeInsets.symmetric(
@@ -628,7 +632,7 @@ class HomePage extends StatelessWidget {
                   width: 33.w,
                   height: 104.h,
                   decoration: BoxDecoration(
-                    color: Color(0xffFFB017), // لون الديفايدر البرتقالي
+                    color: const Color(0xffFFB017), // لون الديفايدر البرتقالي
                     borderRadius: BorderRadius.all(Radius.circular(20.r)),
                   ),
                 ),

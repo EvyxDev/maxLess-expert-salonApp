@@ -5,8 +5,10 @@ import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 
 class AvailableDaysAndHoursSection extends StatefulWidget {
+  const AvailableDaysAndHoursSection({super.key});
+
   @override
-  _AvailableDaysAndHoursSectionState createState() =>
+  State<AvailableDaysAndHoursSection> createState() =>
       _AvailableDaysAndHoursSectionState();
 }
 
@@ -134,7 +136,7 @@ class _AvailableDaysAndHoursSectionState
                     border: Border.all(
                       color: isSelected
                           ? AppColors.primaryColor
-                          : Color(0xffFFE2EC),
+                          : const Color(0xffFFE2EC),
                     ),
                   ),
                   child: Center(
@@ -143,7 +145,8 @@ class _AvailableDaysAndHoursSectionState
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13.sp,
-                        color: isSelected ? Colors.white : Color(0xff525252),
+                        color:
+                            isSelected ? Colors.white : const Color(0xff525252),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -167,7 +170,7 @@ class _AvailableDaysAndHoursSectionState
         SizedBox(height: 10.h),
         GridView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4, // عدد الأعمدة
             mainAxisSpacing: 10.h, // المسافة الرأسية بين العناصر

@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/quantity-counter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:maxless/core/component/quantity_counter.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 
 class ProductCard extends StatelessWidget {
@@ -28,8 +27,8 @@ class ProductCard extends StatelessWidget {
     this.isFavorited = false,
     this.isInCartView = false, // Default is grid view
     this.isInWishlistView = false, // Default is grid view
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,7 @@ class ProductCard extends StatelessWidget {
             height: 200.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: AssetImage('./lib/assets/icons/shape.png'),
                 fit: BoxFit.cover,
               ),
@@ -114,8 +113,8 @@ class ProductCard extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(8.w),
                       decoration: BoxDecoration(
-                        color:
-                            Color.fromARGB(255, 255, 255, 255).withOpacity(0.8),
+                        color: const Color.fromARGB(255, 255, 255, 255)
+                            .withOpacity(0.8),
                         borderRadius: BorderRadius.only(
                           bottomRight: Radius.circular(15.r),
                           bottomLeft: Radius.circular(1.r),
@@ -125,7 +124,10 @@ class ProductCard extends StatelessWidget {
                       ),
                       child: SvgPicture.asset(
                         './lib/assets/icons/cart.svg',
-                        color: AppColors.primaryColor,
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.primaryColor,
+                          BlendMode.srcIn,
+                        ),
                         height: 20.h,
                         width: 20.w,
                       ),
@@ -179,7 +181,7 @@ class ProductCard extends StatelessWidget {
             height: 120.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: AssetImage('./lib/assets/icons/shape.png'),
                 fit: BoxFit.contain,
               ),
@@ -283,7 +285,7 @@ class ProductCard extends StatelessWidget {
             height: 120.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.r),
-              image: DecorationImage(
+              image: const DecorationImage(
                 image: AssetImage('./lib/assets/icons/shape.png'),
                 fit: BoxFit.contain,
               ),
@@ -336,7 +338,7 @@ class ProductCard extends StatelessWidget {
                     QuantityCounter(
                       initialQuantity: 1,
                       onQuantityChanged: (newQuantity) {
-                        print("Quantity updated to $newQuantity");
+                        // print("Quantity updated to $newQuantity");
                       },
                     ),
                     SizedBox(width: 8.w),

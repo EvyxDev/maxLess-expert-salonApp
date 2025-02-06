@@ -22,7 +22,7 @@ class OtpVerification extends StatefulWidget {
   const OtpVerification({super.key, required this.phone});
 
   @override
-  _OtpVerificationState createState() => _OtpVerificationState();
+  State<OtpVerification> createState() => _OtpVerificationState();
 }
 
 class _OtpVerificationState extends State<OtpVerification> {
@@ -310,42 +310,42 @@ class _OtpVerificationState extends State<OtpVerification> {
     );
   }
 
-  Widget _buildOtpField(int index) {
-    return SizedBox(
-      width: 60.w,
-      height: 60.h,
-      child: TextField(
-        controller: otpControllers[index],
-        keyboardType: TextInputType.number,
-        textAlign: TextAlign.center,
-        maxLength: 1,
-        style: TextStyle(
-          fontSize: 24.sp,
-          fontWeight: FontWeight.bold,
-        ),
-        decoration: InputDecoration(
-          counterText: '',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(
-              color: Colors.black12,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(
-              color: AppColors.primaryColor,
-            ),
-          ),
-        ),
-        onChanged: (value) {
-          if (value.isNotEmpty && index < otpControllers.length - 1) {
-            FocusScope.of(context).nextFocus();
-          } else if (value.isEmpty && index > 0) {
-            FocusScope.of(context).previousFocus();
-          }
-        },
-      ),
-    );
-  }
+  // Widget _buildOtpField(int index) {
+  //   return SizedBox(
+  //     width: 60.w,
+  //     height: 60.h,
+  //     child: TextField(
+  //       controller: otpControllers[index],
+  //       keyboardType: TextInputType.number,
+  //       textAlign: TextAlign.center,
+  //       maxLength: 1,
+  //       style: TextStyle(
+  //         fontSize: 24.sp,
+  //         fontWeight: FontWeight.bold,
+  //       ),
+  //       decoration: InputDecoration(
+  //         counterText: '',
+  //         border: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(12.r),
+  //           borderSide: const BorderSide(
+  //             color: Colors.black12,
+  //           ),
+  //         ),
+  //         focusedBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.circular(12.r),
+  //           borderSide: const BorderSide(
+  //             color: AppColors.primaryColor,
+  //           ),
+  //         ),
+  //       ),
+  //       onChanged: (value) {
+  //         if (value.isNotEmpty && index < otpControllers.length - 1) {
+  //           FocusScope.of(context).nextFocus();
+  //         } else if (value.isEmpty && index > 0) {
+  //           FocusScope.of(context).previousFocus();
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 }

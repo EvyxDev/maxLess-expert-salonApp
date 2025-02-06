@@ -36,6 +36,8 @@ class HomeTimeline extends StatelessWidget {
     "3PM",
   ];
 
+  HomeTimeline({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -80,6 +82,7 @@ class HomeTimeline extends StatelessWidget {
                   return Column(
                     children: [
                       // Divider للأوقات الفارغة
+                      // ignore: unnecessary_null_comparison
                       if (event == null)
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -104,6 +107,7 @@ class HomeTimeline extends StatelessWidget {
                         ),
 
                       // إذا كان هناك حدث في هذا الوقت
+                      // ignore: unnecessary_null_comparison
                       if (event != null)
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -124,7 +128,7 @@ class HomeTimeline extends StatelessWidget {
                                   Container(
                                     width: 10.w,
                                     height: 10.w,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                       color: Colors.pink,
                                       shape: BoxShape.circle,
                                     ),
@@ -147,7 +151,7 @@ class HomeTimeline extends StatelessWidget {
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.3),
                                         blurRadius: 5,
-                                        offset: Offset(0, 3),
+                                        offset: const Offset(0, 3),
                                       ),
                                     ],
                                   ),

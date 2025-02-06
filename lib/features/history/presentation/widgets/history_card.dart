@@ -18,7 +18,7 @@ class HistoryCard extends StatefulWidget {
   });
 
   @override
-  _HistoryCardState createState() => _HistoryCardState();
+  State<HistoryCard> createState() => _HistoryCardState();
 }
 
 class _HistoryCardState extends State<HistoryCard>

@@ -1,19 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
-import 'package:maxless/features/home/presentation/pages/home.dart';
-import 'package:maxless/features/reservation/presentation/pages/scan-qr.dart';
+import 'package:maxless/features/reservation/presentation/pages/scan_qr.dart';
 
 class LocationScreen extends StatefulWidget {
+  const LocationScreen({super.key});
+
   @override
-  _LocationScreenState createState() => _LocationScreenState();
+  State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
@@ -56,7 +56,7 @@ class _LocationScreenState extends State<LocationScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                           color: Color(0x80EEEEEE),
                           offset: Offset(0, 1),
@@ -102,12 +102,12 @@ class _LocationScreenState extends State<LocationScreen> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 24.sp,
-                                          color: Color(0xff000000),
+                                          color: const Color(0xff000000),
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       SizedBox(width: 4.w),
-                                      Icon(
+                                      const Icon(
                                         Icons.directions_walk,
                                         color: AppColors.primaryColor,
                                       )
@@ -122,7 +122,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 16.sp,
-                                          color: Color(0xff000000),
+                                          color: const Color(0xff000000),
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -132,7 +132,7 @@ class _LocationScreenState extends State<LocationScreen> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 16.sp,
-                                          color: Color(0xff000000),
+                                          color: const Color(0xff000000),
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
@@ -179,7 +179,7 @@ class _LocationScreenState extends State<LocationScreen> {
                               isTracking = !isTracking;
                               isTracking
                                   ? null
-                                  : navigateTo(context, ScanQRPage());
+                                  : navigateTo(context, const ScanQRPage());
                             });
                           },
                         ),
@@ -280,7 +280,7 @@ class _LocationScreenState extends State<LocationScreen> {
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xff09031B),
+                  color: const Color(0xff09031B),
                 ),
               ),
               shape: ContinuousRectangleBorder(
@@ -322,7 +322,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.r),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AppColors.primaryColor,
                             width: 1.5,
                           ),
@@ -339,7 +339,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           activeColor: AppColors.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(
+                            side: const BorderSide(
                               color: AppColors.primaryColor,
                             ),
                           ),
@@ -383,7 +383,7 @@ class _LocationScreenState extends State<LocationScreen> {
                         textColor: Colors.white,
                         onPressed: () {
                           Navigator.pop(context); // Close the dialog
-                          navigateTo(context, HistoryScreen());
+                          navigateTo(context, const HistoryScreen());
                         },
                       ),
                     ),

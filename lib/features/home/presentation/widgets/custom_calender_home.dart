@@ -10,7 +10,7 @@ class HomeCalendar extends StatefulWidget {
   const HomeCalendar({super.key});
 
   @override
-  _HomeCalendarState createState() => _HomeCalendarState();
+  State<HomeCalendar> createState() => _HomeCalendarState();
 }
 
 class _HomeCalendarState extends State<HomeCalendar> {
@@ -197,7 +197,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
                               ? CupertinoIcons.arrow_left
                               : CupertinoIcons.arrow_right,
                           size: 20.sp,
-                          color: Color(0xff585A66)),
+                          color: const Color(0xff585A66)),
                     ],
                   ),
                 ),
@@ -240,7 +240,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
                         border: Border.all(
                           color: isSelected
                               ? AppColors.primaryColor
-                              : Color(0xffFFE2EC),
+                              : const Color(0xffFFE2EC),
                         ),
                       ),
                       child: Column(
@@ -249,8 +249,9 @@ class _HomeCalendarState extends State<HomeCalendar> {
                           Text(
                             "${day.day}",
                             style: TextStyle(
-                              color:
-                                  isSelected ? Colors.white : Color(0xff585A66),
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xff585A66),
                               fontWeight: FontWeight.bold,
                               fontSize: 30.sp,
                             ),
@@ -260,8 +261,9 @@ class _HomeCalendarState extends State<HomeCalendar> {
                             days[day.weekday % 7],
                             style: TextStyle(
                               fontSize: 11.sp,
-                              color:
-                                  isSelected ? Colors.white : Color(0xff585A66),
+                              color: isSelected
+                                  ? Colors.white
+                                  : const Color(0xff585A66),
                               fontWeight: FontWeight.bold,
                             ),
                           ),

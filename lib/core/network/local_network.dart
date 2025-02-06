@@ -1,4 +1,4 @@
-import 'package:maxless/core/constants/AppConstants.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {

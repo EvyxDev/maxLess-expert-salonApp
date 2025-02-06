@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maxless/core/constants/AppConstants.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
@@ -49,10 +49,10 @@ class GlobalCubit extends Cubit<GlobalState> {
         isExpert = true;
         isSalon = false;
       } else {
-        emit(ErrorState("No valid value found for Salon or Expert"));
+        emit(const ErrorState("No valid value found for Salon or Expert"));
       }
     } catch (e) {
-      emit(ErrorState("Failed to get Salon or Expert"));
+      emit(const ErrorState("Failed to get Salon or Expert"));
     }
   }
 

@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/constants/app_colors.dart';
 
 class ProfileOption extends StatelessWidget {
   final String icon;
@@ -13,12 +12,12 @@ class ProfileOption extends StatelessWidget {
   final Color? textColor; // لون النص اختياري
 
   const ProfileOption({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
     this.textColor, // يتم تمرير اللون إذا كان موجودًا
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +46,7 @@ class ProfileOption extends StatelessWidget {
           Divider(
             height: 20.h,
             thickness: 2,
-            color: Color(0xffF2F2F2),
+            color: const Color(0xffF2F2F2),
           ),
         ],
       ),

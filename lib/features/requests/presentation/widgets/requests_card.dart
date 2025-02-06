@@ -21,7 +21,7 @@ class RequestCard extends StatefulWidget {
   });
 
   @override
-  _RequestCardState createState() => _RequestCardState();
+  State<RequestCard> createState() => _RequestCardState();
 }
 
 class _RequestCardState extends State<RequestCard>
@@ -133,7 +133,7 @@ class _RequestCardState extends State<RequestCard>
                       isExpanded
                           ? CupertinoIcons.chevron_up
                           : CupertinoIcons.chevron_down,
-                      color: Color(0xff9C9C9C),
+                      color: const Color(0xff9C9C9C),
                     ),
                     onPressed: () {
                       setState(() {
@@ -218,7 +218,7 @@ class _RequestCardState extends State<RequestCard>
                                   Expanded(
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        print("Accepted");
+                                        // print("Accepted");
                                         Fluttertoast.showToast(
                                           msg: "toast_request_accepted"
                                               .tr(context),
@@ -251,11 +251,11 @@ class _RequestCardState extends State<RequestCard>
                                   Expanded(
                                     child: OutlinedButton(
                                       onPressed: () {
-                                        print("Rejected");
+                                        // print("Rejected");
                                         _showCancelDialog(context);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
+                                        side: const BorderSide(
                                             color: AppColors.primaryColor),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -282,11 +282,11 @@ class _RequestCardState extends State<RequestCard>
                                   Expanded(
                                     child: OutlinedButton(
                                       onPressed: () {
-                                        print("Cancelled");
+                                        // print("Cancelled");
                                         _showCancelDialogReason(context);
                                       },
                                       style: OutlinedButton.styleFrom(
-                                        side: BorderSide(
+                                        side: const BorderSide(
                                             color: AppColors.primaryColor),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -309,7 +309,7 @@ class _RequestCardState extends State<RequestCard>
                           ],
                         ),
                       )
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
               ),
             ],
           ),
@@ -466,7 +466,7 @@ class _RequestCardState extends State<RequestCard>
                 style: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xff09031B),
+                  color: const Color(0xff09031B),
                 ),
               ),
               shape: ContinuousRectangleBorder(
@@ -508,7 +508,7 @@ class _RequestCardState extends State<RequestCard>
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.r),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: AppColors.primaryColor,
                             width: 1.5,
                           ),
@@ -525,7 +525,7 @@ class _RequestCardState extends State<RequestCard>
                           activeColor: AppColors.primaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(100),
-                            side: BorderSide(
+                            side: const BorderSide(
                               color: AppColors.primaryColor,
                             ),
                           ),
