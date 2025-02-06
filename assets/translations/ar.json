@@ -482,5 +482,7 @@
   "addAtLeastOneImage": "أضف صورة واحدة على الأقل",
   "years": "سنوات",
   "updatePost": "تعديل البوست",
-  "noBookingForThisDay": "لا يوجد حجز لهذا اليوم"
+  "noBookingForThisDay": "لا يوجد حجز لهذا اليوم",
+  "totalBalance" : "إجمالي الرصيد",
+  "thereIsNoTransactions" : "لا يوجد تعاملات"
 }

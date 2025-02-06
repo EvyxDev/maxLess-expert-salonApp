@@ -40,6 +40,9 @@ class EndPoints {
   //! Requests
   static const String getExpertRequests =
       "${baseUrl}expert/booking-expert/expert";
+
+  //! Wallet
+  static const String getExpertWallet = "${baseUrl}experts-wallet";
 }
 
 class ApiKey {
@@ -89,4 +92,9 @@ class ApiKey {
   static const String answerAndQuestion = "answer&question";
   static const String status = "status";
   static const String expertSlot = "expert_slot";
+  static const String expertId = "expert_id";
+  static const String body = "body";
+  static const String amount = "amount";
+  static const String totalBalance = "total_balance";
+  static const String transactions = "transactions";
 }

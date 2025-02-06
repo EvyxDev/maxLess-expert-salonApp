@@ -14,11 +14,14 @@ import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
+import 'package:maxless/features/wallet/presentation/screens/wallet.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 
 import '../widgets/logout_alert_dialog.dart';
 
 class Sidebar extends StatelessWidget {
+  Sidebar({super.key});
+
   bool isArabic = sl<CacheHelper>().getCachedLanguage() == 'ar';
 
   @override
@@ -101,7 +104,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => RequestsScreen()),
+                MaterialPageRoute(builder: (_) => const RequestsScreen()),
               );
             },
           ),
@@ -112,7 +115,7 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => HistoryScreen()),
+                MaterialPageRoute(builder: (_) => const HistoryScreen()),
               );
             },
           ),
@@ -123,22 +126,22 @@ class Sidebar extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => CommunityPage()),
+                MaterialPageRoute(builder: (_) => const CommunityPage()),
               );
             },
           ),
 
-          // _buildNavItem(
-          //   context,
-          //   icon: "lib/assets/icons/new/wallet.svg",
-          //   label: "Wallet",
-          //   onTap: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (_) => WalletPage()),
-          //     );
-          //   },
-          // ),
+          _buildNavItem(
+            context,
+            icon: "lib/assets/icons/new/wallet.svg",
+            label: "Wallet",
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const WalletPage()),
+              );
+            },
+          ),
 
           //! Logout
           _buildNavItem(

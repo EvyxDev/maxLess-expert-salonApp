@@ -482,5 +482,7 @@
   "addAtLeastOneImage": "Add at least one image",
   "years": "years",
   "updatePost": "Update post",
-  "noBookingForThisDay": "No booking for this day"
+  "noBookingForThisDay": "No booking for this day",
+  "totalBalance" : "Total Balance",
+  "thereIsNoTransactions" : "There is no transactions"
 }

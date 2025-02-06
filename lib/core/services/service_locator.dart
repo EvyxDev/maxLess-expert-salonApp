@@ -10,6 +10,7 @@ import 'package:maxless/features/community/data/repo/community_repo.dart';
 import 'package:maxless/features/home/data/repository/home_repo.dart';
 import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 import 'package:maxless/features/requests/data/repository/requestes_repo.dart';
+import 'package:maxless/features/wallet/data/repository/wallet_repo.dart';
 
 final sl = GetIt.instance;
 void initServiceLocator() {
@@ -27,4 +28,5 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => CommunityRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => ProfileRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => RequestesRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => WalletRepo(sl<DioConsumer>()));
 }
