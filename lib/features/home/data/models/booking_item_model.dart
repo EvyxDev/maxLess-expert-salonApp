@@ -9,6 +9,7 @@ class BookingItemModel {
   final SlotModel? expertSlot;
   final String? date, createdAt, updatedAt;
   final List<AnswerAndQuestionModel> answersAndQuestions;
+  final double? lat, lon;
 
   BookingItemModel({
     required this.id,
@@ -21,6 +22,8 @@ class BookingItemModel {
     required this.createdAt,
     required this.updatedAt,
     required this.answersAndQuestions,
+    required this.lat,
+    required this.lon,
   });
 
   factory BookingItemModel.fromJson(Map<String, dynamic> map) {
@@ -34,6 +37,8 @@ class BookingItemModel {
       date: map[ApiKey.date],
       createdAt: map[ApiKey.createdAt],
       updatedAt: map[ApiKey.updatedAt],
+      lat: map[ApiKey.lat],
+      lon: map[ApiKey.lon],
       answersAndQuestions: map[ApiKey.answerAndQuestion] != null
           ? (map[ApiKey.answerAndQuestion] as List)
               .map((e) => AnswerAndQuestionModel.fromJson(e))

@@ -36,6 +36,10 @@ class EndPoints {
   //! Bookings
   static const String expertBookingByDate =
       "${baseUrl}expert/booking-expert/slots";
+
+  //! Requests
+  static const String getExpertRequests =
+      "${baseUrl}expert/booking-expert/expert";
 }
 
 class ApiKey {
