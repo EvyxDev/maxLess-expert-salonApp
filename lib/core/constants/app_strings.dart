@@ -5,6 +5,7 @@ class AppStrings {
   static const String noBookingForThisDay = "noBookingForThisDay";
   static const String totalBalance = "totalBalance";
   static const String thereIsNoTransactions = "thereIsNoTransactions";
+  static const String thereIsNoNotifications = "thereIsNoNotifications";
   //! Validations
   static const String thisFieldIsRequired = "thisFieldIsRequired";
   static const String otpRequired = "otpRequired";

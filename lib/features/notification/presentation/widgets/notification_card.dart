@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/features/notification/data/models/notification_model.dart';
 
 class NotificationCard extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String description;
-
   const NotificationCard({
     super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.description,
+    required this.model,
   });
+
+  final NotificationModel model;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,7 @@ class NotificationCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Shape with Image
+          //! Shape with Image
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             width: 60.w,
@@ -31,20 +28,22 @@ class NotificationCard extends StatelessWidget {
               color: AppColors.primaryColor,
             ),
             child: Image.asset(
-              imageUrl,
+              "lib/assets/logo.png",
               height: 65.h,
               width: 50.w,
               fit: BoxFit.contain,
+              color: AppColors.white,
             ),
           ),
           SizedBox(width: 12.w),
-          // Text Content
+          //! Text Content
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                //! Title
                 Text(
-                  title,
+                  model.title ?? "",
                   style: TextStyle(
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
@@ -53,7 +52,7 @@ class NotificationCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  description,
+                  model.descreption ?? "",
                   style: TextStyle(
                     fontSize: 12.sp,
                     color: Colors.black54,

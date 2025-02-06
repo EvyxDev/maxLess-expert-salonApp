@@ -483,6 +483,7 @@
   "years": "سنوات",
   "updatePost": "تعديل البوست",
   "noBookingForThisDay": "لا يوجد حجز لهذا اليوم",
-  "totalBalance" : "إجمالي الرصيد",
-  "thereIsNoTransactions" : "لا يوجد تعاملات"
+  "totalBalance": "إجمالي الرصيد",
+  "thereIsNoTransactions": "لا يوجد تعاملات",
+  "thereIsNoNotifications": "لا يوجد اشعارات"
 }

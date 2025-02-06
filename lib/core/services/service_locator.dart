@@ -8,6 +8,7 @@ import 'package:maxless/core/network/network_info.dart';
 import 'package:maxless/features/auth/data/repository/auth_repo.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
 import 'package:maxless/features/home/data/repository/home_repo.dart';
+import 'package:maxless/features/notification/data/repository/notifications_repo.dart';
 import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 import 'package:maxless/features/requests/data/repository/requestes_repo.dart';
 import 'package:maxless/features/wallet/data/repository/wallet_repo.dart';
@@ -29,4 +30,5 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => ProfileRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => RequestesRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => WalletRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => NotificationsRepo(sl<DioConsumer>()));
 }

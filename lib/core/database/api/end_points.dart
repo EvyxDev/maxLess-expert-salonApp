@@ -43,6 +43,9 @@ class EndPoints {
 
   //! Wallet
   static const String getExpertWallet = "${baseUrl}experts-wallet";
+
+  //! Notifications
+  static const String getExpertNotifications = "${baseUrl}expert/notifications";
 }
 
 class ApiKey {
@@ -97,4 +100,5 @@ class ApiKey {
   static const String amount = "amount";
   static const String totalBalance = "total_balance";
   static const String transactions = "transactions";
+  static const String isRead = "is_read";
 }
