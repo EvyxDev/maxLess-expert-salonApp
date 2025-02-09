@@ -29,7 +29,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<GlobalCubit>()..init(),
+          create: (context) => GlobalCubit()..init(),
         ),
       ],
       child: const MaxLiss(),

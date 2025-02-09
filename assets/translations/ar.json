@@ -485,5 +485,7 @@
   "noBookingForThisDay": "لا يوجد حجز لهذا اليوم",
   "totalBalance": "إجمالي الرصيد",
   "thereIsNoTransactions": "لا يوجد تعاملات",
-  "thereIsNoNotifications": "لا يوجد اشعارات"
+  "thereIsNoNotifications": "لا يوجد اشعارات",
+  "beautyExpertDetails": "تفاصيل خبيرة التجميل",
+  "salonDetails": "تفاصيل الصالون"
 }

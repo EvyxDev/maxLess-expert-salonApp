@@ -32,4 +32,16 @@ class CommunityItemModel {
       isWishlist: map[ApiKey.isWishlist],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKey.id: id,
+      ApiKey.likes: ApiKey.likes,
+      ApiKey.expert: expert?.toJson(),
+      ApiKey.title: title,
+      ApiKey.images: images.map((e) => e.toString()).toList(),
+      ApiKey.time: time,
+      ApiKey.isWishlist: isWishlist,
+    };
+  }
 }

@@ -18,3 +18,17 @@ final class GetProfileErrorState extends ProfileState {
 }
 
 final class GetProfileSuccessState extends ProfileState {}
+
+final class LikeProfileCommunityLoadingState extends ProfileState {}
+
+final class LikeProfileCommunityErrorState extends ProfileState {
+  final String message;
+
+  const LikeProfileCommunityErrorState({required this.message});
+}
+
+final class LikeProfileCommunitySuccessState extends ProfileState {
+  final String message;
+
+  const LikeProfileCommunitySuccessState({required this.message});
+}

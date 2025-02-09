@@ -73,6 +73,7 @@ class _OtpVerificationState extends State<OtpVerification> {
         body: BlocConsumer<OtpCubit, OtpState>(
           listener: (context, state) {
             if (state is CheckOtpSuccessState) {
+              context.read<GlobalCubit>().getUserData();
               navigateAndFinish(context, HomePage());
             }
             if (state is CheckOtpErrorState) {

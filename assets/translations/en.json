@@ -485,5 +485,7 @@
   "noBookingForThisDay": "No booking for this day",
   "totalBalance": "Total Balance",
   "thereIsNoTransactions": "There is no transactions",
-  "thereIsNoNotifications": "There is no notifications"
+  "thereIsNoNotifications": "There is no notifications",
+  "beautyExpertDetails": "Beauty Expert Details",
+  "salonDetails": "Salon Details"
 }

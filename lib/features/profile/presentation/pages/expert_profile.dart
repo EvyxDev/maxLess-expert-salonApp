@@ -1,29 +1,40 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_loading_indicator.dart';
 import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
 import 'package:maxless/core/component/custom_network_image.dart';
+import 'package:maxless/core/component/custom_post_image.dart';
 import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
+import 'package:maxless/core/network/local_network.dart';
+import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/presentation/cubit/community_cubit.dart';
 import 'package:maxless/features/community/presentation/widgets/add_post_bottom_sheet.dart';
 import 'package:maxless/features/profile/presentation/cubit/profile_cubit.dart';
 
 class ExpertProfilePage extends StatelessWidget {
-  const ExpertProfilePage({super.key});
+  const ExpertProfilePage({
+    super.key,
+    this.id,
+  });
+
+  final int? id;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileCubit()..init(),
+      create: (context) => (ProfileCubit()
+        ..showProfileDetails(id: id ?? context.read<GlobalCubit>().userId!)),
       child: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is GetProfileErrorState) {
@@ -43,14 +54,16 @@ class ExpertProfilePage extends StatelessWidget {
               child: RefreshIndicator(
                 color: AppColors.primaryColor,
                 onRefresh: () {
-                  return cubit.init();
+                  return cubit.showProfileDetails(
+                      id: id ?? context.read<GlobalCubit>().userId!);
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 20.h),
+                    //! Header
                     CustomHeader(
-                      title: "community".tr(context),
+                      title: AppStrings.beautyExpertDetails.tr(context),
                       onBackPress: () {
                         Navigator.pop(context);
                       },
@@ -179,67 +192,76 @@ class ExpertProfilePage extends StatelessWidget {
                               ),
                               SizedBox(height: 10.h),
                               //! Add Post
-                              GestureDetector(
-                                onTap: () async {
-                                  await addPostBottomSheet(context).then(
-                                    (value) {
-                                      cubit.init();
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xffFBFBFB),
-                                    borderRadius: BorderRadius.circular(10.r),
-                                    border: Border.all(
-                                      color: const Color(0xffFFE2EC),
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(width: 10.w),
-                                      Expanded(
-                                        child: TextField(
-                                          enabled: false,
-                                          decoration: InputDecoration(
-                                            border: InputBorder
-                                                .none, // إزالة الحدود
-                                            hintText:
-                                                "write_about_your_work_hint"
-                                                    .tr(context),
-                                            hintStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 14.sp,
+                              id != null
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () async {
+                                        await addPostBottomSheet(context).then(
+                                          (value) {
+                                            cubit.showProfileDetails(
+                                                id: id ??
+                                                    // ignore: use_build_context_synchronously
+                                                    context
+                                                        .read<GlobalCubit>()
+                                                        .userId!);
+                                          },
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xffFBFBFB),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          border: Border.all(
+                                            color: const Color(0xffFFE2EC),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(width: 10.w),
+                                            Expanded(
+                                              child: TextField(
+                                                enabled: false,
+                                                decoration: InputDecoration(
+                                                  border: InputBorder
+                                                      .none, // إزالة الحدود
+                                                  hintText:
+                                                      "write_about_your_work_hint"
+                                                          .tr(context),
+                                                  hintStyle: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14.sp,
+                                                  ),
+                                                ),
+                                                style: TextStyle(
+                                                  fontSize: 14.sp,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                          style: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: Colors.black,
-                                          ),
+                                            IconButton(
+                                              icon: Icon(
+                                                CupertinoIcons.cloud_upload,
+                                                color: Colors.grey,
+                                                size: 20.sp,
+                                              ),
+                                              onPressed: () {
+                                                // حدث عند الضغط على زر الرفع
+                                              },
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      IconButton(
-                                        icon: Icon(
-                                          CupertinoIcons.cloud_upload,
-                                          color: Colors.grey,
-                                          size: 20.sp,
-                                        ),
-                                        onPressed: () {
-                                          // حدث عند الضغط على زر الرفع
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                                    ),
                               SizedBox(height: 10.h),
                               //! Posts
                               ...List.generate(
                                 cubit.posts.length,
                                 (index) => _buildPostCard(
                                   context,
-                                  cubit.posts[index],
+                                  model: cubit.posts[index],
+                                  canEdit: id == null ? true : false,
                                 ),
                               ),
                               SizedBox(height: 70.h),
@@ -259,9 +281,10 @@ class ExpertProfilePage extends StatelessWidget {
   }
 
   Widget _buildPostCard(
-    BuildContext context,
-    CommunityItemModel model,
-  ) {
+    BuildContext context, {
+    required CommunityItemModel model,
+    required bool canEdit,
+  }) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         final cubit = context.read<ProfileCubit>();
@@ -316,42 +339,52 @@ class ExpertProfilePage extends StatelessWidget {
                     const Spacer(),
                     Column(
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(width: 10.w),
-                            //! Edit Post
-                            GestureDetector(
-                              onTap: () {
-                                addPostBottomSheet(context, model: model)
-                                    .then((value) {
-                                  cubit.init();
-                                });
-                              },
-                              child: Icon(
-                                CupertinoIcons.pencil_ellipsis_rectangle,
-                                size: 20.sp,
-                                color: const Color(0xff9C9C9C),
-                              ),
-                            ),
-                            SizedBox(width: 10.w),
-                            //! Delete Post
-                            GestureDetector(
-                              onTap: () {
-                                model.id != null
-                                    ? showCancelDialog(context, model.id!)
-                                    : null;
-                              },
-                              child: Icon(
-                                CupertinoIcons.xmark,
-                                size: 20.sp,
-                                color: AppColors.primaryColor,
-                              ),
-                            ),
-                          ],
-                        ),
+                        canEdit == true
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(width: 10.w),
+                                  //! Edit Post
+                                  GestureDetector(
+                                    onTap: () {
+                                      addPostBottomSheet(context, model: model)
+                                          .then((value) {
+                                        // ignore: use_build_context_synchronously
+                                        cubit.showProfileDetails(
+                                            id: id ??
+                                                // ignore: use_build_context_synchronously
+                                                context
+                                                    .read<GlobalCubit>()
+                                                    .userId!);
+                                      });
+                                    },
+                                    child: Icon(
+                                      CupertinoIcons.pencil_ellipsis_rectangle,
+                                      size: 20.sp,
+                                      color: const Color(0xff9C9C9C),
+                                    ),
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  //! Delete Post
+                                  GestureDetector(
+                                    onTap: () {
+                                      model.id != null
+                                          ? showCancelDialog(
+                                              context, model.id!, id)
+                                          : null;
+                                    },
+                                    child: Icon(
+                                      CupertinoIcons.xmark,
+                                      size: 20.sp,
+                                      color: AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Container(),
                         SizedBox(height: 10.w),
                         //! Post Time
                         Text(
@@ -367,7 +400,35 @@ class ExpertProfilePage extends StatelessWidget {
                 ),
                 SizedBox(height: 12.h),
                 //! Post Images
-                buildPostImages(model.images),
+                //! Image
+                model.images.length == 1
+                    ? CustomPostImage(imageUrl: model.images[0])
+                    : model.images.isEmpty
+                        ? Container()
+                        : Directionality(
+                            textDirection:
+                                sl<CacheHelper>().getCachedLanguage() == "en"
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            child: CarouselSlider(
+                              items: model.images
+                                  .map((e) => CustomPostImage(imageUrl: e))
+                                  .toList(),
+                              disableGesture: false,
+                              options: CarouselOptions(
+                                height: 300.h,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: .8,
+                                initialPage: 0,
+                                enableInfiniteScroll: false,
+                                reverse: false,
+                                autoPlay: false,
+                                enlargeCenterPage: true,
+                                enlargeFactor: 0.2,
+                                scrollDirection: Axis.horizontal,
+                              ),
+                            ),
+                          ),
                 SizedBox(height: 12.h),
                 //! Post Title
                 Text(
@@ -383,12 +444,19 @@ class ExpertProfilePage extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Icon(
-                      model.isWishlist == true
-                          ? CupertinoIcons.heart_fill
-                          : CupertinoIcons.heart,
-                      color: AppColors.primaryColor,
-                      size: 20.sp,
+                    GestureDetector(
+                      onTap: () {
+                        model.id != null
+                            ? cubit.expertLikeCommunity(model.id!)
+                            : null;
+                      },
+                      child: Icon(
+                        model.isWishlist == true
+                            ? CupertinoIcons.heart_fill
+                            : CupertinoIcons.heart,
+                        color: AppColors.primaryColor,
+                        size: 20.sp,
+                      ),
                     ),
                     SizedBox(width: 5.w),
                     Text(
@@ -411,6 +479,7 @@ class ExpertProfilePage extends StatelessWidget {
   showCancelDialog(
     BuildContext context,
     int id,
+    int? userId,
   ) {
     showDialog<bool?>(
       context: context,
@@ -493,7 +562,9 @@ class ExpertProfilePage extends StatelessWidget {
     ).then((value) {
       if (value == true) {
         // ignore: use_build_context_synchronously
-        context.read<ProfileCubit>().init();
+        context.read<ProfileCubit>().showProfileDetails(
+            // ignore: use_build_context_synchronously
+            id: userId ?? context.read<GlobalCubit>().userId!);
       }
     });
   }

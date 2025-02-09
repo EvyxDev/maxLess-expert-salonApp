@@ -1,4 +1,5 @@
 import 'package:maxless/core/database/api/end_points.dart';
+import 'package:maxless/features/community/data/models/community_item_model.dart';
 
 import 'slot_model.dart';
 
@@ -16,7 +17,8 @@ class UserModel {
       price,
       createdAt,
       updatedAt;
-  final List<SlotModel>? slots;
+  final List<SlotModel> slots;
+  final List<CommunityItemModel> community;
 
   UserModel({
     required this.id,
@@ -35,6 +37,7 @@ class UserModel {
     required this.slots,
     required this.experience,
     required this.ratingCount,
+    required this.community,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
@@ -58,7 +61,12 @@ class UserModel {
           ? (map[ApiKey.slots] as List)
               .map((e) => SlotModel.fromJson(e))
               .toList()
-          : null,
+          : [],
+      community: map[ApiKey.community] != null
+          ? (map[ApiKey.community] as List)
+              .map((e) => CommunityItemModel.fromJson(e))
+              .toList()
+          : [],
     );
   }
 
@@ -78,9 +86,8 @@ class UserModel {
       ApiKey.createdAt: createdAt,
       ApiKey.updatedAt: updatedAt,
       ApiKey.experience: experience,
-      ApiKey.slots: slots != null
-          ? (slots as List<SlotModel>).map((e) => e.toJson()).toList()
-          : null,
+      ApiKey.slots: slots.map((e) => e.toJson()).toList(),
+      ApiKey.community: community.map((e) => e.toJson()).toList(),
     };
   }
 }

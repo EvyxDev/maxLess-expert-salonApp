@@ -57,10 +57,10 @@ class GlobalCubit extends Cubit<GlobalState> {
   }
 
   String language = sl<CacheHelper>().getCachedLanguage();
-  changeLanguage() {
+  Future<void> changeLanguage() async {
     sl<CacheHelper>().getCachedLanguage() == "en"
-        ? sl<CacheHelper>().cacheLanguage("ar")
-        : sl<CacheHelper>().cacheLanguage("en");
+        ? await sl<CacheHelper>().cacheLanguage("ar")
+        : await sl<CacheHelper>().cacheLanguage("en");
     language = sl<CacheHelper>().getCachedLanguage();
     emit(LanguageChangeState());
     Restart.restartApp();

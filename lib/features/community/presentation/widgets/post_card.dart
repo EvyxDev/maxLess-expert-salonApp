@@ -1,11 +1,15 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/custom_network_image.dart';
+import 'package:maxless/core/component/custom_post_image.dart';
 import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
+import 'package:maxless/core/network/local_network.dart';
+import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/presentation/cubit/community_cubit.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
@@ -14,7 +18,6 @@ class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.model});
 
   final CommunityItemModel model;
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CommunityCubit, CommunityState>(
@@ -42,7 +45,14 @@ class PostCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    navigateTo(context, const ExpertProfilePage());
+                    navigateTo(
+                        context,
+                        ExpertProfilePage(
+                          id: model.expert?.id ==
+                                  context.read<GlobalCubit>().userId
+                              ? null
+                              : model.expert?.id,
+                        ));
                   },
                   child: Row(
                     children: [
@@ -93,7 +103,34 @@ class PostCard extends StatelessWidget {
                 ),
                 SizedBox(height: 12.h),
                 //! Image
-                _buildPostImages(model.images),
+                model.images.length == 1
+                    ? CustomPostImage(imageUrl: model.images[0])
+                    : model.images.isEmpty
+                        ? Container()
+                        : Directionality(
+                            textDirection:
+                                sl<CacheHelper>().getCachedLanguage() == "en"
+                                    ? TextDirection.ltr
+                                    : TextDirection.rtl,
+                            child: CarouselSlider(
+                              items: model.images
+                                  .map((e) => CustomPostImage(imageUrl: e))
+                                  .toList(),
+                              disableGesture: false,
+                              options: CarouselOptions(
+                                height: 300.h,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: .8,
+                                initialPage: 0,
+                                enableInfiniteScroll: false,
+                                reverse: false,
+                                autoPlay: false,
+                                enlargeCenterPage: true,
+                                enlargeFactor: 0.2,
+                                scrollDirection: Axis.horizontal,
+                              ),
+                            ),
+                          ),
                 SizedBox(height: 12.h),
                 //! Description
                 Text(
@@ -134,54 +171,6 @@ class PostCard extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-Widget _buildPostImages(List<String> images) {
-  if (images.length == 1) {
-    return CustomNetworkImage(imageUrl: images[0]);
-  } else if (images.length == 2) {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomNetworkImage(imageUrl: images[0]),
-        ),
-        SizedBox(width: 8.w),
-        Expanded(
-          child: CustomNetworkImage(imageUrl: images[1]),
-        ),
-      ],
-    );
-  } else {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 8.w,
-        mainAxisSpacing: 8.h,
-      ),
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return GestureDetector(
-          onTap: () {
-            showDialog(
-              context: context,
-              builder: (context) => const AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [],
-                ),
-              ),
-            );
-          },
-          child: Hero(
-            tag: images[index],
-            child: CustomNetworkImage(imageUrl: images[index]),
           ),
         );
       },

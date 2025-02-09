@@ -33,6 +33,10 @@ class EndPoints {
   //! Profile
   static const String expertProfile = "${baseUrl}expert/profile";
 
+  static String showProfileDetails({required int id}) {
+    return "${baseUrl}expert/show/$id";
+  }
+
   //! Bookings
   static const String expertBookingByDate =
       "${baseUrl}expert/booking-expert/slots";
@@ -101,4 +105,5 @@ class ApiKey {
   static const String totalBalance = "total_balance";
   static const String transactions = "transactions";
   static const String isRead = "is_read";
+  static const String community = "community";
 }

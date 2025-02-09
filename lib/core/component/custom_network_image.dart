@@ -6,9 +6,11 @@ class CustomNetworkImage extends StatefulWidget {
   const CustomNetworkImage({
     super.key,
     required this.imageUrl,
+    this.height,
   });
 
   final String imageUrl;
+  final double? height;
 
   @override
   State<CustomNetworkImage> createState() => _CustomNetworkImageState();
@@ -36,7 +38,7 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
       child: Image.network(
         widget.imageUrl,
         key: ValueKey(imageKey),
-        height: 200.h,
+        height: widget.height,
         width: double.infinity,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {

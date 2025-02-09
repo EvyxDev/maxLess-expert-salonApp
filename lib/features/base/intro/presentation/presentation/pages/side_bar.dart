@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
@@ -14,8 +14,8 @@ import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
-import 'package:maxless/features/wallet/presentation/screens/wallet.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
+import 'package:maxless/features/wallet/presentation/screens/wallet.dart';
 
 import '../widgets/logout_alert_dialog.dart';
 
@@ -32,7 +32,6 @@ class Sidebar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
-
           // العنوان
           CustomHeader(
             title: "",
@@ -40,6 +39,7 @@ class Sidebar extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
+          //! User Details
           GestureDetector(
             onTap: () {
               navigateTo(context, const ExpertProfilePage());
@@ -92,11 +92,12 @@ class Sidebar extends StatelessWidget {
               ),
             ),
           ),
+          //! Language
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: _buildLanguageField(context),
           ),
-          // Navigation Items
+          //! Requests
           _buildNavItem(
             context,
             icon: "lib/assets/icons/new/req.svg",
@@ -108,6 +109,7 @@ class Sidebar extends StatelessWidget {
               );
             },
           ),
+          //! Requests History
           _buildNavItem(
             context,
             icon: "lib/assets/icons/new/history.svg",
@@ -119,6 +121,7 @@ class Sidebar extends StatelessWidget {
               );
             },
           ),
+          //! Community
           _buildNavItem(
             context,
             icon: "lib/assets/icons/new/community.svg",
@@ -130,7 +133,7 @@ class Sidebar extends StatelessWidget {
               );
             },
           ),
-
+          //! Wallet
           _buildNavItem(
             context,
             icon: "lib/assets/icons/new/wallet.svg",
@@ -142,7 +145,6 @@ class Sidebar extends StatelessWidget {
               );
             },
           ),
-
           //! Logout
           _buildNavItem(
             context,
@@ -278,18 +280,8 @@ class Sidebar extends StatelessWidget {
                   isArabic = value;
                 });
 
-                sl<GlobalCubit>().changeLanguage();
+                context.read<GlobalCubit>().changeLanguage();
 
-                // عرض Snackbar لإعلام المستخدم بالتغيير
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      "${"language_changed_to".tr(context)} ${isArabic ? "العربية" : "English"}",
-                      textAlign: TextAlign.center,
-                    ),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
               },
             ),
           ],
