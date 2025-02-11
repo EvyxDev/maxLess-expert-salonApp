@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 
-import 'custom_shimmer.dart';
-
 class CustomNetworkImage extends StatefulWidget {
   const CustomNetworkImage({
     super.key,
     required this.imageUrl,
+    this.height,
   });
 
   final String imageUrl;
+  final double? height;
 
   @override
   State<CustomNetworkImage> createState() => _CustomNetworkImageState();
@@ -38,16 +38,9 @@ class _CustomNetworkImageState extends State<CustomNetworkImage> {
       child: Image.network(
         widget.imageUrl,
         key: ValueKey(imageKey),
-        height: 200.h,
+        height: widget.height,
         width: double.infinity,
         fit: BoxFit.cover,
-        loadingBuilder: (context, child, loadingProgress) {
-          return CustomShimmer(
-            w: double.infinity,
-            h: 200.h,
-            borderRadius: 15,
-          );
-        },
         errorBuilder: (context, error, stackTrace) {
           return Container(
             width: double.infinity,

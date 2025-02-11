@@ -75,7 +75,7 @@ class CommunityRepo {
     int id, {
     String? title,
     List<MultipartFile>? images,
-    List<MultipartFile>? oldImages,
+    List<String>? oldImages,
   }) async {
     try {
       final Response response = await api.post(
@@ -83,8 +83,8 @@ class CommunityRepo {
         isFormData: true,
         data: {
           ApiKey.title: title,
-          ApiKey.image: images,
-          ApiKey.oldImages: oldImages,
+          "images[]": images,
+          "old_images[]": oldImages,
           ApiKey.method: ApiKey.put,
         },
       );

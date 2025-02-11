@@ -10,26 +10,31 @@ import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/constants/widgets/custom_text_form_field.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 
 import '../cubit/community_cubit.dart';
 
-Future<CommunityItemModel?> addPostBottomSheet(BuildContext context) {
+Future<CommunityItemModel?> addPostBottomSheet(BuildContext context,
+    {CommunityItemModel? model}) {
   return showModalBottomSheet(
     context: context,
     showDragHandle: true,
     isScrollControlled: true,
     backgroundColor: AppColors.white,
     builder: (context) {
-      return const AddPostBottomSheetBody();
+      return AddPostBottomSheetBody(model: model);
     },
   );
 }
 
 class AddPostBottomSheetBody extends StatefulWidget {
-  const AddPostBottomSheetBody({super.key});
-
+  const AddPostBottomSheetBody({
+    super.key,
+    this.model,
+  });
+  final CommunityItemModel? model;
   @override
   State<AddPostBottomSheetBody> createState() => _AddPostBottomSheetBodyState();
 }
@@ -38,13 +43,23 @@ class _AddPostBottomSheetBodyState extends State<AddPostBottomSheetBody> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CommunityCubit(),
+      create: (context) => CommunityCubit()..getPostFromModel(widget.model),
       child: BlocConsumer<CommunityCubit, CommunityState>(
         listener: (context, state) {
           if (state is CreateCommunitySuccessState) {
             Navigator.pop(context, context.read<CommunityCubit>().post);
           }
+          if (state is UpdateCommunitySuccessState) {
+            Navigator.pop(context);
+          }
           if (state is CreateCommunityErrorState) {
+            showToast(
+              context,
+              message: state.message,
+              state: ToastStates.error,
+            );
+          }
+          if (state is UpdateCommunityErrorState) {
             showToast(
               context,
               message: state.message,
@@ -93,94 +108,197 @@ class _AddPostBottomSheetBodyState extends State<AddPostBottomSheetBody> {
                       child: ListView(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,
-                        children: List.generate(
-                          cubit.postImages.length + 1,
-                          (index) {
-                            return index == cubit.postImages.length
-                                ? Container(
-                                    width: 300.w,
-                                    height: 200.h,
-                                    margin: EdgeInsetsDirectional.only(
-                                      end: 16.w,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color:
-                                          AppColors.lightGrey.withOpacity(.5),
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            cubit.pickImage(
-                                                source: ImageSource.camera);
-                                            setState(() {});
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              color: AppColors.lightGrey,
-                                            ),
-                                            child: const Icon(
-                                              Icons.camera_alt,
-                                            ),
-                                          ),
+                        children: [
+                          //! New Images
+                          ...List.generate(
+                            cubit.postImages.length,
+                            (index) {
+                              return Container(
+                                width: 300.w,
+                                height: 200.h,
+                                margin: EdgeInsetsDirectional.only(
+                                  end: 16.w,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    //! Image
+                                    Positioned.fill(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.file(
+                                          File(cubit.postImages[index].path),
+                                          fit: BoxFit.cover,
                                         ),
-                                        SizedBox(width: 16.w),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await cubit.pickImage(
-                                                source: ImageSource.gallery);
-                                            setState(() {});
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(50),
-                                              color: AppColors.lightGrey,
-                                            ),
-                                            child: const Icon(
-                                              Icons.image,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : Container(
-                                    width: 300.w,
-                                    height: 200.h,
-                                    margin: EdgeInsetsDirectional.only(
-                                      end: 16.w,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(15),
-                                      child: Image.file(
-                                        File(cubit.postImages[index].path),
-                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                  );
-                          },
-                        ),
+                                    //! Delete Button
+                                    GestureDetector(
+                                      onTap: () {
+                                        cubit.removeImage(index);
+                                        setState(() {});
+                                      },
+                                      child: Align(
+                                        alignment: AlignmentDirectional.topEnd,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(14),
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 8.h,
+                                            horizontal: 8.w,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.lightGrey
+                                                .withOpacity(.6),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: const Icon(
+                                            Icons.delete,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+
+                          //! Old Images
+                          ...List.generate(
+                            cubit.oldImages.length,
+                            (index) {
+                              return Container(
+                                width: 300.w,
+                                height: 200.h,
+                                margin: EdgeInsetsDirectional.only(
+                                  end: 16.w,
+                                ),
+                                child: Stack(
+                                  children: [
+                                    //! Image
+                                    Positioned.fill(
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Image.network(
+                                          cubit.oldImages[index],
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    //! Delete Button
+                                    GestureDetector(
+                                      onTap: () {
+                                        cubit.removeOldImage(index);
+                                        setState(() {});
+                                      },
+                                      child: Align(
+                                        alignment: AlignmentDirectional.topEnd,
+                                        child: Container(
+                                          padding: const EdgeInsets.all(14),
+                                          margin: EdgeInsets.symmetric(
+                                            vertical: 8.h,
+                                            horizontal: 8.w,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: AppColors.lightGrey
+                                                .withOpacity(.6),
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                          ),
+                                          child: const Icon(
+                                            Icons.delete,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+
+                          //! Add Image Container
+                          Container(
+                            width: 300.w,
+                            height: 200.h,
+                            margin: EdgeInsetsDirectional.only(
+                              end: 16.w,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.lightGrey.withOpacity(.5),
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    cubit.pickImage(source: ImageSource.camera);
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: AppColors.lightGrey,
+                                    ),
+                                    child: const Icon(
+                                      Icons.camera_alt,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 16.w),
+                                GestureDetector(
+                                  onTap: () async {
+                                    await cubit.pickImage(
+                                        source: ImageSource.gallery);
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: AppColors.lightGrey,
+                                    ),
+                                    child: const Icon(
+                                      Icons.image,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   SizedBox(height: 24.h),
                   //! Add Post Button
-                  state is CreateCommunityLoadingState
+                  state is CreateCommunityLoadingState ||
+                          state is UpdateCommunityLoadingState
                       ? const CustomLoadingIndicator()
                       : CustomElevatedButton(
-                          text: AppStrings.addPost.tr(context),
+                          text: widget.model != null
+                              ? AppStrings.updatePost.tr(context)
+                              : AppStrings.addPost.tr(context),
                           onPressed: () {
                             if (cubit.addPostFormKey.currentState!.validate()) {
-                              if (cubit.postImages.isNotEmpty) {
-                                cubit.expertCreatePost();
+                              if (cubit.postImages.isNotEmpty ||
+                                  cubit.oldImages.isNotEmpty) {
+                                if (widget.model != null) {
+                                  widget.model!.id != null
+                                      ? (context.read<GlobalCubit>().isExpert
+                                          ? cubit.expertUpdateCommunity(
+                                              widget.model!.id!)
+                                          : null)
+                                      : null;
+                                } else {
+                                  context.read<GlobalCubit>().isExpert
+                                      ? cubit.expertCreatePost()
+                                      : null;
+                                }
                               } else {
                                 showToast(
                                   context,

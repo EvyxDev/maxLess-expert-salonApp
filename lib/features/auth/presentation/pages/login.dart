@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
 import 'package:maxless/core/component/custom_toast.dart';
-import 'package:maxless/core/constants/AppConstants.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/navigation.dart';
@@ -14,7 +14,7 @@ import 'package:maxless/core/constants/widgets/custom_text_form_field.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
-import 'package:maxless/features/auth/presentation/pages/OtpMail.dart';
+import 'package:maxless/features/auth/presentation/pages/otp_mail.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -200,6 +200,7 @@ class _LoginState extends State<Login> {
                     if (value!.isEmpty) {
                       return AppStrings.thisFieldIsRequired.tr(context);
                     }
+                    return null;
                   },
                 ),
                 SizedBox(height: 20.h),

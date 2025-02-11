@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/app/max-liss.dart';
+import 'package:maxless/core/app/maxliss.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
@@ -29,7 +29,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<GlobalCubit>()..init(),
+          create: (context) => GlobalCubit()..init(),
         ),
       ],
       child: const MaxLiss(),

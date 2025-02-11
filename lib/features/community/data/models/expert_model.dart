@@ -21,4 +21,14 @@ class ExpertModel {
       image: map[ApiKey.image],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      ApiKey.id: id,
+      ApiKey.name: name,
+      ApiKey.email: email,
+      ApiKey.location: location,
+      ApiKey.image: image,
+    };
+  }
 }

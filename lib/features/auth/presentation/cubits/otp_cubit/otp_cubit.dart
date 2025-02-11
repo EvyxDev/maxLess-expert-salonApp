@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maxless/core/constants/AppConstants.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/repository/auth_repo.dart';
@@ -31,6 +31,10 @@ class OtpCubit extends Cubit<OtpState> {
         sl<CacheHelper>().saveData(
           key: AppConstants.token,
           value: r.token,
+        );
+        sl<CacheHelper>().saveData(
+          key: AppConstants.wssToken,
+          value: r.user.wssToken,
         );
         Map<String, dynamic> userJson = r.user.toJson();
         sl<CacheHelper>().saveData(

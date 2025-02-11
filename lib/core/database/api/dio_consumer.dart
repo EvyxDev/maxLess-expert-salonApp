@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:maxless/core/errors/exceptions.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import 'api_consumer.dart';
 import 'api_interceptors.dart';
@@ -12,17 +14,23 @@ class DioConsumer extends ApiConsumer {
     dio.options.baseUrl = EndPoints.baseUrl;
     dio.options.contentType = Headers.jsonContentType;
     dio.interceptors.add(ApiInterceptors());
-    dio.interceptors.add(
-      LogInterceptor(
-        request: true,
+    dio.interceptors.add(PrettyDioLogger(
         requestHeader: true,
-        
         requestBody: true,
-        responseHeader: true,
         responseBody: true,
+        responseHeader: false,
         error: true,
-      ),
-    );
+        compact: true,
+        maxWidth: 90,
+        enabled: kDebugMode,
+        filter: (options, args) {
+          // don't print requests with uris containing '/posts'
+          if (options.path.contains('/posts')) {
+            return false;
+          }
+          // don't print responses with unit8 list data
+          return !args.isResponse || !args.hasUint8ListData;
+        }));
   }
   @override
   Future delete(String path,

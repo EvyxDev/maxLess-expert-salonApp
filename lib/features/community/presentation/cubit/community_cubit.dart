@@ -68,16 +68,6 @@ class CommunityCubit extends Cubit<CommunityState> {
     );
   }
 
-  //! Delete Community
-  Future<void> experDeleteCommunity(int id) async {
-    emit(DeleteCommunityLoadingState());
-    final result = await sl<CommunityRepo>().expertDeleteCommunity(id);
-    result.fold(
-      (l) => emit(DeleteCommunityErrorState(message: l)),
-      (r) => emit(DeleteCommunitySuccessState(message: r)),
-    );
-  }
-
   //! Create Post
   GlobalKey<FormState> addPostFormKey = GlobalKey<FormState>();
   TextEditingController postTitleController = TextEditingController();
@@ -103,17 +93,34 @@ class CommunityCubit extends Cubit<CommunityState> {
   }
 
   //! Update Community
+  List<String> oldImages = [];
   Future<void> expertUpdateCommunity(int id) async {
     emit(UpdateCommunityLoadingState());
+    List<MultipartFile> images = [];
+    for (var item in postImages) {
+      images.add(await uploadToApi(item));
+    }
     final result = await sl<CommunityRepo>().expertUpdateCommunity(
       id,
-      title: null,
-      images: null,
-      oldImages: null,
+      title: postTitleController.text,
+      images: images,
+      oldImages: oldImages
+          .map((e) => e.replaceFirst("https://maxliss.evyx.lol/public/", ""))
+          .toList(),
     );
     result.fold(
       (l) => emit(UpdateCommunityErrorState(message: l)),
       (r) => emit(UpdateCommunitySuccessState()),
+    );
+  }
+
+  //! Delete Community
+  Future<void> experDeleteCommunity(int id) async {
+    emit(DeleteCommunityLoadingState());
+    final result = await sl<CommunityRepo>().expertDeleteCommunity(id);
+    result.fold(
+      (l) => emit(DeleteCommunityErrorState(message: l)),
+      (r) => emit(DeleteCommunitySuccessState(message: r)),
     );
   }
 
@@ -138,5 +145,23 @@ class CommunityCubit extends Cubit<CommunityState> {
       image.path,
       filename: image.path.split('/').last,
     );
+  }
+
+  void removeImage(int index) {
+    postImages.removeAt(index);
+    emit(RemoveImageState());
+  }
+
+  void removeOldImage(int index) {
+    oldImages.removeAt(index);
+    emit(RemoveImageState());
+  }
+
+  void getPostFromModel(CommunityItemModel? model) {
+    if (model != null) {
+      postTitleController.text = model.title ?? "";
+      oldImages = model.images;
+      emit(GetDataFromModelState());
+    }
   }
 }

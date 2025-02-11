@@ -477,7 +477,18 @@
   "delete_post_confirmation": "Do you Want To Delete This Post?",
   "post_deleted_toast": "This Post Deleted",
   "thisFieldIsRequired": "This field is required",
-  "otpRequired" : "Otp is required",
-  "addPost" : "Add Post",
-  "addAtLeastOneImage" : "Add at least one image"
+  "otpRequired": "Otp is required",
+  "addPost": "Add Post",
+  "addAtLeastOneImage": "Add at least one image",
+  "years": "years",
+  "updatePost": "Update post",
+  "noBookingForThisDay": "No booking for this day",
+  "totalBalance": "Total Balance",
+  "thereIsNoTransactions": "There is no transactions",
+  "thereIsNoNotifications": "There is no notifications",
+  "beautyExpertDetails": "Beauty Expert Details",
+  "salonDetails": "Salon Details",
+  "writeYourMessage": "Write your message...",
+  "takeAPhoto": "Take a photo",
+  "chooseFromGallery": "Choose from gallery"
 }

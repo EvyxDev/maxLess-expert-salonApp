@@ -6,8 +6,10 @@ import 'dart:io';
 import 'package:maxless/core/constants/app_colors.dart';
 
 class CameraPage extends StatefulWidget {
+  const CameraPage({super.key});
+
   @override
-  _CameraPageState createState() => _CameraPageState();
+  State<CameraPage> createState() => _CameraPageState();
 }
 
 class _CameraPageState extends State<CameraPage> {
@@ -24,7 +26,7 @@ class _CameraPageState extends State<CameraPage> {
         });
       }
     } catch (e) {
-      print("Error picking image: $e");
+      // print("Error picking image: $e");
     }
   }
 
@@ -61,7 +63,7 @@ class _CameraPageState extends State<CameraPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -91,7 +93,7 @@ class _CameraPageState extends State<CameraPage> {
                   child: Container(
                     height: 70.h,
                     width: 70.w,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),

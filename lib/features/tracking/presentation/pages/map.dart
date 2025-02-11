@@ -1,14 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/custom-header.dart';
+import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 
 class TrackingPage extends StatefulWidget {
+  const TrackingPage({super.key});
+
   @override
-  _TrackingPageState createState() => _TrackingPageState();
+  State<TrackingPage> createState() => _TrackingPageState();
 }
 
 class _TrackingPageState extends State<TrackingPage> {
@@ -194,7 +194,7 @@ class _TrackingPageState extends State<TrackingPage> {
               ), // Replace with your map image
             ),
           ),
-          ListTile(
+          const ListTile(
             leading: CircleAvatar(
               backgroundImage: AssetImage(
                   'lib/assets/expert.png'), // Replace with user's image

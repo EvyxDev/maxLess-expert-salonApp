@@ -33,6 +33,32 @@ final class LikeCommunitySuccessState extends CommunityState {
   const LikeCommunitySuccessState({required this.message});
 }
 
+final class CreateCommunityLoadingState extends CommunityState {}
+
+final class CreateCommunityErrorState extends CommunityState {
+  final String message;
+
+  const CreateCommunityErrorState({required this.message});
+}
+
+final class CreateCommunitySuccessState extends CommunityState {}
+
+class PickImageState extends CommunityState {}
+
+final class UpdateCommunityLoadingState extends CommunityState {}
+
+final class UpdateCommunityErrorState extends CommunityState {
+  final String message;
+
+  const UpdateCommunityErrorState({required this.message});
+}
+
+final class UpdateCommunitySuccessState extends CommunityState {}
+
+final class RemoveImageState extends CommunityState {}
+
+final class GetDataFromModelState extends CommunityState {}
+
 final class DeleteCommunityLoadingState extends CommunityState {}
 
 final class DeleteCommunityErrorState extends CommunityState {
@@ -46,25 +72,3 @@ final class DeleteCommunitySuccessState extends CommunityState {
 
   const DeleteCommunitySuccessState({required this.message});
 }
-
-final class CreateCommunityLoadingState extends CommunityState {}
-
-final class CreateCommunityErrorState extends CommunityState {
-  final String message;
-
-  const CreateCommunityErrorState({required this.message});
-}
-
-final class CreateCommunitySuccessState extends CommunityState {}
-
-final class UpdateCommunityLoadingState extends CommunityState {}
-
-final class UpdateCommunityErrorState extends CommunityState {
-  final String message;
-
-  const UpdateCommunityErrorState({required this.message});
-}
-
-final class UpdateCommunitySuccessState extends CommunityState {}
-
-class PickImageState extends CommunityState {}

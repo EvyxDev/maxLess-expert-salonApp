@@ -7,7 +7,7 @@ class EndPoints {
   //! Logout
   static const String expertLogout = "${baseUrl}expert/logout";
   //! Set Location
-  static const String expertSetLocation ="${baseUrl}expert/update/lon-lat";
+  static const String expertSetLocation = "${baseUrl}expert/update/lon-lat";
   //! Community
   static const String expertCommunity = "${baseUrl}expert/community";
   //! Community Details
@@ -29,6 +29,30 @@ class EndPoints {
 
   //! Like Community
   static const String expertLikeCommunity = "${baseUrl}expert/community/likes";
+
+  //! Profile
+  static const String expertProfile = "${baseUrl}expert/profile";
+
+  static String showProfileDetails({required int id}) {
+    return "${baseUrl}expert/show/$id";
+  }
+
+  //! Bookings
+  static const String expertBookingByDate =
+      "${baseUrl}expert/booking-expert/slots";
+
+  //! Requests
+  static const String getExpertRequests =
+      "${baseUrl}expert/booking-expert/expert";
+
+  //! Wallet
+  static const String getExpertWallet = "${baseUrl}experts-wallet";
+
+  //! Notifications
+  static const String getExpertNotifications = "${baseUrl}expert/notifications";
+
+  //! Chatting
+  static const String getExpertChatHistory = "${baseUrl}messages-expert";
 }
 
 class ApiKey {
@@ -69,4 +93,25 @@ class ApiKey {
   static const String put = "PUT";
   static const String communityId = "community_id";
   static const String isWishlist = "is_wishlist";
+  static const String posts = "posts";
+  static const String ratingCount = "rating_count";
+  static const String date = "date";
+  static const String question = "question";
+  static const String answer = "answer";
+  static const String orderId = "order_id";
+  static const String answerAndQuestion = "answer&question";
+  static const String status = "status";
+  static const String expertSlot = "expert_slot";
+  static const String expertId = "expert_id";
+  static const String body = "body";
+  static const String amount = "amount";
+  static const String totalBalance = "total_balance";
+  static const String transactions = "transactions";
+  static const String isRead = "is_read";
+  static const String community = "community";
+  static const String wssToken = "wss_token";
+  static const String avatar = "avatar";
+  static const String sender = "sender";
+  static const String receiver = "receiver";
+  static const String reply = "reply";
 }

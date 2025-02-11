@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/component/custom_loading_indicator.dart';
-import 'package:maxless/core/constants/AppConstants.dart';
 import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
@@ -59,8 +60,11 @@ void logoutAlertDialog(BuildContext context) {
                               sl<CacheHelper>()
                                   .removeKey(key: AppConstants.token);
                               sl<CacheHelper>()
+                                  .removeKey(key: AppConstants.wssToken);
+                              sl<CacheHelper>()
                                   .removeKey(key: AppConstants.user);
                               navigateAndFinish(context, const Login());
+                              context.read<GlobalCubit>().getUserData();
                               // context.read<GlobalCubit>().isExpert
                               //     ? cubit.expertLogout()
                               //     : null;

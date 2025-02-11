@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:maxless/core/network/local_network.dart';
-import 'package:maxless/features/auth/presentation/pages/login.dart';
 
 void navigateTo(BuildContext context, Widget screen) {
   Navigator.push(
@@ -22,12 +20,12 @@ void navigateTo(BuildContext context, Widget screen) {
   );
 }
 
-void navigateAndFinish(context, Widget) => Navigator.pushAndRemoveUntil(
+void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
       context,
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 1300),
         // reverseTransitionDuration: const Duration(milliseconds: 700),
-        pageBuilder: (context, animation, secondaryAnimation) => Widget,
+        pageBuilder: (context, animation, secondaryAnimation) => widget,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

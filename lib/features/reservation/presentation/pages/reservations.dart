@@ -1,15 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:maxless/core/component/custom-header.dart';
-import 'package:maxless/core/component/reservation-card.dart';
+import 'package:maxless/core/component/custom_header.dart';
+import 'package:maxless/core/component/reservation_card.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
-import 'package:maxless/features/chatting/presentation/pages/customer-service/customer-service-chat.dart';
-import 'package:maxless/features/profile/presentation/pages/expert-profile.dart';
+import 'package:maxless/features/chatting/presentation/pages/customer_service_chat.dart';
+import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 
 class ReservationsPage extends StatelessWidget {
+  const ReservationsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -50,7 +51,7 @@ class ReservationsPage extends StatelessWidget {
                   dividerHeight: 0,
 
                   padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
-                  tabs: [
+                  tabs: const [
                     Tab(text: "Salons"),
                     Tab(text: "Experts"),
                   ],
@@ -90,7 +91,7 @@ class ReservationsPage extends StatelessWidget {
                 fontSize: 14.sp,
                 fontWeight: FontWeight.bold,
               ),
-              tabs: [
+              tabs: const [
                 Tab(text: "Completed"),
                 Tab(text: "Pending"),
                 Tab(text: "Canceled"),
@@ -150,14 +151,14 @@ class ReservationsPage extends StatelessWidget {
                   image: reservation["image"],
                   isExpandable: status == "Pending",
                   onViewProfile: () {
-                    navigateTo(context, ExpertProfilePage());
+                    navigateTo(context, const ExpertProfilePage());
                   },
                   onCancel: () {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          contentPadding: EdgeInsets.all(16.0),
+                          contentPadding: const EdgeInsets.all(16.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.r),
                           ),
@@ -187,9 +188,9 @@ class ReservationsPage extends StatelessWidget {
                                       textColor: Colors.white,
                                       onPressed: () {
                                         Navigator.pop(context);
-                                        print("Customer Service");
-                                        navigateTo(
-                                            context, CustomerServiceChat());
+                                        // print("Customer Service");
+                                        navigateTo(context,
+                                            const CustomerServiceChat());
                                       },
                                     ),
                                   ),
@@ -204,7 +205,7 @@ class ReservationsPage extends StatelessWidget {
                                       textColor: AppColors.primaryColor,
                                       onPressed: () {
                                         Navigator.pop(context);
-                                        print("Order Canceled");
+                                        // print("Order Canceled");
                                       },
                                     ),
                                   ),

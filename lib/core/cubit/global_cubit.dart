@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:maxless/core/constants/AppConstants.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'global_state.dart';
 
@@ -49,18 +50,18 @@ class GlobalCubit extends Cubit<GlobalState> {
         isExpert = true;
         isSalon = false;
       } else {
-        emit(ErrorState("No valid value found for Salon or Expert"));
+        emit(const ErrorState("No valid value found for Salon or Expert"));
       }
     } catch (e) {
-      emit(ErrorState("Failed to get Salon or Expert"));
+      emit(const ErrorState("Failed to get Salon or Expert"));
     }
   }
 
   String language = sl<CacheHelper>().getCachedLanguage();
-  changeLanguage() {
+  Future<void> changeLanguage() async {
     sl<CacheHelper>().getCachedLanguage() == "en"
-        ? sl<CacheHelper>().cacheLanguage("ar")
-        : sl<CacheHelper>().cacheLanguage("en");
+        ? await sl<CacheHelper>().cacheLanguage("ar")
+        : await sl<CacheHelper>().cacheLanguage("en");
     language = sl<CacheHelper>().getCachedLanguage();
     emit(LanguageChangeState());
     Restart.restartApp();
@@ -80,6 +81,22 @@ class GlobalCubit extends Cubit<GlobalState> {
       userPhone = model.phone;
       userImageUrl = model.image;
       emit(GetUserDataState());
+    }
+  }
+
+  //! Formate Google Map Link
+  String formateGoogleMapLink({required double lat, required double lon}) {
+    return "https://www.google.com/maps?q=$lat,$lon";
+  }
+
+  //! Launch Url
+  Future<void> launchGoogleMapLink(
+      {required double lat, required double lon}) async {
+    if (await canLaunchUrl(
+        Uri.parse("https://www.google.com/maps?q=$lat,$lon"))) {
+      launchUrl(Uri.parse("https://www.google.com/maps?q=$lat,$lon"));
+    } else {
+      throw "Could Not Open Link";
     }
   }
 }
