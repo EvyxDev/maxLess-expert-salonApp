@@ -140,7 +140,12 @@ class HomeBookingCardDialog extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         context.read<GlobalCubit>().isExpert
-                            ? navigateTo(context, const LocationScreen())
+                            ? navigateTo(
+                                context,
+                                const LocationScreen(
+                                  lat: 30.06898989,
+                                  lon: 31.3194489,
+                                ))
                             : navigateTo(context, const ScanQRSalon());
                       },
                       child: Container(

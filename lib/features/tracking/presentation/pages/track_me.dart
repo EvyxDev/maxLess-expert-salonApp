@@ -1,16 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maxless/core/component/custom_header.dart';
+import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/reservation/presentation/pages/scan_qr.dart';
+import 'package:maxless/features/tracking/presentation/cubit/tracking_cubit.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key});
+  const LocationScreen({super.key, required this.lat, required this.lon});
+
+  final double lat, lon;
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
@@ -22,175 +28,212 @@ class _LocationScreenState extends State<LocationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.white,
-      body: Column(
-        children: [
-          SizedBox(height: 20.h),
+    return BlocProvider(
+      create: (context) =>
+          TrackingCubit()..init(LatLng(widget.lat, widget.lon)),
+      child: BlocBuilder<TrackingCubit, TrackingState>(
+        builder: (context, state) {
+          final cubit = context.read<TrackingCubit>();
+          return Scaffold(
+            backgroundColor: AppColors.white,
+            body: CustomModalProgressIndicator(
+              inAsyncCall:
+                  state is GetCurrentLocationLoadingState ? true : false,
+              child: Column(
+                children: [
+                  SizedBox(height: 20.h),
 
-          // العنوان
-          CustomHeader(
-            title: "track_title".tr(context),
-            onBackPress: () {
-              Navigator.pop(context);
-            },
-          ),
-
-          // محتوى الشاشة
-          Expanded(
-            child: Stack(
-              children: [
-                // صورة الخريطة
-                Positioned.fill(
-                  child: Image.asset(
-                    'lib/assets/maps.png', // المسار الصحيح للصورة
-                    fit: BoxFit.cover,
-                    height: 500.h,
+                  //! Header
+                  CustomHeader(
+                    title: "track_title".tr(context),
+                    onBackPress: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Color(0x80EEEEEE),
-                          offset: Offset(0, 1),
-                          blurRadius: 9,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (Localizations.localeOf(context).languageCode ==
-                                'ar')
-                              Positioned(
-                                right: 0,
-                                child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: Icon(
-                                    CupertinoIcons.clear_circled,
-                                    color: AppColors.primaryColor,
-                                    size: 35.sp,
-                                  ),
-                                  onPressed: () {
-                                    _showCancelDialog(context);
-                                  },
-                                ),
+
+                  // محتوى الشاشة
+                  if (cubit.userLocation != null)
+                    Expanded(
+                      child: Stack(
+                        children: [
+                          Positioned.fill(
+                            child: GoogleMap(
+                              mapType: MapType.terrain,
+                              initialCameraPosition: CameraPosition(
+                                target: cubit.userLocation!,
+                                zoom: 14.4746,
                               ),
-                            Expanded(
+                              onMapCreated: (GoogleMapController controller) {
+                                cubit.mapController = controller;
+                              },
+                              markers: cubit.markers,
+                              polylines: cubit.polylines,
+                              myLocationEnabled: true,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Color(0x80EEEEEE),
+                                    offset: Offset(0, 1),
+                                    blurRadius: 9,
+                                    spreadRadius: 0,
+                                  ),
+                                ],
+                              ),
+                              padding: const EdgeInsets.all(16.0),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Text(
-                                        "tracking_time_text".tr(context),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 24.sp,
-                                          color: const Color(0xff000000),
-                                          fontWeight: FontWeight.bold,
+                                      if (Localizations.localeOf(context)
+                                              .languageCode ==
+                                          'ar')
+                                        Positioned(
+                                          right: 0,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: Icon(
+                                              CupertinoIcons.clear_circled,
+                                              color: AppColors.primaryColor,
+                                              size: 35.sp,
+                                            ),
+                                            onPressed: () {
+                                              _showCancelDialog(context);
+                                            },
+                                          ),
+                                        ),
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "tracking_time_text"
+                                                      .tr(context),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 24.sp,
+                                                    color:
+                                                        const Color(0xff000000),
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 4.w),
+                                                const Icon(
+                                                  Icons.directions_walk,
+                                                  color: AppColors.primaryColor,
+                                                )
+                                              ],
+                                            ),
+                                            SizedBox(height: 8.h),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  "tracking_distance_text"
+                                                      .tr(context),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    color:
+                                                        const Color(0xff000000),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10.w),
+                                                Text(
+                                                  "${"1:40"} ${"pm".tr(context)}",
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontSize: 16.sp,
+                                                    color:
+                                                        const Color(0xff000000),
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                      SizedBox(width: 4.w),
-                                      const Icon(
-                                        Icons.directions_walk,
-                                        color: AppColors.primaryColor,
-                                      )
+                                      if (Localizations.localeOf(context)
+                                              .languageCode !=
+                                          'ar')
+                                        Positioned(
+                                          left: 0,
+                                          child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            icon: Icon(
+                                              CupertinoIcons.clear_circled,
+                                              color: AppColors.primaryColor,
+                                              size: 35.sp,
+                                            ),
+                                            onPressed: () {
+                                              _showCancelDialog(context);
+                                            },
+                                          ),
+                                        ),
                                     ],
                                   ),
-                                  SizedBox(height: 8.h),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "tracking_distance_text".tr(context),
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: const Color(0xff000000),
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      SizedBox(width: 10.w),
-                                      Text(
-                                        "${"1:40"} ${"pm".tr(context)}",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 16.sp,
-                                          color: const Color(0xff000000),
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
+
+                                  SizedBox(height: 16.h),
+
+                                  // زر التتبع
+                                  CustomElevatedButton(
+                                    text: isTracking
+                                        ? "tracking_button_done".tr(context)
+                                        : "tracking_button_track_me"
+                                            .tr(context),
+                                    color: isTracking
+                                        ? AppColors.primaryColor
+                                        : AppColors.primaryColor,
+                                    borderColor: isTracking
+                                        ? AppColors.primaryColor
+                                        : AppColors.primaryColor,
+                                    borderRadius: 8,
+                                    onPressed: () {
+                                      if (!isTracking) {
+                                        cubit.startTracking();
+                                      }
+                                      setState(() {
+                                        isTracking = !isTracking;
+                                        isTracking
+                                            ? null
+                                            : navigateTo(
+                                                context, const ScanQRPage());
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
                             ),
-                            if (Localizations.localeOf(context).languageCode !=
-                                'ar')
-                              Positioned(
-                                left: 0,
-                                child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  icon: Icon(
-                                    CupertinoIcons.clear_circled,
-                                    color: AppColors.primaryColor,
-                                    size: 35.sp,
-                                  ),
-                                  onPressed: () {
-                                    _showCancelDialog(context);
-                                  },
-                                ),
-                              ),
-                          ],
-                        ),
-
-                        SizedBox(height: 16.h),
-
-                        // زر التتبع
-                        CustomElevatedButton(
-                          text: isTracking
-                              ? "tracking_button_done".tr(context)
-                              : "tracking_button_track_me".tr(context),
-                          color: isTracking
-                              ? AppColors.primaryColor
-                              : AppColors.primaryColor,
-                          borderColor: isTracking
-                              ? AppColors.primaryColor
-                              : AppColors.primaryColor,
-                          borderRadius: 8,
-                          onPressed: () {
-                            setState(() {
-                              isTracking = !isTracking;
-                              isTracking
-                                  ? null
-                                  : navigateTo(context, const ScanQRPage());
-                            });
-                          },
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
