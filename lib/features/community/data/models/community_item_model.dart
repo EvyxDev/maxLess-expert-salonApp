@@ -22,7 +22,11 @@ class CommunityItemModel {
   factory CommunityItemModel.fromJson(Map<String, dynamic> map) {
     return CommunityItemModel(
       id: map[ApiKey.id],
-      likes: map[ApiKey.likes],
+      likes: map[ApiKey.likes] is int
+          ? map[ApiKey.likes]
+          : map[ApiKey.likes] is String
+              ? int.tryParse(map[ApiKey.likes])
+              : 0,
       expert: ExpertModel.fromJson(map[ApiKey.expert]),
       title: map[ApiKey.title],
       images: map[ApiKey.images] != null

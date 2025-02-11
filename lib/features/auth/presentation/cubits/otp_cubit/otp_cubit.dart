@@ -32,6 +32,10 @@ class OtpCubit extends Cubit<OtpState> {
           key: AppConstants.token,
           value: r.token,
         );
+        sl<CacheHelper>().saveData(
+          key: AppConstants.wssToken,
+          value: r.user.wssToken,
+        );
         Map<String, dynamic> userJson = r.user.toJson();
         sl<CacheHelper>().saveData(
           key: AppConstants.user,

@@ -50,6 +50,9 @@ class EndPoints {
 
   //! Notifications
   static const String getExpertNotifications = "${baseUrl}expert/notifications";
+
+  //! Chatting
+  static const String getExpertChatHistory = "${baseUrl}messages-expert";
 }
 
 class ApiKey {
@@ -106,4 +109,9 @@ class ApiKey {
   static const String transactions = "transactions";
   static const String isRead = "is_read";
   static const String community = "community";
+  static const String wssToken = "wss_token";
+  static const String avatar = "avatar";
+  static const String sender = "sender";
+  static const String receiver = "receiver";
+  static const String reply = "reply";
 }

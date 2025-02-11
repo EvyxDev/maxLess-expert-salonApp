@@ -60,6 +60,8 @@ void logoutAlertDialog(BuildContext context) {
                               sl<CacheHelper>()
                                   .removeKey(key: AppConstants.token);
                               sl<CacheHelper>()
+                                  .removeKey(key: AppConstants.wssToken);
+                              sl<CacheHelper>()
                                   .removeKey(key: AppConstants.user);
                               navigateAndFinish(context, const Login());
                               context.read<GlobalCubit>().getUserData();

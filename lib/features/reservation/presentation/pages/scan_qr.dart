@@ -7,7 +7,7 @@ import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
-import 'package:maxless/features/chatting/presentation/pages/customer-service/customer_service_chat.dart';
+import 'package:maxless/features/chatting/presentation/pages/customer_service_chat.dart';
 import 'package:maxless/features/reservation/presentation/pages/reservations.dart';
 
 class ScanQRPage extends StatefulWidget {

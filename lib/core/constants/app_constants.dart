@@ -4,4 +4,5 @@ class AppConstants {
   static const String expert = "expert";
   static const String token = "token";
   static const String user = "user";
+  static const String wssToken = "wssToken";
 }

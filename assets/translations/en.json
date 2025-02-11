@@ -487,5 +487,8 @@
   "thereIsNoTransactions": "There is no transactions",
   "thereIsNoNotifications": "There is no notifications",
   "beautyExpertDetails": "Beauty Expert Details",
-  "salonDetails": "Salon Details"
+  "salonDetails": "Salon Details",
+  "writeYourMessage": "Write your message...",
+  "takeAPhoto": "Take a photo",
+  "chooseFromGallery": "Choose from gallery"
 }

@@ -6,6 +6,7 @@ import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/network/network_info.dart';
 import 'package:maxless/features/auth/data/repository/auth_repo.dart';
+import 'package:maxless/features/chatting/data/repository/chatting_repo.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
 import 'package:maxless/features/home/data/repository/home_repo.dart';
 import 'package:maxless/features/notification/data/repository/notifications_repo.dart';
@@ -31,4 +32,5 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => RequestesRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => WalletRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => NotificationsRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => ChattingRepo(sl<DioConsumer>()));
 }

@@ -5,7 +5,7 @@ import 'package:maxless/core/component/reservation_card.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
-import 'package:maxless/features/chatting/presentation/pages/customer-service/customer_service_chat.dart';
+import 'package:maxless/features/chatting/presentation/pages/customer_service_chat.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 
 class ReservationsPage extends StatelessWidget {

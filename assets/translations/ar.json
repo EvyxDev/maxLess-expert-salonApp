@@ -487,5 +487,8 @@
   "thereIsNoTransactions": "لا يوجد تعاملات",
   "thereIsNoNotifications": "لا يوجد اشعارات",
   "beautyExpertDetails": "تفاصيل خبيرة التجميل",
-  "salonDetails": "تفاصيل الصالون"
+  "salonDetails": "تفاصيل الصالون",
+  "writeYourMessage": "اكتب رسالتك...",
+  "takeAPhoto": "التقط صورة",
+  "chooseFromGallery": "اختر من المعرض"
 }

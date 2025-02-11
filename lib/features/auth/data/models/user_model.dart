@@ -6,7 +6,8 @@ import 'slot_model.dart';
 class UserModel {
   final int? id, experience, ratingCount;
   final double? rating;
-  final String? name,
+  final String? wssToken,
+      name,
       email,
       image,
       phone,
@@ -38,11 +39,13 @@ class UserModel {
     required this.experience,
     required this.ratingCount,
     required this.community,
+    required this.wssToken,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
     return UserModel(
       id: map[ApiKey.id],
+      wssToken: map[ApiKey.wssToken],
       rating: map[ApiKey.rating],
       name: map[ApiKey.name],
       email: map[ApiKey.email],
@@ -73,6 +76,7 @@ class UserModel {
   Map<String, dynamic> toJson() {
     return {
       ApiKey.id: id,
+      ApiKey.wssToken: wssToken,
       ApiKey.rating: rating,
       ApiKey.name: name,
       ApiKey.email: email,

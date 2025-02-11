@@ -8,6 +8,9 @@ class AppStrings {
   static const String thereIsNoNotifications = "thereIsNoNotifications";
   static const String beautyExpertDetails = "beautyExpertDetails";
   static const String salonDetails = "salonDetails";
+  static const String writeYourMessage = "writeYourMessage";
+  static const String takeAPhoto = "takeAPhoto";
+  static const String chooseFromGallery = "chooseFromGallery";
   //! Validations
   static const String thisFieldIsRequired = "thisFieldIsRequired";
   static const String otpRequired = "otpRequired";

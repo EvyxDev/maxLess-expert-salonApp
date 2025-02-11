@@ -7,6 +7,7 @@ import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'global_state.dart';
 
@@ -80,6 +81,22 @@ class GlobalCubit extends Cubit<GlobalState> {
       userPhone = model.phone;
       userImageUrl = model.image;
       emit(GetUserDataState());
+    }
+  }
+
+  //! Formate Google Map Link
+  String formateGoogleMapLink({required double lat, required double lon}) {
+    return "https://www.google.com/maps?q=$lat,$lon";
+  }
+
+  //! Launch Url
+  Future<void> launchGoogleMapLink(
+      {required double lat, required double lon}) async {
+    if (await canLaunchUrl(
+        Uri.parse("https://www.google.com/maps?q=$lat,$lon"))) {
+      launchUrl(Uri.parse("https://www.google.com/maps?q=$lat,$lon"));
+    } else {
+      throw "Could Not Open Link";
     }
   }
 }
