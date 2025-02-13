@@ -27,4 +27,114 @@ class RequestesRepo {
       return Left(e.toString());
     }
   }
+
+  //! Change Booking Status
+  Future<Either<String, String>> expertChangeBookingStatus({
+    required int bookingId,
+    required int status,
+    required int userId,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.changeBookingStatus,
+        isFormData: true,
+        data: {
+          ApiKey.bookingId: bookingId,
+          ApiKey.status: status,
+          ApiKey.userType: ApiKey.expert,
+          ApiKey.userId: userId,
+        },
+      );
+      return Right(ResponseModel.fromJson(response.data).message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, String>> salonChangeBookingStatus({
+    required int bookingId,
+    required int status,
+    required int userId,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.changeBookingStatus,
+        isFormData: true,
+        data: {
+          ApiKey.bookingId: bookingId,
+          ApiKey.status: status,
+          ApiKey.userType: ApiKey.salon,
+          ApiKey.userId: userId,
+        },
+      );
+      return Right(ResponseModel.fromJson(response.data).message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Cancel Request Reason
+  Future<Either<String, String>> expertCancelReason({
+    required int bookingId,
+    required int userId,
+    required String reason,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.bookingActivities,
+        isFormData: true,
+        data: {
+          ApiKey.bookingId: bookingId,
+          ApiKey.status: "cancel_session",
+          ApiKey.userType: "expert",
+          ApiKey.userId: userId,
+          ApiKey.reason: reason,
+        },
+      );
+      ResponseModel model = ResponseModel.fromJson(response.data);
+      return Right(model.message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  Future<Either<String, String>> salonCancelReason({
+    required int bookingId,
+    required int userId,
+    required String reason,
+  }) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.bookingActivities,
+        isFormData: true,
+        data: {
+          ApiKey.bookingId: bookingId,
+          ApiKey.status: "cancel_session",
+          ApiKey.userType: "salon",
+          ApiKey.userId: userId,
+          ApiKey.reason: reason,
+        },
+      );
+      ResponseModel model = ResponseModel.fromJson(response.data);
+      return Right(model.message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
 }

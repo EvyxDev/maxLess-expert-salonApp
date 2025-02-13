@@ -16,7 +16,8 @@ class RequestsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RequestsCubit, RequestsState>(
       builder: (context, state) {
-        return state is GetRequestsLoadingState
+        return state is GetRequestsLoadingState ||
+                state is BookingChangeStatusLoadingState
             ? const CustomLoadingIndicator()
             : ListView.builder(
                 itemCount: items.length,
