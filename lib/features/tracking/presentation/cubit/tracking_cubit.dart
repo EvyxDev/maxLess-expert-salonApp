@@ -42,7 +42,13 @@ class TrackingCubit extends Cubit<TrackingState> {
       log("Location permission denied.");
       return;
     }
+    await Geolocator.getCurrentPosition().then((value) async {
+      expertLocation = LatLng(value.latitude, value.longitude);
+      mapController?.animateCamera(CameraUpdate.newLatLng(expertLocation!));
 
+      // ✅ Update ETA dynamically
+      await getRoute(); //
+    });
     positionStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.high,
@@ -74,7 +80,7 @@ class TrackingCubit extends Cubit<TrackingState> {
 
   Future<void> getRoute() async {
     if (expertLocation == null || userLocation == null) return;
-
+    polylines = {};
     const String apiKey = "AIzaSyByGILjqDwyW9fMzjnXSCcPB11K8qboJEI";
     String url =
         "https://maps.googleapis.com/maps/api/directions/json?origin=${expertLocation!.latitude},${expertLocation!.longitude}&destination=${userLocation!.latitude},${userLocation!.longitude}&key=$apiKey";

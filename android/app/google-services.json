@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "629503468316",
+    "project_id": "maxliss",
+    "storage_bucket": "maxliss.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629503468316:android:0635da892753706307d0d9",
+        "android_client_info": {
+          "package_name": "com.example.expert"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjYMTpO19Mjaiwbem__ki5HyTv97ukVcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
