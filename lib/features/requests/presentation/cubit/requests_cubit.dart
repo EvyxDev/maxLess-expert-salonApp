@@ -95,12 +95,14 @@ class RequestsCubit extends Cubit<RequestsState> {
     required int bookingId,
     required int userId,
     required String reason,
+    required bool isEmergncy,
   }) async {
     emit(CancelReasonLoadingState());
     final result = await sl<RequestesRepo>().expertCancelReason(
       bookingId: bookingId,
       userId: userId,
       reason: reason,
+      isEmergncy: isEmergncy,
     );
     result.fold(
       (l) => emit(CancelReasonErrorState(message: l)),
@@ -112,12 +114,14 @@ class RequestsCubit extends Cubit<RequestsState> {
     required int bookingId,
     required int userId,
     required String reason,
+    required bool isEmergncy,
   }) async {
     emit(CancelReasonLoadingState());
     final result = await sl<RequestesRepo>().salonCancelReason(
       bookingId: bookingId,
       userId: userId,
       reason: reason,
+      isEmergncy: isEmergncy,
     );
     result.fold(
       (l) => emit(CancelReasonErrorState(message: l)),

@@ -86,6 +86,7 @@ class RequestesRepo {
     required int bookingId,
     required int userId,
     required String reason,
+    required bool isEmergncy,
   }) async {
     try {
       final Response response = await api.post(
@@ -97,6 +98,7 @@ class RequestesRepo {
           ApiKey.userType: "expert",
           ApiKey.userId: userId,
           ApiKey.reason: reason,
+          ApiKey.isEmergncy: isEmergncy ? 1 : 0,
         },
       );
       ResponseModel model = ResponseModel.fromJson(response.data);
@@ -114,6 +116,7 @@ class RequestesRepo {
     required int bookingId,
     required int userId,
     required String reason,
+    required bool isEmergncy,
   }) async {
     try {
       final Response response = await api.post(
@@ -125,6 +128,7 @@ class RequestesRepo {
           ApiKey.userType: "salon",
           ApiKey.userId: userId,
           ApiKey.reason: reason,
+          ApiKey.isEmergncy: isEmergncy ? 1 : 0,
         },
       );
       ResponseModel model = ResponseModel.fromJson(response.data);

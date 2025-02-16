@@ -41,6 +41,7 @@ class _RequestCardState extends State<RequestCard>
             message: state.message,
             state: ToastStates.success,
           );
+          context.read<RequestsCubit>().init();
         }
         if (state is BookingChangeStatusErrorState) {
           showToast(
@@ -261,7 +262,6 @@ class _RequestCardState extends State<RequestCard>
                             SizedBox(height: 12.h),
 
                             // Buttons (Cancel or Accept/Reject)
-                            // Buttons (Cancel or Accept/Reject)
                             if (widget.completed)
                               Row(
                                 mainAxisAlignment:
@@ -316,28 +316,7 @@ class _RequestCardState extends State<RequestCard>
                                         await _showCancelDialog(context)?.then(
                                           (value) {
                                             if (value == true) {
-                                              //* If Expert
-                                              globalCubit.isExpert
-                                                  ? cubit
-                                                      .expertChangeBookingStatus(
-                                                      bookingId:
-                                                          widget.model.id!,
-                                                      status: 4,
-                                                      userId:
-                                                          globalCubit.userId!,
-                                                    )
-                                                  : null;
-                                              //* If Salon
-                                              globalCubit.isSalon
-                                                  ? cubit
-                                                      .salonChangeBookingStatus(
-                                                      bookingId:
-                                                          widget.model.id!,
-                                                      status: 4,
-                                                      userId:
-                                                          globalCubit.userId!,
-                                                    )
-                                                  : null;
+                                              cubit.init();
                                             }
                                           },
                                         );
@@ -371,9 +350,19 @@ class _RequestCardState extends State<RequestCard>
                                   Expanded(
                                     child: OutlinedButton(
                                       onPressed: () async {
-                                        await _showCancelDialog(context)?.then(
+                                        await _showCancelDialog(
+                                          context,
+                                        )?.then(
                                           (value) async {
-                                            if (value == true) {}
+                                            if (value == true) {
+                                              // ignore: use_build_context_synchronously
+                                              await showReasonDialog(context)
+                                                  ?.then((value) {
+                                                value == true
+                                                    ? cubit.init()
+                                                    : null;
+                                              });
+                                            }
                                           },
                                         );
                                       },
@@ -412,9 +401,7 @@ class _RequestCardState extends State<RequestCard>
 
   // مربع الحوار للتأكيد على الإلغاء
 
-  Future<bool>? _showCancelDialog(
-    BuildContext context,
-  ) async {
+  Future<bool>? _showCancelDialog(BuildContext context) async {
     bool? yes = await showDialog<bool>(
       context: context,
       builder: (context) => BlocProvider(
@@ -427,8 +414,7 @@ class _RequestCardState extends State<RequestCard>
                 message: state.message,
                 state: ToastStates.success,
               );
-              Navigator.pop(context);
-              _showReasonDialog(context);
+              Navigator.pop(context, true);
             }
             if (state is BookingChangeStatusErrorState) {
               showToast(
@@ -512,186 +498,209 @@ class _RequestCardState extends State<RequestCard>
     return false;
   }
 
-  void _showReasonDialog(BuildContext context) {
+  Future<bool>? showReasonDialog(BuildContext context) async {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController reasonController = TextEditingController();
     bool isEmergencyChecked = false; // Track checkbox state
-    showDialog(
+    bool? isTrue = await showDialog<bool>(
       context: context,
       barrierDismissible: false,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setState) {
-            return BlocProvider(
-              create: (context) => RequestsCubit(),
-              child: BlocConsumer<RequestsCubit, RequestsState>(
-                listener: (context, state) {},
-                builder: (context, state) {
-                  final cubit = context.read<RequestsCubit>();
-                  final globalCubit = context.read<GlobalCubit>();
-                  return AlertDialog(
-                    alignment: Alignment.center,
-                    title: Text(
-                      "reason_dialog_title".tr(context),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(0xff09031B),
+            return PopScope(
+              canPop: false,
+              child: BlocProvider(
+                create: (context) => RequestsCubit(),
+                child: BlocConsumer<RequestsCubit, RequestsState>(
+                  listener: (context, state) {
+                    if (state is CancelReasonSuccessState) {
+                      Navigator.pop(context, true);
+                    }
+                    if (state is CancelReasonErrorState) {
+                      showToast(
+                        context,
+                        message: state.message,
+                        state: ToastStates.error,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    final cubit = context.read<RequestsCubit>();
+                    final globalCubit = context.read<GlobalCubit>();
+                    return AlertDialog(
+                      alignment: Alignment.center,
+                      title: Text(
+                        "reason_dialog_title".tr(context),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xff09031B),
+                        ),
                       ),
-                    ),
-                    shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    content: SingleChildScrollView(
-                      child: Form(
-                        key: formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            //! TextField
-                            TextFormField(
-                              controller: reasonController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return AppStrings.thisFieldIsRequired
-                                      .tr(context);
-                                }
-                                return null;
-                              },
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                hintText: "reason_dialog_checkbox".tr(context),
-                                hintStyle: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: Colors.grey,
-                                ),
-                                fillColor: Colors.white,
-                                filled: true,
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12.h,
-                                  horizontal: 16.w,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                    width: 1.5,
+                      shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      content: SingleChildScrollView(
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              //! TextField
+                              TextFormField(
+                                controller: reasonController,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return AppStrings.thisFieldIsRequired
+                                        .tr(context);
+                                  }
+                                  return null;
+                                },
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  hintText:
+                                      "reason_dialog_checkbox".tr(context),
+                                  hintStyle: TextStyle(
+                                    fontSize: 14.sp,
+                                    color: Colors.grey,
                                   ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  borderSide: BorderSide(
-                                    color: Colors.grey.shade300,
-                                    width: 1.5,
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12.h,
+                                    horizontal: 16.w,
                                   ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  borderSide: const BorderSide(
-                                    color: AppColors.primaryColor,
-                                    width: 1.5,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300,
+                                      width: 1.5,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    borderSide: const BorderSide(
+                                      color: AppColors.primaryColor,
+                                      width: 1.5,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 10.h),
+                              SizedBox(height: 10.h),
 
-                            //! Checkbox
-                            Row(
-                              children: [
-                                Checkbox(
-                                  value: isEmergencyChecked,
-                                  activeColor: AppColors.primaryColor,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100),
-                                    side: const BorderSide(
-                                      color: AppColors.primaryColor,
+                              //! Checkbox
+                              Row(
+                                children: [
+                                  Checkbox(
+                                    value: isEmergencyChecked,
+                                    activeColor: AppColors.primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(100),
+                                      side: const BorderSide(
+                                        color: AppColors.primaryColor,
+                                      ),
                                     ),
-                                  ),
-                                  checkColor: AppColors.white,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isEmergencyChecked = value ?? false;
-                                      if (isEmergencyChecked) {
-                                        reasonController.text =
-                                            "reason_dialog_checkbox"
-                                                .tr(context);
-                                      } else {
-                                        reasonController
-                                            .clear(); // Clear reason if unchecked
-                                      }
-                                    });
-                                  },
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    "reason_dialog_checkbox".tr(context),
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primaryColor,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    //! Send Button
-                    actions: [
-                      state is CancelReasonLoadingState
-                          ? const CustomLoadingIndicator()
-                          : Row(
-                              children: [
-                                Expanded(
-                                  child: CustomElevatedButton(
-                                    text:
-                                        "reason_dialog_send_button".tr(context),
-                                    color: AppColors.primaryColor,
-                                    borderRadius: 10,
-                                    textColor: Colors.white,
-                                    onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        globalCubit.isExpert
-                                            ? cubit.expertCancelReason(
-                                                bookingId: widget.model.id!,
-                                                userId: globalCubit.userId!,
-                                                reason: reasonController.text,
-                                              )
-                                            : null;
-                                        globalCubit.isSalon
-                                            ? cubit.salonCancelReason(
-                                                bookingId: widget.model.id!,
-                                                userId: globalCubit.userId!,
-                                                reason: reasonController.text,
-                                              )
-                                            : null;
-                                      }
-                                      // navigateTo(context, HistoryScreen());
-                                      // Fluttertoast.showToast(
-                                      //   msg: "toast_request_cancelled".tr(context),
-                                      //   toastLength: Toast.LENGTH_SHORT,
-                                      //   gravity: ToastGravity.CENTER,
-                                      //   textColor: Colors.black,
-                                      //   backgroundColor: Colors.white,
-                                      //   fontSize: 16.sp,
-                                      // );
+                                    checkColor: AppColors.white,
+                                    onChanged: (value) {
+                                      setState(() {
+                                        isEmergencyChecked = value ?? false;
+                                        if (isEmergencyChecked) {
+                                          reasonController.text =
+                                              "reason_dialog_checkbox"
+                                                  .tr(context);
+                                        } else {
+                                          reasonController
+                                              .clear(); // Clear reason if unchecked
+                                        }
+                                      });
                                     },
                                   ),
-                                ),
-                              ],
-                            ),
-                    ],
-                  );
-                },
+                                  Expanded(
+                                    child: Text(
+                                      "reason_dialog_checkbox".tr(context),
+                                      style: TextStyle(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.primaryColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      //! Send Button
+                      actions: [
+                        state is CancelReasonLoadingState
+                            ? const CustomLoadingIndicator()
+                            : Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomElevatedButton(
+                                      text: "reason_dialog_send_button"
+                                          .tr(context),
+                                      color: AppColors.primaryColor,
+                                      borderRadius: 10,
+                                      textColor: Colors.white,
+                                      onPressed: () {
+                                        if (formKey.currentState!.validate()) {
+                                          globalCubit.isExpert
+                                              ? cubit.expertCancelReason(
+                                                  bookingId: widget.model.id!,
+                                                  userId: globalCubit.userId!,
+                                                  reason: reasonController.text,
+                                                  isEmergncy:
+                                                      isEmergencyChecked,
+                                                )
+                                              : null;
+                                          globalCubit.isSalon
+                                              ? cubit.salonCancelReason(
+                                                  bookingId: widget.model.id!,
+                                                  userId: globalCubit.userId!,
+                                                  reason: reasonController.text,
+                                                  isEmergncy:
+                                                      isEmergencyChecked,
+                                                )
+                                              : null;
+                                        }
+                                        // navigateTo(context, HistoryScreen());
+                                        // Fluttertoast.showToast(
+                                        //   msg: "toast_request_cancelled".tr(context),
+                                        //   toastLength: Toast.LENGTH_SHORT,
+                                        //   gravity: ToastGravity.CENTER,
+                                        //   textColor: Colors.black,
+                                        //   backgroundColor: Colors.white,
+                                        //   fontSize: 16.sp,
+                                        // );
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ),
+                      ],
+                    );
+                  },
+                ),
               ),
             );
           },
         );
       },
     );
+    if (isTrue == true) {
+      return true;
+    }
+    return false;
   }
 }
