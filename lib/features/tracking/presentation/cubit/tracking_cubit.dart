@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/services/service_locator.dart';
+import 'package:maxless/features/reservation/data/repository/session_repo.dart';
 
 part 'tracking_state.dart';
 
@@ -22,6 +23,22 @@ class TrackingCubit extends Cubit<TrackingState> {
         position: latLng,
       ),
     };
+  }
+
+  //! Arrived Location
+  Future<void> expertArrivedLocation({
+    required int bookingId,
+    required int userId,
+  }) async {
+    emit(ArrivedLocationLoadingState());
+    final result = await sl<SessionRepo>().expertArrivedLocation(
+      bookingId: bookingId,
+      userId: userId,
+    );
+    result.fold(
+      (l) => emit(ArrivedLocationErrorState(message: l)),
+      (r) => emit(ArrivedLocationSuccessState(message: r)),
+    );
   }
 
   GoogleMapController? mapController;

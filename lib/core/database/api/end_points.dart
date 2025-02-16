@@ -59,6 +59,13 @@ class EndPoints {
 
   //! Chatting
   static const String getExpertChatHistory = "${baseUrl}messages-expert";
+
+  //! Feedback
+  static const String expertSessionFeedback =
+      "${baseUrl}expert/expert-user-review";
+
+  //! Session Last Step
+  static const String sessionLastStep = "${baseUrl}last-step";
 }
 
 class ApiKey {
@@ -125,4 +132,5 @@ class ApiKey {
   static const String userId = "user_id";
   static const String salon = "salon";
   static const String reason = "reason";
+  static const String review = "review";
 }

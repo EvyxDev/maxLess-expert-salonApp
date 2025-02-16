@@ -84,16 +84,15 @@ class HomeBookingCard extends StatelessWidget {
                         child: SizedBox(
                           height: 60.h,
                           width: 60.h,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.network(
-                              model.user?.image ?? "",
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return const Icon(Icons.error_outline);
-                              },
-                            ),
-                          ),
+                          child: model.user?.image != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(50),
+                                  child: Image.network(
+                                    model.user?.image ?? "",
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : const Icon(Icons.person),
                         ),
                       ),
                       SizedBox(width: 10.w),

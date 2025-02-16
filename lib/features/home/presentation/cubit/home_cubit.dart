@@ -5,6 +5,7 @@ import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/home/data/models/booking_item_model.dart';
 import 'package:maxless/features/home/data/repository/home_repo.dart';
+import 'package:maxless/features/reservation/data/repository/session_repo.dart';
 
 part 'home_state.dart';
 
@@ -50,5 +51,23 @@ class HomeCubit extends Cubit<HomeState> {
             .format(dateTime);
 
     return formattedTime;
+  }
+
+  //! Session Last Step
+  Future<void> sessionLastStep({
+    required int bookingId,
+    required String userType,
+    required int userId,
+  }) async {
+    emit(SessionLastStepLoadingState());
+    final result = await sl<SessionRepo>().sessionLastStep(
+      bookingId: bookingId,
+      userType: userType,
+      userId: userId,
+    );
+    result.fold(
+      (l) => emit(SessionLastStepErrorState(message: l)),
+      (r) => emit(SessionLastStepSuccessState(message: r)),
+    );
   }
 }

@@ -18,3 +18,17 @@ final class GetBookingByDateErrorState extends HomeState {
 }
 
 final class GetBookingByDateSuccessState extends HomeState {}
+
+final class SessionLastStepLoadingState extends HomeState {}
+
+final class SessionLastStepSuccessState extends HomeState {
+  final String? message;
+
+  const SessionLastStepSuccessState({required this.message});
+}
+
+final class SessionLastStepErrorState extends HomeState {
+  final String message;
+
+  const SessionLastStepErrorState({required this.message});
+}

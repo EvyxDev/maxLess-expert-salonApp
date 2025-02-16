@@ -5,18 +5,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
+import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
-import 'package:maxless/features/reservation/presentation/pages/scan_qr.dart';
+import 'package:maxless/features/home/data/models/booking_item_model.dart';
+import 'package:maxless/features/reservation/presentation/pages/expert_session_screen.dart';
 import 'package:maxless/features/tracking/presentation/cubit/tracking_cubit.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({super.key, required this.lat, required this.lon});
+  const LocationScreen({
+    super.key,
+    required this.lat,
+    required this.lon,
+    required this.bookingId,
+    required this.model,
+  });
 
   final double lat, lon;
+  final int bookingId;
+  final BookingItemModel model;
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
@@ -31,14 +42,34 @@ class _LocationScreenState extends State<LocationScreen> {
     return BlocProvider(
       create: (context) =>
           TrackingCubit()..init(LatLng(widget.lat, widget.lon)),
-      child: BlocBuilder<TrackingCubit, TrackingState>(
+      child: BlocConsumer<TrackingCubit, TrackingState>(
+        listener: (context, state) {
+          if (state is ArrivedLocationSuccessState) {
+            navigateAndFinish(
+              context,
+              ExpertSessionScreen(
+                bookingId: widget.bookingId,
+                model: widget.model,
+              ),
+            );
+          }
+          if (state is ArrivedLocationErrorState) {
+            showToast(
+              context,
+              message: state.message,
+              state: ToastStates.error,
+            );
+          }
+        },
         builder: (context, state) {
           final cubit = context.read<TrackingCubit>();
           return Scaffold(
             backgroundColor: AppColors.white,
             body: CustomModalProgressIndicator(
-              inAsyncCall:
-                  state is GetCurrentLocationLoadingState ? true : false,
+              inAsyncCall: state is GetCurrentLocationLoadingState ||
+                      state is ArrivedLocationLoadingState
+                  ? true
+                  : false,
               child: Column(
                 children: [
                   SizedBox(height: 20.h),
@@ -209,17 +240,31 @@ class _LocationScreenState extends State<LocationScreen> {
                                         ? AppColors.primaryColor
                                         : AppColors.primaryColor,
                                     borderRadius: 8,
-                                    onPressed: () {
+                                    onPressed: () async {
                                       if (!isTracking) {
-                                        cubit.startTracking();
+                                        await cubit.startTracking();
+                                        setState(() {
+                                          isTracking = !isTracking;
+                                        });
+                                      } else {
+                                        cubit.expertArrivedLocation(
+                                          bookingId: widget.bookingId,
+                                          userId: context
+                                              .read<GlobalCubit>()
+                                              .userId!,
+                                        );
                                       }
-                                      setState(() {
-                                        isTracking = !isTracking;
-                                        isTracking
-                                            ? null
-                                            : navigateTo(
-                                                context, const ScanQRPage());
-                                      });
+                                      // setState(() {
+                                      //   isTracking = !isTracking;
+                                      //   isTracking
+                                      //       ? null
+                                      //       : navigateTo(
+                                      //           context,
+                                      //           ExpertSessionScreen(
+                                      //             bookingId: widget.bookingId,
+                                      //           ),
+                                      //         );
+                                      // });
                                     },
                                   ),
                                 ],
@@ -274,19 +319,12 @@ class _LocationScreenState extends State<LocationScreen> {
                   borderColor: AppColors.primaryColor,
                   textColor: AppColors.primaryColor,
                   onPressed: () {
-                    Navigator.pop(context); // Close the dialog
-                    // Navigator.pushAndRemoveUntil(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => CartPage()),
-                    //   (route) =>
-                    //       route.isFirst, // يبقي فقط أول صفحة (عادةً صفحة Home)
-                    // );
+                    Navigator.pop(context);
                     _showReasonDialog(context);
                   },
                 ),
               ),
-              SizedBox(width: 10.h), // مسافة بين الأزرار
-
+              SizedBox(width: 10.h),
               Expanded(
                 child: CustomElevatedButton(
                   text: "no_button".tr(context),
@@ -295,7 +333,6 @@ class _LocationScreenState extends State<LocationScreen> {
                   textColor: Colors.white,
                   onPressed: () {
                     Navigator.pop(context);
-                    // Navigator.pop(context); // إغلاق المودال
                   },
                 ),
               ),

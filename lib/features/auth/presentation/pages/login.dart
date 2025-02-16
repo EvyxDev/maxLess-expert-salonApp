@@ -5,14 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
 import 'package:maxless/core/component/custom_toast.dart';
-import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/constants/widgets/custom_text_form_field.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
+import 'package:maxless/core/network/local_network.dart';
+import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:maxless/features/auth/presentation/pages/otp_mail.dart';
 
@@ -24,7 +26,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  int selectedValue = 1; // Remember me checkbox value
+  int selectedValue = 0; // Remember me checkbox value
 
   @override
   void dispose() {
@@ -34,7 +36,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(),
+      create: (context) => LoginCubit()..init(true),
       child: BlocBuilder<LoginCubit, LoginState>(
         builder: (context, state) {
           return CustomModalProgressIndicator(
@@ -48,98 +50,99 @@ class _LoginState extends State<Login> {
                   left: true,
                   right: true,
                   top: true,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20.w, vertical: 10.h),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // الشعار
-                          SizedBox(height: 100.h),
-                          Center(
-                            child: SvgPicture.asset(
-                              "./lib/assets/logo.svg",
-                              width: 212.w,
-                              height: 75.h,
-                            ),
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // الشعار
+                        SizedBox(height: 100.h),
+                        Center(
+                          child: SvgPicture.asset(
+                            "./lib/assets/logo.svg",
+                            width: 212.w,
+                            height: 75.h,
                           ),
-                          SizedBox(height: 30.h),
+                        ),
+                        SizedBox(height: 30.h),
 
-                          // التابات (خبيرة أو صالون)
-                          Container(
-                            alignment: Alignment.center,
-                            height: 50.h,
-                            decoration: BoxDecoration(
-                              color: AppColors.primaryColor,
-                              borderRadius: BorderRadius.circular(15.r),
+                        // التابات (خبيرة أو صالون)
+                        Container(
+                          alignment: Alignment.center,
+                          height: 50.h,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(15.r),
+                          ),
+                          child: TabBar(
+                            labelColor: AppColors.primaryColor,
+                            physics: const NeverScrollableScrollPhysics(),
+                            unselectedLabelColor: Colors.white,
+                            indicator: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
-                            child: TabBar(
-                              labelColor: AppColors.primaryColor,
-                              unselectedLabelColor: Colors.white,
-                              indicator: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              indicatorSize: TabBarIndicatorSize.tab,
-                              labelStyle: TextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              dividerColor: Colors.transparent,
-                              dividerHeight: 0,
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 7.w, vertical: 7.h),
-                              tabs: [
-                                Tab(
-                                  child: Text(
-                                    "experts".tr(context),
-                                    style: TextStyle(
-                                      fontFamily: context
-                                                  .read<GlobalCubit>()
-                                                  .language ==
-                                              "ar"
-                                          ? 'Beiruti'
-                                          : "Jost",
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w700,
-                                      // color: Colors.black,
-                                    ),
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            labelStyle: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            dividerColor: Colors.transparent,
+                            dividerHeight: 0,
+                            onTap: (value) {
+                              context
+                                  .read<LoginCubit>()
+                                  .init(value == 0 ? true : false);
+                            },
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 7.w, vertical: 7.h),
+                            tabs: [
+                              Tab(
+                                child: Text(
+                                  "experts".tr(context),
+                                  style: TextStyle(
+                                    fontFamily:
+                                        context.read<GlobalCubit>().language ==
+                                                "ar"
+                                            ? 'Beiruti'
+                                            : "Jost",
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w700,
+                                    // color: Colors.black,
                                   ),
                                 ),
-                                Tab(
-                                  child: Text(
-                                    "salons".tr(context),
-                                    style: TextStyle(
-                                      fontFamily: context
-                                                  .read<GlobalCubit>()
-                                                  .language ==
-                                              "ar"
-                                          ? 'Beiruti'
-                                          : "Jost", // اسم الخط الخاص بك
-                                      fontSize: 14.sp, // حجم النص
-                                      fontWeight: FontWeight.w700, // الوزن
-                                    ),
+                              ),
+                              Tab(
+                                child: Text(
+                                  "salons".tr(context),
+                                  style: TextStyle(
+                                    fontFamily:
+                                        context.read<GlobalCubit>().language ==
+                                                "ar"
+                                            ? 'Beiruti'
+                                            : "Jost", // اسم الخط الخاص بك
+                                    fontSize: 14.sp, // حجم النص
+                                    fontWeight: FontWeight.w700, // الوزن
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: 20.h),
+                        ),
+                        SizedBox(height: 20.h),
 
-                          // محتوى التاب
-                          SizedBox(
-                            height: 500.h,
-                            child: TabBarView(
-                              children: [
-                                _buildLoginForm(isExpert: true),
-                                _buildLoginForm(isExpert: false),
-                              ],
-                            ),
+                        // محتوى التاب
+                        Expanded(
+                          child: TabBarView(
+                            children: [
+                              _buildLoginForm(isExpert: true),
+                              _buildLoginForm(isExpert: false),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -156,8 +159,24 @@ class _LoginState extends State<Login> {
       listener: (context, state) {
         if (state is LoginSuccessState) {
           if (isExpert) {
+            if (selectedValue == 1) {
+              sl<CacheHelper>().setData(
+                AppConstants.expertPhone,
+                context.read<LoginCubit>().phoneController.text,
+              );
+            } else {
+              sl<CacheHelper>().removeKey(key: AppConstants.expertPhone);
+            }
             context.read<GlobalCubit>().setSalonOrExpert(AppConstants.expert);
           } else {
+            if (selectedValue == 1) {
+              sl<CacheHelper>().setData(
+                AppConstants.salonPhone,
+                context.read<LoginCubit>().phoneController.text,
+              );
+            } else {
+              sl<CacheHelper>().removeKey(key: AppConstants.salonPhone);
+            }
             context.read<GlobalCubit>().setSalonOrExpert(AppConstants.salon);
           }
           navigateTo(
@@ -185,7 +204,7 @@ class _LoginState extends State<Login> {
         return Padding(
           padding: EdgeInsets.only(top: 8.h),
           child: Form(
-            key: cubit.fromKey,
+            key: isExpert ? cubit.expertFromKey : cubit.salonFromKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -253,8 +272,14 @@ class _LoginState extends State<Login> {
                   text: "login".tr(context),
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    if (cubit.fromKey.currentState!.validate()) {
-                      isExpert ? cubit.expertLogin() : null;
+                    if (isExpert) {
+                      if (cubit.expertFromKey.currentState!.validate()) {
+                        cubit.expertLogin();
+                      }
+                    } else {
+                      if (cubit.salonFromKey.currentState!.validate()) {
+                        // isExpert ? cubit.expertLogin() : null;
+                      }
                     }
                   },
                   color: AppColors.primaryColor,
