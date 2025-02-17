@@ -44,6 +44,7 @@ class _LoginState extends State<Login> {
             child: DefaultTabController(
               length: 2, // عدد التابات (خبيرة وصالون)
               child: Scaffold(
+                resizeToAvoidBottomInset: false,
                 backgroundColor: Colors.white,
                 body: SafeArea(
                   bottom: true,
@@ -274,11 +275,11 @@ class _LoginState extends State<Login> {
                     FocusScope.of(context).unfocus();
                     if (isExpert) {
                       if (cubit.expertFromKey.currentState!.validate()) {
-                        cubit.expertLogin();
+                        cubit.login();
                       }
                     } else {
                       if (cubit.salonFromKey.currentState!.validate()) {
-                        // isExpert ? cubit.expertLogin() : null;
+                        cubit.login();
                       }
                     }
                   },

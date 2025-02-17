@@ -12,8 +12,9 @@ class AuthRepo {
   AuthRepo(this.api);
 
   //! Login
-  Future<Either<String, String>> expertLogin({
+  Future<Either<String, String>> login({
     required String phone,
+    required String type,
   }) async {
     try {
       final Response response = await api.post(
@@ -21,6 +22,7 @@ class AuthRepo {
         isFormData: true,
         data: {
           ApiKey.phone: phone,
+          ApiKey.type: type,
         },
       );
       return Right(ResponseModel.fromJson(response.data).message ?? "...");
@@ -34,9 +36,10 @@ class AuthRepo {
   }
 
   //! Verify Otp
-  Future<Either<String, LoginModel>> expertLoginVerifyOtp({
+  Future<Either<String, LoginModel>> loginVerifyOtp({
     required String phone,
     required String otp,
+    required String type,
   }) async {
     try {
       final Response response = await api.post(
@@ -45,6 +48,7 @@ class AuthRepo {
         data: {
           ApiKey.phone: phone,
           ApiKey.otp: otp,
+          ApiKey.type: type,
         },
       );
       return Right(LoginModel.fromJson(response.data));

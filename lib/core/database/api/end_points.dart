@@ -134,4 +134,5 @@ class ApiKey {
   static const String reason = "reason";
   static const String review = "review";
   static const String isEmergncy = "is_emergncy";
+  static const String type = "type";
 }
