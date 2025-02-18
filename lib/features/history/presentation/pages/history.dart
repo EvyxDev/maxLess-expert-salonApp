@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/component/custom_header.dart';
+import 'package:maxless/core/component/custom_loading_indicator.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
@@ -10,7 +11,9 @@ import 'package:maxless/features/requests/presentation/cubit/requests_cubit.dart
 import '../widgets/history_list_view.dart';
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+  const HistoryScreen({super.key, this.initialTabIndex});
+
+  final int? initialTabIndex;
 
   @override
   State<HistoryScreen> createState() => _HistoryScreenState();
@@ -23,7 +26,11 @@ class _HistoryScreenState extends State<HistoryScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.initialTabIndex ?? 0,
+    );
   }
 
   @override
@@ -123,19 +130,22 @@ class _HistoryScreenState extends State<HistoryScreen>
                         SizedBox(height: 10.h),
                         //! Tab content
                         Expanded(
-                          child: TabBarView(
-                            controller: _tabController,
-                            children: [
-                              HistoryListView(
-                                items: cubit.completedRequests,
-                                completed: true,
-                              ),
-                              HistoryListView(
-                                items: cubit.cancelledRequests,
-                                completed: false,
-                              ),
-                            ],
-                          ),
+                          child: state is GetRequestsLoadingState ||
+                                  state is BookingChangeStatusLoadingState
+                              ? const CustomLoadingIndicator()
+                              : TabBarView(
+                                  controller: _tabController,
+                                  children: [
+                                    HistoryListView(
+                                      items: cubit.completedRequests,
+                                      completed: true,
+                                    ),
+                                    HistoryListView(
+                                      items: cubit.cancelledRequests,
+                                      completed: false,
+                                    ),
+                                  ],
+                                ),
                         ),
                       ],
                     ),

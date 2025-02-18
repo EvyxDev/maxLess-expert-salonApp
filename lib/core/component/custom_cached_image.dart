@@ -12,11 +12,13 @@ class CustomCachedImage extends StatelessWidget {
     this.w,
     this.borderRadius,
     this.fit,
+    this.errorWidget,
   });
 
   final String? imageUrl;
   final double? h, w, borderRadius;
   final BoxFit? fit;
+  final Widget? errorWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,8 @@ class CustomCachedImage extends StatelessWidget {
             h: h,
             w: w,
           ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
+          errorWidget: (context, url, error) =>
+              errorWidget ?? const Icon(Icons.error),
           fit: fit ?? BoxFit.cover,
         ),
       ),

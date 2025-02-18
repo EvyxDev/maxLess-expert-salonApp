@@ -32,3 +32,17 @@ final class SessionLastStepErrorState extends HomeState {
 
   const SessionLastStepErrorState({required this.message});
 }
+
+final class CheckSessionPriceLoadingState extends HomeState {}
+
+final class CheckSessionPriceErrorState extends HomeState {
+  final String message;
+
+  const CheckSessionPriceErrorState({required this.message});
+}
+
+final class CheckSessionPriceSuccess extends HomeState {
+  final bool result;
+
+  const CheckSessionPriceSuccess({required this.result});
+}

@@ -11,8 +11,14 @@ class AppStrings {
   static const String writeYourMessage = "writeYourMessage";
   static const String takeAPhoto = "takeAPhoto";
   static const String chooseFromGallery = "chooseFromGallery";
+  static const String enterTheDiscount = "enterTheDiscount";
+  static const String serviceDiscount = "serviceDiscount";
+  static const String completed = "completed";
+  static const String canceled = "canceled";
+  static const String acceptRequest = "acceptRequest";
   //! Validations
   static const String thisFieldIsRequired = "thisFieldIsRequired";
   static const String otpRequired = "otpRequired";
   static const String addAtLeastOneImage = "addAtLeastOneImage";
+  static const String invalidCode = "invalidCode";
 }

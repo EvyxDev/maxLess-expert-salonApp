@@ -492,5 +492,11 @@
   "salonDetails": "تفاصيل الصالون",
   "writeYourMessage": "اكتب رسالتك...",
   "takeAPhoto": "التقط صورة",
-  "chooseFromGallery": "اختر من المعرض"
+  "chooseFromGallery": "اختر من المعرض",
+  "invalidCode": "الكود غير صحيح",
+  "enterTheDiscount": "ادخل الخصم",
+  "serviceDiscount": "خصم الجلسة",
+  "completed ": "مكتمل",
+  "canceled ": "تم الإلغاء",
+  "acceptRequest": "قبول الطلب"
 }

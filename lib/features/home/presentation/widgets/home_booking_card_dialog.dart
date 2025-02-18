@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/component/custom_loading_indicator.dart';
+import 'package:maxless/core/component/custom_toast.dart';
+import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/navigation.dart';
+import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
+import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/home/data/models/answer_and_question_model.dart';
 import 'package:maxless/features/home/data/models/booking_item_model.dart';
 import 'package:maxless/features/home/presentation/cubit/home_cubit.dart';
+import 'package:maxless/features/requests/presentation/pages/request.dart';
+import 'package:maxless/features/reservation/presentation/cubit/session_cubit.dart';
 import 'package:maxless/features/reservation/presentation/pages/expert_session_screen.dart';
+import 'package:maxless/features/reservation/presentation/pages/receipt_details.dart';
+import 'package:maxless/features/reservation/presentation/pages/scan_qr_salon.dart';
+import 'package:maxless/features/reservation/presentation/widgets/feedback_alert_dialog.dart';
 import 'package:maxless/features/tracking/presentation/pages/track_me.dart';
 
 class HomeBookingCardDialog extends StatelessWidget {
@@ -24,7 +34,7 @@ class HomeBookingCardDialog extends StatelessWidget {
     return BlocProvider(
       create: (context) => HomeCubit(),
       child: BlocConsumer<HomeCubit, HomeState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is SessionLastStepSuccessState) {
             if (context.read<GlobalCubit>().isExpert) {
               switch (state.message) {
@@ -89,7 +99,86 @@ class HomeBookingCardDialog extends StatelessWidget {
                   break;
                 default:
               }
+            } else {
+              switch (state.message) {
+                case "arrived_location":
+                  Navigator.pop(context);
+                  navigateTo(
+                    context,
+                    ScanQRSalon(
+                      model: model,
+                      index: 1,
+                    ),
+                  );
+                  break;
+                case "start_session":
+                  Navigator.pop(context);
+                  navigateTo(
+                    context,
+                    ScanQRSalon(
+                      model: model,
+                      index: 2,
+                    ),
+                  );
+                  break;
+                case "take_a_photo":
+                  Navigator.pop(context);
+                  navigateTo(
+                    context,
+                    ScanQRSalon(
+                      model: model,
+                      index: 3,
+                    ),
+                  );
+                  break;
+                case "end_session":
+                  await context.read<HomeCubit>().checkSessionPrice(
+                        bookingId: model.id!,
+                      );
+                  break;
+                case null:
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ScanQRSalon(model: model),
+                    ),
+                  );
+                  break;
+                default:
+              }
             }
+          }
+          if (state is SessionLastStepErrorState) {
+            showToast(
+              // ignore: use_build_context_synchronously
+              context,
+              message: state.message,
+              state: ToastStates.error,
+            );
+          }
+          if (state is CheckSessionPriceSuccess) {
+            // ignore: use_build_context_synchronously
+            Navigator.pop(context);
+            if (state.result == false) {
+              GlobalKey<FormState> priceFormKey = GlobalKey<FormState>();
+              // ignore: use_build_context_synchronously
+              return setPriceDialog(context, priceFormKey).whenComplete(() {
+                // ignore: use_build_context_synchronously
+                context.read<SessionCubit>().priceController.clear();
+              });
+            } else {
+              // ignore: use_build_context_synchronously
+              navigateTo(context, ReceiptDetailsPage(model: model));
+            }
+          }
+          if (state is CheckSessionPriceErrorState) {
+            showToast(
+              // ignore: use_build_context_synchronously
+              context,
+              message: state.message,
+              state: ToastStates.error,
+            );
           }
         },
         builder: (context, state) {
@@ -215,30 +304,53 @@ class HomeBookingCardDialog extends StatelessWidget {
                           ),
                           SizedBox(width: 10.w),
                           //! Start Way Button
-                          state is SessionLastStepLoadingState
+                          state is SessionLastStepLoadingState ||
+                                  state is CheckSessionPriceLoadingState
                               ? SizedBox(
                                   width: 100.w,
                                   child: const CustomLoadingIndicator(),
                                 )
                               : GestureDetector(
                                   onTap: () {
-                                    cubit.sessionLastStep(
-                                      bookingId: model.id!,
-                                      userType: globalCubit.isExpert
-                                          ? "expert"
-                                          : "salon",
-                                      userId: globalCubit.userId!,
-                                    );
-                                    // context.read<GlobalCubit>().isExpert
-                                    //     ? navigateTo(
-                                    //         context,
-                                    //         LocationScreen(
-                                    //           lat: 30.06898989,
-                                    //           lon: 31.3194489,
-                                    //           bookingId: model.id!,
-                                    //           model: model,
-                                    //         ))
-                                    //     : navigateTo(context, const ScanQRSalon());
+                                    switch (model.status) {
+                                      case 1:
+                                        Navigator.pop(context);
+                                        navigateTo(
+                                          context,
+                                          const RequestsScreen(),
+                                        );
+                                        break;
+                                      case 2:
+                                        cubit.sessionLastStep(
+                                          bookingId: model.id!,
+                                          userType: globalCubit.isExpert
+                                              ? "expert"
+                                              : "salon",
+                                          userId: globalCubit.userId!,
+                                        );
+                                        break;
+                                      case 3:
+                                        Navigator.pop(context);
+                                        navigateTo(
+                                          context,
+                                          context.read<GlobalCubit>().isExpert
+                                              ? const HistoryScreen()
+                                              : ReceiptDetailsPage(
+                                                  model: model),
+                                        );
+                                        break;
+                                      case 4:
+                                        Navigator.pop(context);
+                                        navigateTo(
+                                          context,
+                                          const HistoryScreen(
+                                            initialTabIndex: 1,
+                                          ),
+                                        );
+                                        break;
+                                      default:
+                                        break;
+                                    }
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -250,9 +362,21 @@ class HomeBookingCardDialog extends StatelessWidget {
                                       vertical: 10.h,
                                     ),
                                     child: Text(
-                                      context.read<GlobalCubit>().isExpert
-                                          ? "start_the_way_button".tr(context)
-                                          : "start_button".tr(context),
+                                      model.status == 2
+                                          ? context.read<GlobalCubit>().isExpert
+                                              ? "start_the_way_button"
+                                                  .tr(context)
+                                              : "start_button".tr(context)
+                                          : model.status == 1
+                                              ? AppStrings.acceptRequest
+                                                  .tr(context)
+                                              : model.status == 3
+                                                  ? AppStrings.completed
+                                                      .tr(context)
+                                                  : model.status == 4
+                                                      ? AppStrings.canceled
+                                                          .tr(context)
+                                                      : "",
                                       style: TextStyle(
                                         fontSize: 14.sp,
                                         color: Colors.white,
@@ -297,5 +421,181 @@ class HomeBookingCardDialog extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Future<dynamic> setPriceDialog(
+      BuildContext context, GlobalKey<FormState> priceFormKey) {
+    return showDialog(
+        // ignore: use_build_context_synchronously
+        context: context,
+        // barrierDismissible: false,
+        builder: (BuildContext context) {
+          return BlocProvider(
+            create: (context) => SessionCubit()
+              ..userId = context.read<GlobalCubit>().userId!
+              ..bookingId = model.id!
+              ..bookingModel = model,
+            child: BlocConsumer<SessionCubit, SessionState>(
+              listener: (context, state) {
+                if (state is SetSessionPriceSuccessState) {
+                  showToast(
+                    context,
+                    message: state.message,
+                    state: ToastStates.success,
+                  );
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (newContext) => BlocProvider(
+                      create: (context) => SessionCubit()
+                        ..userId = context.read<GlobalCubit>().userId!
+                        ..bookingId = model.id!
+                        ..bookingModel = model,
+                      child: const FeedbackAlertDialog(),
+                    ),
+                  );
+                }
+                if (state is SetSessionPriceErrorState) {
+                  showToast(
+                    context,
+                    message: state.message,
+                    state: ToastStates.error,
+                  );
+                }
+              },
+              builder: (context, state) {
+                final cubit = context.read<SessionCubit>();
+                return PopScope(
+                  // canPop: false,
+                  canPop: true,
+                  child: Dialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(16.w),
+                      child: Form(
+                        key: priceFormKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            //! Title
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "session_ended_popup_title".tr(context),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+                            //! Price
+                            Text(
+                              "session_ended_popup_description".tr(context),
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff09031B),
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+                            TextFormField(
+                              controller: cubit.priceController,
+                              keyboardType: TextInputType.number,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return AppStrings.thisFieldIsRequired
+                                      .tr(context);
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "service_cost_hint".tr(context),
+                                hintStyle: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.grey,
+                                ),
+                                suffix: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text("egp".tr(context)),
+                                  ],
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey.shade200,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+                            //! Discount
+                            Text(
+                              AppStrings.enterTheDiscount.tr(context),
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w400,
+                                color: const Color(0xff09031B),
+                              ),
+                            ),
+                            SizedBox(height: 12.h),
+                            TextFormField(
+                              controller: cubit.discountController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText:
+                                    AppStrings.serviceDiscount.tr(context),
+                                hintStyle: TextStyle(
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.grey,
+                                ),
+                                suffix: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text("egp".tr(context)),
+                                  ],
+                                ),
+                                filled: true,
+                                fillColor: Colors.grey.shade200,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.r),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+                            state is SetSessionPriceLoadingState
+                                ? const CustomLoadingIndicator()
+                                : CustomElevatedButton(
+                                    text: "send".tr(context),
+                                    color: AppColors.primaryColor,
+                                    textColor: Colors.white,
+                                    onPressed: () {
+                                      if (priceFormKey.currentState!
+                                          .validate()) {
+                                        FocusScope.of(context).unfocus();
+                                        cubit.setSessionPrice();
+                                      }
+                                    },
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        });
   }
 }

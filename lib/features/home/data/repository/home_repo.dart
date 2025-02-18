@@ -11,7 +11,7 @@ class HomeRepo {
 
   HomeRepo(this.api);
 
-  //! Get Bokking By Day
+  //! Get Booking By Day
   Future<Either<String, List<BookingItemModel>>> getExpertBookingsByDate(
       {required String date}) async {
     try {

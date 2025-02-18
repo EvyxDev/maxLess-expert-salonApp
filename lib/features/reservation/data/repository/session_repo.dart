@@ -4,6 +4,7 @@ import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/database/api/end_points.dart';
 import 'package:maxless/core/errors/exceptions.dart';
 import 'package:maxless/features/auth/data/models/response_model.dart';
+import 'package:maxless/features/reservation/data/models/receipt_detail_model.dart';
 
 class SessionRepo {
   final DioConsumer api;
@@ -70,6 +71,7 @@ class SessionRepo {
   Future<Either<String, String>> expertArrivedLocation({
     required int bookingId,
     required int userId,
+    String? type,
   }) async {
     try {
       final Response response = await api.post(
@@ -78,7 +80,7 @@ class SessionRepo {
         data: {
           ApiKey.bookingId: bookingId,
           ApiKey.status: "arrived_location",
-          ApiKey.userType: "expert",
+          ApiKey.userType: type ?? "expert",
           ApiKey.userId: userId,
         },
       );
@@ -197,6 +199,67 @@ class SessionRepo {
       );
       ResponseModel model = ResponseModel.fromJson(response.data);
       return Right(model.data?[ApiKey.status]);
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Set Session Price
+  Future<Either<String, String>> setSessionPrice({
+    required int bookingId,
+    required double amount,
+    required double discount,
+  }) async {
+    try {
+      final Response response = await api.post(
+        "${EndPoints.setSessionPrice}/$bookingId",
+        isFormData: true,
+        data: {
+          ApiKey.amount: amount,
+          ApiKey.discount: discount,
+        },
+      );
+      ResponseModel model = ResponseModel.fromJson(response.data);
+      return Right(model.message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Check Price
+  Future<Either<String, bool>> checkSessionPrice(
+      {required int bookingId}) async {
+    try {
+      final Response response = await api.post(
+        "${EndPoints.checkSessionPrice}/$bookingId",
+      );
+      return Right(response.data[ApiKey.result]);
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Session Receipt
+  Future<Either<String, ReceiptDetailModel>> sessionReceipt(
+      {required int bookingId}) async {
+    try {
+      final Response response = await api.get(
+        "${EndPoints.sessionReceipt}/$bookingId",
+      );
+      ResponseModel model = ResponseModel.fromJson(response.data);
+      return Right(ReceiptDetailModel.fromJson(model.data));
     } on ServerException catch (e) {
       return Left(e.errorModel.detail);
     } on NoInternetException catch (e) {

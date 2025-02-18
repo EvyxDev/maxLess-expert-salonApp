@@ -70,4 +70,15 @@ class HomeCubit extends Cubit<HomeState> {
       (r) => emit(SessionLastStepSuccessState(message: r)),
     );
   }
+
+  //! Check Session Price
+  Future<void> checkSessionPrice({required int bookingId}) async {
+    emit(CheckSessionPriceLoadingState());
+    final result =
+        await sl<SessionRepo>().checkSessionPrice(bookingId: bookingId);
+    result.fold(
+      (l) => emit(CheckSessionPriceErrorState(message: l)),
+      (r) => emit(CheckSessionPriceSuccess(result: r)),
+    );
+  }
 }

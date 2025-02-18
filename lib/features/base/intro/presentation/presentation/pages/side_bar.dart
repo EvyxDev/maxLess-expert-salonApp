@@ -53,6 +53,20 @@ class Sidebar extends StatelessWidget {
                     w: 60.h,
                     h: 60.h,
                     borderRadius: 30,
+                    errorWidget: Container(
+                        width: 60.h,
+                        height: 60.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          border: Border.all(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          color: AppColors.primaryColor,
+                          size: 28.h,
+                        )),
                   ),
                   SizedBox(width: 10.w),
                   Expanded(
@@ -281,7 +295,6 @@ class Sidebar extends StatelessWidget {
                 });
 
                 context.read<GlobalCubit>().changeLanguage();
-
               },
             ),
           ],

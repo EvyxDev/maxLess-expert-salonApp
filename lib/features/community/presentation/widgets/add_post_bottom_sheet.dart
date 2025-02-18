@@ -10,7 +10,6 @@ import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/constants/widgets/custom_text_form_field.dart';
-import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 
@@ -289,15 +288,11 @@ class _AddPostBottomSheetBodyState extends State<AddPostBottomSheetBody> {
                                   cubit.oldImages.isNotEmpty) {
                                 if (widget.model != null) {
                                   widget.model!.id != null
-                                      ? (context.read<GlobalCubit>().isExpert
-                                          ? cubit.expertUpdateCommunity(
-                                              widget.model!.id!)
-                                          : null)
+                                      ? cubit.expertUpdateCommunity(
+                                          widget.model!.id!)
                                       : null;
                                 } else {
-                                  context.read<GlobalCubit>().isExpert
-                                      ? cubit.expertCreatePost()
-                                      : null;
+                                  cubit.expertCreatePost();
                                 }
                               } else {
                                 showToast(

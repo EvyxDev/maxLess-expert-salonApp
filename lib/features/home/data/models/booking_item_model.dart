@@ -7,7 +7,7 @@ class BookingItemModel {
   final int? id, orderId, status;
   final UserModel? user, expert;
   final SlotModel? expertSlot;
-  final String? date, createdAt, updatedAt;
+  final String? date, createdAt, updatedAt, code;
   final List<AnswerAndQuestionModel> answersAndQuestions;
   final double? lat, lon;
 
@@ -24,6 +24,7 @@ class BookingItemModel {
     required this.answersAndQuestions,
     required this.lat,
     required this.lon,
+    required this.code,
   });
 
   factory BookingItemModel.fromJson(Map<String, dynamic> map) {
@@ -44,6 +45,7 @@ class BookingItemModel {
               .map((e) => AnswerAndQuestionModel.fromJson(e))
               .toList()
           : [],
+      code: map[ApiKey.code],
     );
   }
 }

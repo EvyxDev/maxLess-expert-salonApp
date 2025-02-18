@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
+import 'package:maxless/core/database/api/end_points.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/home/data/models/booking_item_model.dart';
+import 'package:maxless/features/reservation/data/models/receipt_detail_model.dart';
 import 'package:maxless/features/reservation/data/repository/session_repo.dart';
 
 part 'session_state.dart';
@@ -15,7 +17,7 @@ class SessionCubit extends Cubit<SessionState> {
 
   late String userType;
   late int bookingId, userId;
-  BookingItemModel? bookingModel;
+  late BookingItemModel bookingModel;
 
   //! Start Session
   Future<void> startSession() async {
@@ -28,6 +30,29 @@ class SessionCubit extends Cubit<SessionState> {
     result.fold(
       (l) => emit(StartSessionErrorState(message: l)),
       (r) => emit(StartSessionSuccessState(message: r)),
+    );
+  }
+
+  //! Scan Qr
+  Future<void> scanQrCode() async {
+    emit(ScanQrCodeLoadingState());
+    final result = await sl<SessionRepo>().expertArrivedLocation(
+      bookingId: bookingId,
+      userId: userId,
+      type: ApiKey.salon,
+    );
+    result.fold(
+      (l) => emit(ScanQrCodeErrorState(message: l)),
+      (r) async {
+        final userResult = await sl<SessionRepo>().expertArrivedLocation(
+            bookingId: bookingModel.id ?? 0,
+            userId: bookingModel.user?.id ?? 0,
+            type: "user");
+        userResult.fold(
+          (l) => emit(ScanQrCodeErrorState(message: l)),
+          (r) => emit(ScanQrCodeSuccessState(message: r)),
+        );
+      },
     );
   }
 
@@ -102,7 +127,7 @@ class SessionCubit extends Cubit<SessionState> {
     final result = await sl<SessionRepo>().expertSessionFeedback(
       review: feedbackController.text,
       expertId: context.read<GlobalCubit>().userId!,
-      userId: bookingModel?.id ?? 0,
+      userId: bookingModel.user?.id ?? 0,
       rating: rating,
     );
     result.fold(
@@ -115,5 +140,35 @@ class SessionCubit extends Cubit<SessionState> {
   void updateFeedback(int index) {
     rating = index + 1;
     emit(UpdateFeedbackState());
+  }
+
+  //! Set Session Price
+  TextEditingController priceController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+  Future<void> setSessionPrice() async {
+    emit(SetSessionPriceLoadingState());
+    final result = await sl<SessionRepo>().setSessionPrice(
+      bookingId: bookingId,
+      amount: double.tryParse(priceController.text) ?? 0.0,
+      discount: double.tryParse(discountController.text) ?? 0.0,
+    );
+    result.fold(
+      (l) => emit(SetSessionPriceErrorState(message: l)),
+      (r) => emit(SetSessionPriceSuccessState(message: r)),
+    );
+  }
+
+  //! Get Session Recipt Details
+  ReceiptDetailModel? receiptDetailModel;
+  Future<void> getSessionReceiptDetails() async {
+    emit(SessionReceiptLoadingState());
+    final result = await sl<SessionRepo>().sessionReceipt(bookingId: bookingId);
+    result.fold(
+      (l) => emit(SessionReceiptErrorState(message: l)),
+      (r) {
+        receiptDetailModel = r;
+        emit(SessionReceiptSuccessState());
+      },
+    );
   }
 }

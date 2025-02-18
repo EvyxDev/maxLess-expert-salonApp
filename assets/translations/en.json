@@ -492,5 +492,11 @@
   "salonDetails": "Salon Details",
   "writeYourMessage": "Write your message...",
   "takeAPhoto": "Take a photo",
-  "chooseFromGallery": "Choose from gallery"
+  "chooseFromGallery": "Choose from gallery",
+  "invalidCode": "Invalid Code",
+  "enterTheDiscount": "Enter the discount",
+  "serviceDiscount": "Service discount",
+  "completed ": "Completed",
+  "canceled ": "Canceled",
+  "acceptRequest": "Accept Request"
 }

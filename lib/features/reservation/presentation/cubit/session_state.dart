@@ -82,3 +82,41 @@ final class FeedbackSuccessState extends SessionState {
 }
 
 final class UpdateFeedbackState extends SessionState {}
+
+final class ScanQrCodeLoadingState extends SessionState {}
+
+final class ScanQrCodeErrorState extends SessionState {
+  final String message;
+
+  const ScanQrCodeErrorState({required this.message});
+}
+
+final class ScanQrCodeSuccessState extends SessionState {
+  final String message;
+
+  const ScanQrCodeSuccessState({required this.message});
+}
+
+final class SetSessionPriceLoadingState extends SessionState {}
+
+final class SetSessionPriceErrorState extends SessionState {
+  final String message;
+
+  const SetSessionPriceErrorState({required this.message});
+}
+
+final class SetSessionPriceSuccessState extends SessionState {
+  final String message;
+
+  const SetSessionPriceSuccessState({required this.message});
+}
+
+final class SessionReceiptLoadingState extends SessionState {}
+
+final class SessionReceiptErrorState extends SessionState {
+  final String message;
+
+  const SessionReceiptErrorState({required this.message});
+}
+
+final class SessionReceiptSuccessState extends SessionState {}

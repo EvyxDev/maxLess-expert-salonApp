@@ -66,6 +66,15 @@ class EndPoints {
 
   //! Session Last Step
   static const String sessionLastStep = "${baseUrl}last-step";
+
+  //! Set Session Price
+  static const String setSessionPrice = "${baseUrl}set-price";
+
+  //! Check Session Price
+  static const String checkSessionPrice = "${baseUrl}check-price";
+
+  //! Session Receipt
+  static const String sessionReceipt = "${baseUrl}expert/booking-salon/details";
 }
 
 class ApiKey {
@@ -135,4 +144,10 @@ class ApiKey {
   static const String review = "review";
   static const String isEmergncy = "is_emergncy";
   static const String type = "type";
+  static const String discount = "discount";
+  static const String code = "code";
+  static const String startSession = "start_session";
+  static const String endSession = "end_session";
+  static const String totalPrice = "total_price";
+  static const String booking = "booking";
 }

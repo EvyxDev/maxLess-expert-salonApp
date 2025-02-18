@@ -209,36 +209,38 @@ class _RequestCardState extends State<RequestCard>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Location Link
-                            Row(
-                              children: [
-                                Icon(CupertinoIcons.location, size: 14.sp),
-                                SizedBox(width: 4.w),
-                                //! Google Maps Link
-                                widget.model.lat != null &&
-                                        widget.model.lon != null
-                                    ? Expanded(
-                                        child: GestureDetector(
-                                          onTap: () async {
-                                            cubit.launchGoogleMapLink(
-                                                lat: widget.model.lat!,
-                                                lon: widget.model.lat!);
-                                          },
-                                          child: Text(
-                                            cubit.formateGoogleMapLink(
-                                                lat: widget.model.lat!,
-                                                lon: widget.model.lat!),
-                                            style: TextStyle(
-                                              fontSize: 12.sp,
-                                              color: AppColors.primaryColor,
+                            widget.model.lat != null && widget.model.lon != null
+                                ? Padding(
+                                    padding: EdgeInsets.only(bottom: 8.h),
+                                    child: Row(
+                                      children: [
+                                        Icon(CupertinoIcons.location,
+                                            size: 14.sp),
+                                        SizedBox(width: 4.w),
+                                        //! Google Maps Link
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              cubit.launchGoogleMapLink(
+                                                  lat: widget.model.lat!,
+                                                  lon: widget.model.lat!);
+                                            },
+                                            child: Text(
+                                              cubit.formateGoogleMapLink(
+                                                  lat: widget.model.lat!,
+                                                  lon: widget.model.lat!),
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                              overflow: TextOverflow.clip,
                                             ),
-                                            overflow: TextOverflow.clip,
                                           ),
                                         ),
-                                      )
-                                    : Container(),
-                              ],
-                            ),
-                            SizedBox(height: 8.h),
+                                      ],
+                                    ),
+                                  )
+                                : Container(),
 
                             // Description
                             ...List.generate(
@@ -654,6 +656,7 @@ class _RequestCardState extends State<RequestCard>
                                       borderRadius: 10,
                                       textColor: Colors.white,
                                       onPressed: () {
+                                        FocusScope.of(context).unfocus();
                                         if (formKey.currentState!.validate()) {
                                           globalCubit.isExpert
                                               ? cubit.expertCancelReason(

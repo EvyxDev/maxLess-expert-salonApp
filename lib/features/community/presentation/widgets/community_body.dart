@@ -46,6 +46,20 @@ class CommunityBody extends StatelessWidget {
                           h: 40.h,
                           w: 40.h,
                           borderRadius: 40,
+                          errorWidget: Container(
+                            height: 40.h,
+                            width: 40.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(40),
+                              border: Border.all(
+                                color: AppColors.primaryColor,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.person,
+                              color: AppColors.primaryColor,
+                            ),
+                          ),
                         ),
                         SizedBox(width: 10.w),
                         Expanded(
