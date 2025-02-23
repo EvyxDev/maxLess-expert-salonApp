@@ -80,6 +80,7 @@ class _LoginState extends State<Login> {
                           child: TabBar(
                             labelColor: AppColors.primaryColor,
                             physics: const NeverScrollableScrollPhysics(),
+                            isScrollable: false,
                             unselectedLabelColor: Colors.white,
                             indicator: BoxDecoration(
                               color: Colors.white,

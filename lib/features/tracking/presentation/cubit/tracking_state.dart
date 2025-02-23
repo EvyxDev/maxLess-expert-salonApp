@@ -13,6 +13,8 @@ final class GetCurrentLocationLoadingState extends TrackingState {}
 
 final class GetCurrentLocationSuccessState extends TrackingState {}
 
+final class GetRouteLoadingState extends TrackingState {}
+
 final class GetRouteSuccessState extends TrackingState {}
 
 final class ArrivedLocationLoadingState extends TrackingState {}
@@ -28,3 +30,5 @@ final class ArrivedLocationSuccessState extends TrackingState {
 
   const ArrivedLocationSuccessState({required this.message});
 }
+
+final class SendMessageState extends TrackingState {}

@@ -268,4 +268,23 @@ class SessionRepo {
       return Left(e.toString());
     }
   }
+
+  //! Session Traking Notification
+  Future<Either<String, String>> sessionTrackingNotification(
+      {required int bookingId}) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.sendNotificationTrack,
+        isFormData: true,
+        data: {ApiKey.bookingId: bookingId},
+      );
+      return Right(ResponseModel.fromJson(response.data).message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
 }

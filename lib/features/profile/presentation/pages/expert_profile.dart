@@ -117,26 +117,27 @@ class ExpertProfilePage extends StatelessWidget {
                                           //! Rating
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            children: List.generate(5, (index) {
-                                              double starValue = index + 1;
+                                            children: List.generate(
+                                              5,
+                                              (index) {
+                                                double starValue = index + 1;
 
-                                              return Icon(
-                                                starValue <=
-                                                        (cubit.user!.rating ??
-                                                            0)
-                                                    ? Icons.star // Full star
-                                                    : starValue - 0.5 <=
-                                                            (cubit.user!
-                                                                    .rating ??
-                                                                0)
-                                                        ? Icons
-                                                            .star_half // Half star
-                                                        : Icons
-                                                            .star_border, // Empty star
-                                                color: Colors.amber,
-                                                size: 16.sp,
-                                              );
-                                            }),
+                                                return Icon(
+                                                  starValue <=
+                                                          (cubit.user!.rating ??
+                                                              0)
+                                                      ? Icons.star
+                                                      : starValue - 0.5 <=
+                                                              (cubit.user!
+                                                                      .rating ??
+                                                                  0)
+                                                          ? Icons.star_half
+                                                          : Icons.star_border,
+                                                  color: Colors.amber,
+                                                  size: 16.sp,
+                                                );
+                                              },
+                                            ),
                                           ),
                                           SizedBox(height: 10.h),
                                           //! Experince & Reviews

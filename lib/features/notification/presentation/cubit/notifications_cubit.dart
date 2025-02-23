@@ -17,7 +17,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     result.fold(
       (l) => emit(GetNotificationsErrorState(message: l)),
       (r) {
-        notifications = r;
+        notifications = r.reversed.toList();
         emit(GetNotificationsSuccessState());
       },
     );

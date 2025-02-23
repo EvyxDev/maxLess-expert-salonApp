@@ -73,6 +73,7 @@ class Sidebar extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        //! Name
                         Text(
                           context.read<GlobalCubit>().userName ?? "...",
                           style: TextStyle(
@@ -81,6 +82,7 @@ class Sidebar extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
+                        //! Email
                         Text(
                           context.read<GlobalCubit>().userEmail ?? "...",
                           style: TextStyle(
@@ -89,14 +91,30 @@ class Sidebar extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 6.h),
+                        //! Rating
                         Row(
                           children: List.generate(
                             5,
-                            (index) => Icon(
-                              Icons.star,
-                              size: 14.sp,
-                              color: const Color(0xffF5BE00),
-                            ),
+                            (index) {
+                              double starValue = index + 1;
+                              return Icon(
+                                starValue <=
+                                        (context
+                                                .read<GlobalCubit>()
+                                                .userRating ??
+                                            0)
+                                    ? Icons.star
+                                    : starValue - 0.5 <=
+                                            (context
+                                                    .read<GlobalCubit>()
+                                                    .userRating ??
+                                                0)
+                                        ? Icons.star_half 
+                                        : Icons.star_border,
+                                color: Colors.amber,
+                                size: 16.sp,
+                              );
+                            },
                           ),
                         ),
                       ],

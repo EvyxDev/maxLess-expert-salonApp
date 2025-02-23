@@ -75,6 +75,10 @@ class EndPoints {
 
   //! Session Receipt
   static const String sessionReceipt = "${baseUrl}expert/booking-salon/details";
+
+  //! Send Notification Track
+  static const String sendNotificationTrack =
+      "${baseUrl}send-notification-track";
 }
 
 class ApiKey {

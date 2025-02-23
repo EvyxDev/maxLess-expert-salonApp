@@ -89,8 +89,8 @@ class HomeBookingCardDialog extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => LocationScreen(
-                        lat: 30.06898989,
-                        lon: 31.3194489,
+                        lat: model.lat ?? 0,
+                        lon: model.lon ?? 0,
                         bookingId: model.id!,
                         model: model,
                       ),

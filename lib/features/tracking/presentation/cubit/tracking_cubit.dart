@@ -1,29 +1,46 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/core/constants/app_constants.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/database/api/dio_consumer.dart';
+import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
+import 'package:maxless/features/home/data/models/booking_item_model.dart';
 import 'package:maxless/features/reservation/data/repository/session_repo.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 part 'tracking_state.dart';
 
 class TrackingCubit extends Cubit<TrackingState> {
   TrackingCubit() : super(TrackingInitial());
 
-  init(LatLng latLng) {
+  init({
+    required LatLng latLng,
+    required GlobalCubit globalCubit,
+    required BookingItemModel model,
+  }) {
     userLocation = latLng;
     markers = {
       Marker(
-        markerId: const MarkerId("from"),
+        markerId: const MarkerId("to"),
         position: latLng,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRose),
       ),
     };
+    bookingId = model.id!;
+    initWebSocket(globalCubit);
   }
+
+  late int bookingId;
+  bool isNotificationSentSent = false;
 
   //! Arrived Location
   Future<void> expertArrivedLocation({
@@ -45,47 +62,30 @@ class TrackingCubit extends Cubit<TrackingState> {
   LatLng? expertLocation;
   LatLng? userLocation;
   Set<Marker> markers = {};
+  Set<Circle> circles = {};
   Set<Polyline> polylines = {};
   StreamSubscription<Position>? positionStream;
-  Duration? estimatedTime; // Store remaining time
-  DateTime? arrivalTime; // Store expected arrival time
+  Duration? estimatedTime;
+  String? arrivalTime;
+  String? remainingDistance;
 
   Future<void> startTracking() async {
-    emit(GetCurrentLocationLoadingState());
-
     LocationPermission permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied ||
         permission == LocationPermission.deniedForever) {
       log("Location permission denied.");
       return;
     }
-    await Geolocator.getCurrentPosition().then((value) async {
-      expertLocation = LatLng(value.latitude, value.longitude);
-      mapController?.animateCamera(CameraUpdate.newLatLng(expertLocation!));
-
-      // ✅ Update ETA dynamically
-      await getRoute(); //
-    });
     positionStream = Geolocator.getPositionStream(
       locationSettings: const LocationSettings(
         accuracy: LocationAccuracy.high,
-        distanceFilter: 5, // Update every 5 meters
+        distanceFilter: 50,
       ),
     ).listen((Position position) async {
       expertLocation = LatLng(position.latitude, position.longitude);
-
-      // ✅ Update marker position
-      markers = markers.map((marker) {
-        if (marker.markerId.value == "to") {
-          return marker.copyWith(positionParam: expertLocation);
-        }
-        return marker;
-      }).toSet();
-
       mapController?.animateCamera(CameraUpdate.newLatLng(expertLocation!));
 
-      // ✅ Update ETA dynamically
-      await getRoute(); // Fetch new route and update time
+      await getRoute();
 
       emit(GetCurrentLocationSuccessState());
     });
@@ -96,8 +96,8 @@ class TrackingCubit extends Cubit<TrackingState> {
   }
 
   Future<void> getRoute() async {
+    emit(GetRouteLoadingState());
     if (expertLocation == null || userLocation == null) return;
-    polylines = {};
     const String apiKey = "AIzaSyByGILjqDwyW9fMzjnXSCcPB11K8qboJEI";
     String url =
         "https://maps.googleapis.com/maps/api/directions/json?origin=${expertLocation!.latitude},${expertLocation!.longitude}&destination=${userLocation!.latitude},${userLocation!.longitude}&key=$apiKey";
@@ -107,8 +107,7 @@ class TrackingCubit extends Cubit<TrackingState> {
       if (response.statusCode == 200) {
         List<LatLng> polylineCoordinates = _decodePolyline(
             response.data['routes'][0]['overview_polyline']['points']);
-
-        polylines.clear();
+        polylines = {};
         polylines.add(Polyline(
           polylineId: const PolylineId("route"),
           color: AppColors.primaryColor,
@@ -116,13 +115,22 @@ class TrackingCubit extends Cubit<TrackingState> {
           points: polylineCoordinates,
         ));
 
-        // ✅ Extract duration from API response
-        int durationInSeconds = response.data['routes'][0]['legs'][0]
-            ['duration']['value']; // In seconds
+        int durationInSeconds =
+            response.data['routes'][0]['legs'][0]['duration']['value'];
         estimatedTime = Duration(seconds: durationInSeconds);
 
-        // ✅ Calculate expected arrival time
-        arrivalTime = DateTime.now().add(estimatedTime!);
+        if (((estimatedTime?.inMinutes)! <= 15) &&
+            isNotificationSentSent == false) {
+          sendTrackNotification();
+        }
+
+        arrivalTime =
+            formatTimeWithLocale(DateTime.now().add(estimatedTime!).toString());
+
+        num distanceInMeters =
+            response.data['routes'][0]['legs'][0]['distance']['value'];
+        double distanceInKm = distanceInMeters.toDouble() / 1000;
+        remainingDistance = formatDistance(distanceInKm);
 
         emit(GetRouteSuccessState());
       }
@@ -160,5 +168,91 @@ class TrackingCubit extends Cubit<TrackingState> {
       polylineCoordinates.add(LatLng(lat / 1E5, lng / 1E5));
     }
     return polylineCoordinates;
+  }
+
+  //!WebSocket
+  late WebSocketChannel channel;
+  void initWebSocket(GlobalCubit globalCubit) {
+    //! Connect
+    channel = WebSocketChannel.connect(
+      Uri.parse(
+        "wss://maxliss.evyx.lol/comm2?wss_token=${sl<CacheHelper>().getDataString(key: AppConstants.wssToken)}&user_type=expert",
+      ),
+    );
+    //! Listener
+    channel.stream.listen(
+      (message) {
+        log("========== from web socket $message");
+        Future.delayed(
+          const Duration(seconds: 10),
+          () {
+            sendMessage();
+          },
+        );
+      },
+      onDone: () {
+        log(" ================ Web Socket Done ================");
+      },
+      onError: (error) {
+        log(" ================ $error ================");
+      },
+    );
+  }
+
+  sendMessage() {
+    String jsonEncoded = jsonEncode(
+        {"lat": expertLocation?.latitude, "long": expertLocation!.longitude});
+    channel.sink.add(jsonEncoded);
+
+    emit(SendMessageState());
+  }
+
+  @override
+  Future<void> close() {
+    channel.sink.close();
+    return super.close();
+  }
+
+  String formatDistance(double distanceInKm) {
+    double distanceInMeters = distanceInKm * 1000;
+    if (distanceInMeters < 1000) {
+      return "${distanceInMeters.toInt()} ${sl<CacheHelper>().getCachedLanguage() == "en" ? "M" : "متر"}";
+    } else {
+      return "${distanceInKm.toStringAsFixed(2)} ${sl<CacheHelper>().getCachedLanguage() == "en" ? "KM" : "كيلومتر"}";
+    }
+  }
+
+  String formatTimeWithLocale(String dateTimeString) {
+    DateTime dateTime = DateTime.parse(dateTimeString);
+    return DateFormat.jm(sl<CacheHelper>().getCachedLanguage())
+        .format(dateTime);
+  }
+
+  //! Send Track Notification
+
+  Future<void> sendTrackNotification() async {
+    final result = await sl<SessionRepo>().sessionTrackingNotification(
+      bookingId: bookingId,
+    );
+    result.fold(
+      (l) {},
+      (r) {
+        isNotificationSentSent = true;
+      },
+    );
+  }
+
+  //! Formate Time
+  String formatDuration() {
+    if (estimatedTime != null) {
+      final minutes = estimatedTime!.inMinutes;
+      if (minutes >= 60) {
+        return '${(minutes / 60).floor()} ${sl<CacheHelper>().getCachedLanguage() == "en" ? "hour" : "ساعة"}${(minutes ~/ 60) == 1 ? '' : 's'}';
+      } else {
+        return '$minutes ${sl<CacheHelper>().getCachedLanguage() == "en" ? "minute" : "دقيقة"}${minutes == 1 ? '' : 's'}';
+      }
+    } else {
+      return "0";
+    }
   }
 }

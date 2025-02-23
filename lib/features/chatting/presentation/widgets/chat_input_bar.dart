@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
@@ -98,59 +97,59 @@ class _ChatInputBarState extends State<ChatInputBar>
                   textDirection: TextDirection.ltr,
                   children: [
                     //! Add Document
-                    GestureDetector(
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-                        showModalBottomSheet(
-                          context: context,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(15.r),
-                            ),
-                          ),
-                          builder: (context) => Padding(
-                            padding: EdgeInsets.all(16.w),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                ListTile(
-                                  leading: const Icon(Icons.camera_alt),
-                                  title:
-                                      Text(AppStrings.takeAPhoto.tr(context)),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    cubit
-                                        .pickImage(source: ImageSource.camera)
-                                        .then((value) {
-                                      setState(() {});
-                                    });
-                                  },
-                                ),
-                                ListTile(
-                                  leading: const Icon(Icons.photo_library),
-                                  title: Text(
-                                      AppStrings.chooseFromGallery.tr(context)),
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    cubit
-                                        .pickImage(source: ImageSource.gallery)
-                                        .then((value) {
-                                      setState(() {});
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      child: const Icon(
-                        CupertinoIcons.plus,
-                        color: Color(0xffADB5BD),
-                      ),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     FocusScope.of(context).unfocus();
+                    //     showModalBottomSheet(
+                    //       context: context,
+                    //       shape: RoundedRectangleBorder(
+                    //         borderRadius: BorderRadius.vertical(
+                    //           top: Radius.circular(15.r),
+                    //         ),
+                    //       ),
+                    //       builder: (context) => Padding(
+                    //         padding: EdgeInsets.all(16.w),
+                    //         child: Column(
+                    //           mainAxisSize: MainAxisSize.min,
+                    //           children: [
+                    //             ListTile(
+                    //               leading: const Icon(Icons.camera_alt),
+                    //               title:
+                    //                   Text(AppStrings.takeAPhoto.tr(context)),
+                    //               onTap: () {
+                    //                 Navigator.pop(context);
+                    //                 cubit
+                    //                     .pickImage(source: ImageSource.camera)
+                    //                     .then((value) {
+                    //                   setState(() {});
+                    //                 });
+                    //               },
+                    //             ),
+                    //             ListTile(
+                    //               leading: const Icon(Icons.photo_library),
+                    //               title: Text(
+                    //                   AppStrings.chooseFromGallery.tr(context)),
+                    //               onTap: () {
+                    //                 Navigator.pop(context);
+                    //                 cubit
+                    //                     .pickImage(source: ImageSource.gallery)
+                    //                     .then((value) {
+                    //                   setState(() {});
+                    //                 });
+                    //               },
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: const Icon(
+                    //     CupertinoIcons.plus,
+                    //     color: Color(0xffADB5BD),
+                    //   ),
+                    // ),
 
-                    SizedBox(width: 8.w),
+                    // SizedBox(width: 8.w),
 
                     //! Text Field
                     Expanded(

@@ -7,4 +7,5 @@ class AppConstants {
   static const String wssToken = "wssToken";
   static const String expertPhone = "expertPhone";
   static const String salonPhone = "salonPhone";
+  static const String cookie = "cookie";
 }
