@@ -23,3 +23,9 @@ class ErrorState extends GlobalState {
 class LanguageChangeState extends GlobalState {}
 
 class GetUserDataState extends GlobalState {}
+
+class UpdateUserDataLoadingState extends GlobalState {}
+
+class UpdateUserDataErrorState extends GlobalState {}
+
+class UpdateUserDataSuccessState extends GlobalState {}

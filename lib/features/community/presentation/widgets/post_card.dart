@@ -57,16 +57,32 @@ class PostCard extends StatelessWidget {
                   child: Row(
                     children: [
                       //! User Image
-                      model.expert?.image != null
-                          ? SizedBox(
-                              height: 35.h,
-                              width: 35.h,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(model.expert!.image!),
-                              ),
-                            )
-                          : Container(),
+                      SizedBox(
+                        height: 35.h,
+                        width: 35.h,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            model.expert?.image ?? "",
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                height: 40.h,
+                                width: 40.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(40),
+                                  border: Border.all(
+                                    color: AppColors.primaryColor,
+                                  ),
+                                ),
+                                child: const Icon(
+                                  Icons.person,
+                                  color: AppColors.primaryColor,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
                       SizedBox(width: 10.w),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

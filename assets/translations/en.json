@@ -370,6 +370,7 @@
   "start_session_instruction": "Please click on the ‘Start Session’ button to get started.",
   "take_photo_instruction": "Take a photo of the product during the pouring process to ensure its safety and maintain the health of your hair.",
   "rate_salon_instruction": "Rate the salon based on your experience to improve the service for everyone",
+  "rate_session_instruction": "Rate the session based on your experience to improve the service for everyone",
   "send": "Send",
   "next": "Next",
   "step_1": "Step 1",
@@ -429,6 +430,7 @@
   "session_title": "Session",
   "rating_popup_title": "Tell us your feedback 🙌",
   "rating_popup_description": "Rate the salon based on your experience to improve the service for everyone",
+  "rating_popup_description_expert": "Rate the session based on your experience to improve the service for everyone",
   "rating_popup_hint": "Write something for us!",
   "rating_popup_send_button": "Send",
   "step_1_title": "Step 1",
@@ -490,5 +492,11 @@
   "salonDetails": "Salon Details",
   "writeYourMessage": "Write your message...",
   "takeAPhoto": "Take a photo",
-  "chooseFromGallery": "Choose from gallery"
+  "chooseFromGallery": "Choose from gallery",
+  "invalidCode": "Invalid Code",
+  "enterTheDiscount": "Enter the discount",
+  "serviceDiscount": "Service discount",
+  "completed ": "Completed",
+  "canceled ": "Canceled",
+  "acceptRequest": "Accept Request"
 }

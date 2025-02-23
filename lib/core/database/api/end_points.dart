@@ -41,9 +41,15 @@ class EndPoints {
   static const String expertBookingByDate =
       "${baseUrl}expert/booking-expert/slots";
 
+  //! Booking Activities
+  static const String bookingActivities = "${baseUrl}add-booking-activities";
+
   //! Requests
   static const String getExpertRequests =
       "${baseUrl}expert/booking-expert/expert";
+
+  //! Change Booking Status
+  static const String changeBookingStatus = "${baseUrl}add-booking-status";
 
   //! Wallet
   static const String getExpertWallet = "${baseUrl}experts-wallet";
@@ -53,6 +59,26 @@ class EndPoints {
 
   //! Chatting
   static const String getExpertChatHistory = "${baseUrl}messages-expert";
+
+  //! Feedback
+  static const String expertSessionFeedback =
+      "${baseUrl}expert/expert-user-review";
+
+  //! Session Last Step
+  static const String sessionLastStep = "${baseUrl}last-step";
+
+  //! Set Session Price
+  static const String setSessionPrice = "${baseUrl}set-price";
+
+  //! Check Session Price
+  static const String checkSessionPrice = "${baseUrl}check-price";
+
+  //! Session Receipt
+  static const String sessionReceipt = "${baseUrl}expert/booking-salon/details";
+
+  //! Send Notification Track
+  static const String sendNotificationTrack =
+      "${baseUrl}send-notification-track";
 }
 
 class ApiKey {
@@ -114,4 +140,18 @@ class ApiKey {
   static const String sender = "sender";
   static const String receiver = "receiver";
   static const String reply = "reply";
+  static const String bookingId = "booking_id";
+  static const String userType = "user_type";
+  static const String userId = "user_id";
+  static const String salon = "salon";
+  static const String reason = "reason";
+  static const String review = "review";
+  static const String isEmergncy = "is_emergncy";
+  static const String type = "type";
+  static const String discount = "discount";
+  static const String code = "code";
+  static const String startSession = "start_session";
+  static const String endSession = "end_session";
+  static const String totalPrice = "total_price";
+  static const String booking = "booking";
 }

@@ -6,6 +6,7 @@ import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
+import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,7 +16,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   GlobalCubit() : super(GlobalInitial());
 
   init() async {
-    await getUserData();
+    await updateUserData();
     await getSalonOrExpert();
   }
 
@@ -69,6 +70,7 @@ class GlobalCubit extends Cubit<GlobalState> {
 
   //! User Data
   int? userId;
+  double? userRating;
   String? userName, userEmail, userPhone, userImageUrl;
   getUserData() async {
     if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
@@ -80,7 +82,33 @@ class GlobalCubit extends Cubit<GlobalState> {
       userEmail = model.email;
       userPhone = model.phone;
       userImageUrl = model.image;
+      userRating = model.rating;
       emit(GetUserDataState());
+    }
+  }
+
+  //! Update User Data
+  Future<void> updateUserData() async {
+    if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
+      emit(UpdateUserDataLoadingState());
+      final result = await sl<ProfileRepo>().getExpertProfile();
+      result.fold(
+        (l) {
+          getUserData();
+          emit(UpdateUserDataErrorState());
+        },
+        (r) {
+          if (r.expert != null) {
+            Map<String, dynamic> userJson = r.expert!.toJson();
+            sl<CacheHelper>().saveData(
+              key: AppConstants.user,
+              value: jsonEncode(userJson),
+            );
+          }
+          getUserData();
+          emit(UpdateUserDataSuccessState());
+        },
+      );
     }
   }
 

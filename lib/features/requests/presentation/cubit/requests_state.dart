@@ -18,3 +18,31 @@ final class GetRequestsErrorState extends RequestsState {
 }
 
 final class GetRequestsSuccessState extends RequestsState {}
+
+final class BookingChangeStatusLoadingState extends RequestsState {}
+
+final class BookingChangeStatusErrorState extends RequestsState {
+  final String message;
+
+  const BookingChangeStatusErrorState({required this.message});
+}
+
+final class BookingChangeStatusSuccessState extends RequestsState {
+  final String message;
+
+  const BookingChangeStatusSuccessState({required this.message});
+}
+
+final class CancelReasonLoadingState extends RequestsState {}
+
+final class CancelReasonErrorState extends RequestsState {
+  final String message;
+
+  const CancelReasonErrorState({required this.message});
+}
+
+final class CancelReasonSuccessState extends RequestsState {
+  final String message;
+
+  const CancelReasonSuccessState({required this.message});
+}

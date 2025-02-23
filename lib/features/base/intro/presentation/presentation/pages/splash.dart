@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maxless/core/constants/app_constants.dart';
-import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
@@ -29,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 5), // مدة الأنيميشن
+      duration: const Duration(seconds: 5),
     );
 
     _animation = CurvedAnimation(
@@ -53,14 +50,14 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryColor, // اللون الأحمر الداكن
       body: Center(
-        child: ScaleTransition(
-          scale: _animation,
-          child: SvgPicture.asset(
-            'lib/assets/icons/nav/white.svg', // ضع هنا مسار صورة الشعار
-            width: 212.w,
-            height: 75.h,
+        child: FadeTransition(
+          opacity: _animation,
+          child: Image.asset(
+            'assets/gifs/splash.gif',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.cover,
           ),
         ),
       ),

@@ -18,6 +18,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
   int _selectedDay = DateTime.now().day;
   late int year;
   final ScrollController _scrollController = ScrollController();
+  final Map<int, ValueKey> itemKeys = {};
 
   late List<String> days;
   late List<String> months;
@@ -31,7 +32,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
       () {
         if (_scrollController.hasClients) {
           _scrollController.animateTo(
-            (_currentDate.day - 1) * 96,
+            (_currentDate.day - 1) * 120,
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut,
           );
@@ -94,7 +95,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
   void _scrollToSelectedDay() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
-        (_selectedDay - 1) * 96,
+        (_selectedDay - 1) * 120,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
       );
@@ -215,8 +216,9 @@ class _HomeCalendarState extends State<HomeCalendar> {
                 itemBuilder: (context, index) {
                   final day = daysInMonth[index];
                   final isSelected = _selectedDay == day.day;
-
+                  itemKeys[index] = ValueKey(index);
                   return GestureDetector(
+                    key: ValueKey(index),
                     onTap: () {
                       setState(() {
                         _selectedDay = day.day;
@@ -230,7 +232,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 8.w),
-                      width: 80.w,
+                      width: 100.w,
                       height: 80.h,
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
                       decoration: BoxDecoration(

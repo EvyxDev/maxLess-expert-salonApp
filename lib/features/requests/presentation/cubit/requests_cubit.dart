@@ -27,6 +27,10 @@ class RequestsCubit extends Cubit<RequestsState> {
     result.fold(
       (l) => emit(GetRequestsErrorState(message: l)),
       (r) {
+        pendingRequests.clear();
+        acceptedRequests.clear();
+        completedRequests.clear();
+        cancelledRequests.clear();
         for (var item in r) {
           switch (item.status) {
             case 1:
@@ -46,6 +50,82 @@ class RequestsCubit extends Cubit<RequestsState> {
         }
         emit(GetRequestsSuccessState());
       },
+    );
+  }
+
+  //! Change Booking Status
+  Future<void> expertChangeBookingStatus({
+    required int bookingId,
+    required int status,
+    required int userId,
+  }) async {
+    emit(BookingChangeStatusLoadingState());
+    final result = await sl<RequestesRepo>().expertChangeBookingStatus(
+      bookingId: bookingId,
+      status: status,
+      userId: userId,
+    );
+    result.fold(
+      (l) => emit(BookingChangeStatusErrorState(message: l)),
+      (r) async {
+        emit(BookingChangeStatusSuccessState(message: r));
+      },
+    );
+  }
+
+  Future<void> salonChangeBookingStatus({
+    required int bookingId,
+    required int status,
+    required int userId,
+  }) async {
+    emit(BookingChangeStatusLoadingState());
+    final result = await sl<RequestesRepo>().salonChangeBookingStatus(
+      bookingId: bookingId,
+      status: status,
+      userId: userId,
+    );
+    result.fold(
+      (l) => emit(BookingChangeStatusErrorState(message: l)),
+      (r) => emit(BookingChangeStatusSuccessState(message: r)),
+    );
+  }
+
+  //! Cancel Booking Reason
+  Future<void> expertCancelReason({
+    required int bookingId,
+    required int userId,
+    required String reason,
+    required bool isEmergncy,
+  }) async {
+    emit(CancelReasonLoadingState());
+    final result = await sl<RequestesRepo>().expertCancelReason(
+      bookingId: bookingId,
+      userId: userId,
+      reason: reason,
+      isEmergncy: isEmergncy,
+    );
+    result.fold(
+      (l) => emit(CancelReasonErrorState(message: l)),
+      (r) => emit(CancelReasonSuccessState(message: r)),
+    );
+  }
+
+  Future<void> salonCancelReason({
+    required int bookingId,
+    required int userId,
+    required String reason,
+    required bool isEmergncy,
+  }) async {
+    emit(CancelReasonLoadingState());
+    final result = await sl<RequestesRepo>().salonCancelReason(
+      bookingId: bookingId,
+      userId: userId,
+      reason: reason,
+      isEmergncy: isEmergncy,
+    );
+    result.fold(
+      (l) => emit(CancelReasonErrorState(message: l)),
+      (r) => emit(CancelReasonSuccessState(message: r)),
     );
   }
 

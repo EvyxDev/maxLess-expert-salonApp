@@ -101,12 +101,29 @@ class _HistoryCardState extends State<HistoryCard>
                       size: 20.sp,
                     ),
                   if (!widget.completed) SizedBox(width: 8.w),
-                  //! User Image
-                  CircleAvatar(
-                    radius: 18.r,
-                    backgroundImage: NetworkImage(
-                      widget.model.user?.image ?? "",
+                  //! User Picture
+                  Container(
+                    width: 34.h,
+                    height: 34.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                        color: AppColors.black,
+                        width: .5.w,
+                      ),
                     ),
+                    child: widget.model.user!.image != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image.network(
+                              widget.model.user!.image!,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : const Icon(
+                            Icons.person,
+                            color: AppColors.black,
+                          ),
                   ),
                   SizedBox(width: 8.w),
                   //! User Name

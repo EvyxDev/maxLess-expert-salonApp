@@ -81,12 +81,28 @@ class ExpertProfilePage extends StatelessWidget {
                                   ? Center(
                                       child: Column(
                                         children: [
-                                          //! Image
+                                          //!Pp Image
                                           CustomCachedImage(
                                             imageUrl: cubit.user!.image,
                                             h: 107.h,
                                             w: 107.h,
                                             borderRadius: 100,
+                                            errorWidget: Container(
+                                              height: 107.h,
+                                              width: 107.h,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                border: Border.all(
+                                                  color: AppColors.primaryColor,
+                                                ),
+                                              ),
+                                              child: Icon(
+                                                Icons.person,
+                                                size: 60.h,
+                                                color: AppColors.primaryColor,
+                                              ),
+                                            ),
                                           ),
                                           SizedBox(height: 10.h),
                                           //! Name
@@ -101,26 +117,27 @@ class ExpertProfilePage extends StatelessWidget {
                                           //! Rating
                                           Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            children: List.generate(5, (index) {
-                                              double starValue = index + 1;
+                                            children: List.generate(
+                                              5,
+                                              (index) {
+                                                double starValue = index + 1;
 
-                                              return Icon(
-                                                starValue <=
-                                                        (cubit.user!.rating ??
-                                                            0)
-                                                    ? Icons.star // Full star
-                                                    : starValue - 0.5 <=
-                                                            (cubit.user!
-                                                                    .rating ??
-                                                                0)
-                                                        ? Icons
-                                                            .star_half // Half star
-                                                        : Icons
-                                                            .star_border, // Empty star
-                                                color: Colors.amber,
-                                                size: 16.sp,
-                                              );
-                                            }),
+                                                return Icon(
+                                                  starValue <=
+                                                          (cubit.user!.rating ??
+                                                              0)
+                                                      ? Icons.star
+                                                      : starValue - 0.5 <=
+                                                              (cubit.user!
+                                                                      .rating ??
+                                                                  0)
+                                                          ? Icons.star_half
+                                                          : Icons.star_border,
+                                                  color: Colors.amber,
+                                                  size: 16.sp,
+                                                );
+                                              },
+                                            ),
                                           ),
                                           SizedBox(height: 10.h),
                                           //! Experince & Reviews
@@ -307,6 +324,21 @@ class ExpertProfilePage extends StatelessWidget {
                       h: 35.h,
                       w: 35.h,
                       borderRadius: 50,
+                      errorWidget: Container(
+                        height: 35.h,
+                        width: 35.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.person,
+                          size: 24.h,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
                     ),
                     SizedBox(width: 10.w),
                     Column(

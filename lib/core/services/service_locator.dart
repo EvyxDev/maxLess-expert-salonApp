@@ -12,6 +12,7 @@ import 'package:maxless/features/home/data/repository/home_repo.dart';
 import 'package:maxless/features/notification/data/repository/notifications_repo.dart';
 import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 import 'package:maxless/features/requests/data/repository/requestes_repo.dart';
+import 'package:maxless/features/reservation/data/repository/session_repo.dart';
 import 'package:maxless/features/wallet/data/repository/wallet_repo.dart';
 
 final sl = GetIt.instance;
@@ -33,4 +34,5 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => WalletRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => NotificationsRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => ChattingRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => SessionRepo(sl<DioConsumer>()));
 }

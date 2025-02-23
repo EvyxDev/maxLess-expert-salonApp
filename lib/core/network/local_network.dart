@@ -92,7 +92,7 @@ class CacheHelper {
     if (code != null) {
       return code;
     } else {
-      return 'ar';
+      return 'en';
     }
   }
 

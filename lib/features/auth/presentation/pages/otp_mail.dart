@@ -229,9 +229,9 @@ class _OtpVerificationState extends State<OtpVerification> {
                           onPressed: () {
                             FocusScope.of(context).unfocus();
                             if (cubit.formKey.currentState!.validate()) {
-                              context.read<GlobalCubit>().isExpert
-                                  ? cubit.expertLoginVerifyOtp()
-                                  : null;
+                              cubit.loginVerifyOtp(
+                                  isExpert:
+                                      context.read<GlobalCubit>().isExpert);
                             }
                           },
                           color: AppColors.primaryColor,
@@ -253,9 +253,10 @@ class _OtpVerificationState extends State<OtpVerification> {
                               if (remainingTime == 0)
                                 GestureDetector(
                                   onTap: () {
-                                    context.read<GlobalCubit>().isExpert
-                                        ? cubit.expertResendCode()
-                                        : null;
+                                    cubit.resendCode(
+                                        isExpert: context
+                                            .read<GlobalCubit>()
+                                            .isExpert);
                                   },
                                   child: Text(
                                     'resend_code_ready'.tr(context),
