@@ -201,7 +201,7 @@ class TrackingCubit extends Cubit<TrackingState> {
 
   sendMessage() {
     String jsonEncoded = jsonEncode(
-        {"lat": expertLocation?.latitude, "long": expertLocation!.longitude});
+        {"lat": expertLocation?.latitude, "long": expertLocation?.longitude});
     channel.sink.add(jsonEncoded);
 
     emit(SendMessageState());

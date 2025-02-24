@@ -79,6 +79,9 @@ class EndPoints {
   //! Send Notification Track
   static const String sendNotificationTrack =
       "${baseUrl}send-notification-track";
+
+  //! Get Reviews
+  static const String getReviews = "${baseUrl}expert/get-reviews";
 }
 
 class ApiKey {
@@ -154,4 +157,5 @@ class ApiKey {
   static const String endSession = "end_session";
   static const String totalPrice = "total_price";
   static const String booking = "booking";
+  static const String rate = "rate";
 }

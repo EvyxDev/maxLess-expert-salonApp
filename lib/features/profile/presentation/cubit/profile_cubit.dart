@@ -4,6 +4,7 @@ import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
+import 'package:maxless/features/profile/data/models/review_model.dart';
 import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 
 part 'profile_state.dart';
@@ -74,6 +75,20 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         emit(LikeProfileCommunitySuccessState(message: r));
+      },
+    );
+  }
+
+  //! Get Reviews
+  List<ReviewModel> reviews = [];
+  Future<void> getReviews({required int id}) async {
+    emit(GetReviewsLoadingState());
+    final result = await sl<ProfileRepo>().getReviews(id: id);
+    result.fold(
+      (l) => emit(GetReviewsErrorState(message: l)),
+      (r) {
+        reviews = r;
+        emit(GetReviewsSuccessState());
       },
     );
   }
