@@ -64,7 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '629503468316',
     projectId: 'maxliss',
     storageBucket: 'maxliss.firebasestorage.app',
-    iosBundleId: 'com.example.expert',
+    iosBundleId: 'com.maxliss.evyx',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '629503468316',
     projectId: 'maxliss',
     storageBucket: 'maxliss.firebasestorage.app',
-    iosBundleId: 'com.example.expert',
+    iosBundleId: 'com.maxliss.evyx',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
