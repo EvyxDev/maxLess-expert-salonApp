@@ -7,6 +7,14 @@
 	<string>sms</string>
 	<string>tel</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>We need camera access to scan QR codes and capture images.</string>
+	<key>NSAllowsArbitraryLoadsInWebContent</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+    	<string>location</string>
+	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We need your location to show you nearby places</string>
 	<key>NSLocationAlwaysUsageDescription</key>
