@@ -14,6 +14,7 @@ import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
+import 'package:maxless/features/profile/presentation/pages/reviews_view.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 import 'package:maxless/features/wallet/presentation/screens/wallet.dart';
 
@@ -82,9 +83,9 @@ class Sidebar extends StatelessWidget {
                             color: Colors.black,
                           ),
                         ),
-                        //! Email
+                        //! Phone
                         Text(
-                          context.read<GlobalCubit>().userEmail ?? "...",
+                          context.read<GlobalCubit>().userPhone ?? "...",
                           style: TextStyle(
                             fontSize: 14.sp,
                             color: const Color(0xff9C9C9C),
@@ -109,7 +110,7 @@ class Sidebar extends StatelessWidget {
                                                     .read<GlobalCubit>()
                                                     .userRating ??
                                                 0)
-                                        ? Icons.star_half 
+                                        ? Icons.star_half
                                         : Icons.star_border,
                                 color: Colors.amber,
                                 size: 16.sp,
@@ -128,6 +129,22 @@ class Sidebar extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: _buildLanguageField(context),
+          ),
+          //! Requests
+          _buildNavItem(
+            context,
+            icon: "lib/assets/reviews.svg",
+            label: "reviews_label".tr(context),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ReviewsView(
+                    userId: context.read<GlobalCubit>().userId!,
+                  ),
+                ),
+              );
+            },
           ),
           //! Requests
           _buildNavItem(
@@ -257,7 +274,14 @@ class Sidebar extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(
               vertical: 0.h,
             ),
-            leading: SvgPicture.asset(icon, width: 20.w),
+            leading: SvgPicture.asset(
+              icon,
+              width: 20.w,
+              colorFilter: const ColorFilter.mode(
+                AppColors.primaryColor,
+                BlendMode.srcIn,
+              ),
+            ),
             minLeadingWidth: 5.w,
             title: Row(
               children: [

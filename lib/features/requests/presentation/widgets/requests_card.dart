@@ -170,7 +170,7 @@ class _RequestCardState extends State<RequestCard>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "customer_name".tr(context),
+                          widget.model.user?.name ?? "",
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w400,

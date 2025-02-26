@@ -12,6 +12,7 @@ import 'package:maxless/core/component/custom_post_image.dart';
 import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
+import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
@@ -21,6 +22,7 @@ import 'package:maxless/features/community/data/models/community_item_model.dart
 import 'package:maxless/features/community/presentation/cubit/community_cubit.dart';
 import 'package:maxless/features/community/presentation/widgets/add_post_bottom_sheet.dart';
 import 'package:maxless/features/profile/presentation/cubit/profile_cubit.dart';
+import 'package:maxless/features/profile/presentation/pages/reviews_view.dart';
 
 class ExpertProfilePage extends StatelessWidget {
   const ExpertProfilePage({
@@ -179,13 +181,33 @@ class ExpertProfilePage extends StatelessWidget {
                                                     ),
                                                   ),
                                                   SizedBox(height: 4.h),
-                                                  Text(
-                                                    (cubit.user!.ratingCount ??
-                                                            0)
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontSize: 14.sp,
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      navigateTo(
+                                                        context,
+                                                        ReviewsView(
+                                                          userId: id ??
+                                                              context
+                                                                  .read<
+                                                                      GlobalCubit>()
+                                                                  .userId!,
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Text(
+                                                      (cubit.user!.ratingCount ??
+                                                              0)
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 14.sp,
+                                                        decoration:
+                                                            TextDecoration
+                                                                .underline,
+                                                        decorationColor:
+                                                            AppColors
+                                                                .primaryColor,
+                                                      ),
                                                     ),
                                                   ),
                                                 ],

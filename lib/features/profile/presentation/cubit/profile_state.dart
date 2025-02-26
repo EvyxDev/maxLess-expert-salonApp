@@ -32,3 +32,13 @@ final class LikeProfileCommunitySuccessState extends ProfileState {
 
   const LikeProfileCommunitySuccessState({required this.message});
 }
+
+final class GetReviewsLoadingState extends ProfileState {}
+
+final class GetReviewsErrorState extends ProfileState {
+  final String message;
+
+  const GetReviewsErrorState({required this.message});
+}
+
+final class GetReviewsSuccessState extends ProfileState {}

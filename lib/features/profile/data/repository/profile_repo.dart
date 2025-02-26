@@ -7,6 +7,8 @@ import 'package:maxless/features/auth/data/models/response_model.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:maxless/features/profile/data/models/profile_model.dart';
 
+import '../models/review_model.dart';
+
 class ProfileRepo {
   final DioConsumer api;
 
@@ -43,6 +45,27 @@ class ProfileRepo {
       } else {
         return Left(model.message ?? "...");
       }
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  //! Get Reviews
+  Future<Either<String, List<ReviewModel>>> getReviews(
+      {required int id}) async {
+    try {
+      final Response response = await api.get(
+        EndPoints.getReviews,
+        isFormData: true,
+        data: {ApiKey.expertId: id},
+      );
+      ResponseModel model = ResponseModel.fromJson(response.data);
+      return Right(
+          (model.data as List).map((e) => ReviewModel.fromJson(e)).toList());
     } on ServerException catch (e) {
       return Left(e.errorModel.detail);
     } on NoInternetException catch (e) {

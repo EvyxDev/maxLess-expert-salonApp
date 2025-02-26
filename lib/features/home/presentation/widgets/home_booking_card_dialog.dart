@@ -315,9 +315,44 @@ class HomeBookingCardDialog extends StatelessWidget {
                                     switch (model.status) {
                                       case 1:
                                         Navigator.pop(context);
-                                        navigateTo(
+                                        // navigateTo(
+                                        //   context,
+                                        //   const RequestsScreen(
+                                        //     isFromBooking: true,
+                                        //   ),
+                                        // );
+                                        Navigator.push(
                                           context,
-                                          const RequestsScreen(),
+                                          PageRouteBuilder(
+                                            transitionDuration: const Duration(
+                                                milliseconds: 1100),
+                                            reverseTransitionDuration:
+                                                const Duration(
+                                                    milliseconds: 700),
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                const RequestsScreen(
+                                              isFromBooking: true,
+                                            ),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              return const ZoomPageTransitionsBuilder()
+                                                  .buildTransitions(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const RequestsScreen(
+                                                    isFromBooking: true,
+                                                  ),
+                                                ),
+                                                context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child,
+                                              );
+                                            },
+                                          ),
                                         );
                                         break;
                                       case 2:
