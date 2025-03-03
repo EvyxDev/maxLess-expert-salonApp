@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/localization_settings.dart';
 import 'package:maxless/features/base/intro/presentation/presentation/pages/splash.dart';
+import 'package:upgrader/upgrader.dart';
 
 import '../constants/app_colors.dart';
 import '../services/service_locator.dart';
@@ -56,7 +57,14 @@ class MaxLiss extends StatelessWidget {
                   .copyWith(physics: const ClampingScrollPhysics()),
 
               //!Routing
-              home: const SplashScreen(),
+              home: UpgradeAlert(
+                dialogStyle: UpgradeDialogStyle.cupertino,
+                showLater: false,
+                barrierDismissible: false,
+                showIgnore: false,
+                showReleaseNotes: true,
+                child: const SplashScreen(),
+              ),
             );
           },
         );

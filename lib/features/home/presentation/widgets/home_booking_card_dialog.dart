@@ -160,17 +160,18 @@ class HomeBookingCardDialog extends StatelessWidget {
           if (state is CheckSessionPriceSuccess) {
             // ignore: use_build_context_synchronously
             Navigator.pop(context);
-            if (state.result == false) {
-              GlobalKey<FormState> priceFormKey = GlobalKey<FormState>();
-              // ignore: use_build_context_synchronously
-              return setPriceDialog(context, priceFormKey).whenComplete(() {
-                // ignore: use_build_context_synchronously
-                context.read<SessionCubit>().priceController.clear();
-              });
-            } else {
+            // if (state.result == false) {
+            //   GlobalKey<FormState> priceFormKey = GlobalKey<FormState>();
+            //   // ignore: use_build_context_synchronously
+            //   return setPriceDialog(context, priceFormKey).whenComplete(() {
+            //     // ignore: use_build_context_synchronously
+            //     context.read<SessionCubit>().priceController.clear();
+            //   });
+            // } else {
+            //   // ignore: use_build_context_synchronously
               // ignore: use_build_context_synchronously
               navigateTo(context, ReceiptDetailsPage(model: model));
-            }
+            // }
           }
           if (state is CheckSessionPriceErrorState) {
             showToast(

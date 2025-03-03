@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:maxless/core/component/custom_header.dart';
-import 'package:maxless/core/component/custom_loading_indicator.dart';
 import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
 import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
@@ -104,7 +103,20 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
             );
           }
           if (state is EndSessionSuccessState) {
-            setSessionPriceDialog(context);
+            // setSessionPriceDialog(context);
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => BlocProvider(
+                create: (context) => SessionCubit()
+                  ..bookingId = widget.model.id!
+                  ..userType =
+                      context.read<GlobalCubit>().isExpert ? "expert" : "salon"
+                  ..userId = context.read<GlobalCubit>().userId!
+                  ..bookingModel = widget.model,
+                child: const FeedbackAlertDialog(),
+              ),
+            );
           }
           if (state is EndSessionErrorState) {
             showToast(
@@ -196,178 +208,178 @@ class _ScanQRSalonState extends State<ScanQRSalon> {
     );
   }
 
-  Future<dynamic> setSessionPriceDialog(BuildContext oldContext) {
-    GlobalKey<FormState> priceFormKey = GlobalKey<FormState>();
-    return showDialog(
-        // ignore: use_build_context_synchronously
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return BlocProvider.value(
-            value: oldContext.read<SessionCubit>(),
-            child: BlocConsumer<SessionCubit, SessionState>(
-              listener: (context, state) {
-                if (state is SetSessionPriceSuccessState) {
-                  showToast(
-                    context,
-                    message: state.message,
-                    state: ToastStates.success,
-                  );
-                  Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => BlocProvider.value(
-                      value: oldContext.read<SessionCubit>(),
-                      child: const FeedbackAlertDialog(),
-                    ),
-                  );
-                }
-                if (state is SetSessionPriceErrorState) {
-                  showToast(
-                    context,
-                    message: state.message,
-                    state: ToastStates.error,
-                  );
-                }
-              },
-              builder: (context, state) {
-                final cubit = context.read<SessionCubit>();
-                return PopScope(
-                  // canPop: false,
-                  canPop: true,
-                  child: Dialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.r),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(16.w),
-                      child: Form(
-                        key: priceFormKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            //! Title
-                            Align(
-                              alignment: Alignment.center,
-                              child: Text(
-                                "session_ended_popup_title".tr(context),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryColor,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 12.h),
-                            //! Price
-                            Text(
-                              "session_ended_popup_description".tr(context),
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xff09031B),
-                              ),
-                            ),
-                            SizedBox(height: 12.h),
-                            TextFormField(
-                              controller: cubit.priceController,
-                              keyboardType: TextInputType.number,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return AppStrings.thisFieldIsRequired
-                                      .tr(context);
-                                }
-                                return null;
-                              },
-                              decoration: InputDecoration(
-                                hintText: "service_cost_hint".tr(context),
-                                hintStyle: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.grey,
-                                ),
-                                suffix: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text("egp".tr(context)),
-                                  ],
-                                ),
-                                filled: true,
-                                fillColor: Colors.grey.shade200,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20.h),
-                            //! Discount
-                            Text(
-                              AppStrings.enterTheDiscount.tr(context),
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w400,
-                                color: const Color(0xff09031B),
-                              ),
-                            ),
-                            SizedBox(height: 12.h),
-                            TextFormField(
-                              controller: cubit.discountController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText:
-                                    AppStrings.serviceDiscount.tr(context),
-                                hintStyle: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.grey,
-                                ),
-                                suffix: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text("egp".tr(context)),
-                                  ],
-                                ),
-                                filled: true,
-                                fillColor: Colors.grey.shade200,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  borderSide: BorderSide.none,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 20.h),
-                            state is SetSessionPriceLoadingState
-                                ? const CustomLoadingIndicator()
-                                : CustomElevatedButton(
-                                    text: "send".tr(context),
-                                    color: AppColors.primaryColor,
-                                    textColor: Colors.white,
-                                    onPressed: () {
-                                      if (priceFormKey.currentState!
-                                          .validate()) {
-                                        FocusScope.of(context).unfocus();
-                                        cubit.setSessionPrice();
-                                      }
-                                    },
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        }).whenComplete(() {
-      // ignore: use_build_context_synchronously
-      oldContext.read<SessionCubit>().priceController.clear();
-    });
-  }
+  // Future<dynamic> setSessionPriceDialog(BuildContext oldContext) {
+  //   GlobalKey<FormState> priceFormKey = GlobalKey<FormState>();
+  //   return showDialog(
+  //       // ignore: use_build_context_synchronously
+  //       context: context,
+  //       barrierDismissible: false,
+  //       builder: (BuildContext context) {
+  //         return BlocProvider.value(
+  //           value: oldContext.read<SessionCubit>(),
+  //           child: BlocConsumer<SessionCubit, SessionState>(
+  //             listener: (context, state) {
+  //               if (state is SetSessionPriceSuccessState) {
+  //                 showToast(
+  //                   context,
+  //                   message: state.message,
+  //                   state: ToastStates.success,
+  //                 );
+  //                 Navigator.pop(context);
+  //                 showDialog(
+  //                   context: context,
+  //                   barrierDismissible: false,
+  //                   builder: (context) => BlocProvider.value(
+  //                     value: oldContext.read<SessionCubit>(),
+  //                     child: const FeedbackAlertDialog(),
+  //                   ),
+  //                 );
+  //               }
+  //               if (state is SetSessionPriceErrorState) {
+  //                 showToast(
+  //                   context,
+  //                   message: state.message,
+  //                   state: ToastStates.error,
+  //                 );
+  //               }
+  //             },
+  //             builder: (context, state) {
+  //               final cubit = context.read<SessionCubit>();
+  //               return PopScope(
+  //                 // canPop: false,
+  //                 canPop: true,
+  //                 child: Dialog(
+  //                   shape: RoundedRectangleBorder(
+  //                     borderRadius: BorderRadius.circular(15.r),
+  //                   ),
+  //                   child: Padding(
+  //                     padding: EdgeInsets.all(16.w),
+  //                     child: Form(
+  //                       key: priceFormKey,
+  //                       child: Column(
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //                         mainAxisSize: MainAxisSize.min,
+  //                         children: [
+  //                           //! Title
+  //                           Align(
+  //                             alignment: Alignment.center,
+  //                             child: Text(
+  //                               "session_ended_popup_title".tr(context),
+  //                               textAlign: TextAlign.center,
+  //                               style: TextStyle(
+  //                                 fontSize: 18.sp,
+  //                                 fontWeight: FontWeight.bold,
+  //                                 color: AppColors.primaryColor,
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 12.h),
+  //                           //! Price
+  //                           Text(
+  //                             "session_ended_popup_description".tr(context),
+  //                             style: TextStyle(
+  //                               fontSize: 16.sp,
+  //                               fontWeight: FontWeight.w400,
+  //                               color: const Color(0xff09031B),
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 12.h),
+  //                           TextFormField(
+  //                             controller: cubit.priceController,
+  //                             keyboardType: TextInputType.number,
+  //                             validator: (value) {
+  //                               if (value!.isEmpty) {
+  //                                 return AppStrings.thisFieldIsRequired
+  //                                     .tr(context);
+  //                               }
+  //                               return null;
+  //                             },
+  //                             decoration: InputDecoration(
+  //                               hintText: "service_cost_hint".tr(context),
+  //                               hintStyle: TextStyle(
+  //                                 fontSize: 14.sp,
+  //                                 fontWeight: FontWeight.w400,
+  //                                 color: AppColors.grey,
+  //                               ),
+  //                               suffix: Row(
+  //                                 mainAxisSize: MainAxisSize.min,
+  //                                 children: [
+  //                                   Text("egp".tr(context)),
+  //                                 ],
+  //                               ),
+  //                               filled: true,
+  //                               fillColor: Colors.grey.shade200,
+  //                               border: OutlineInputBorder(
+  //                                 borderRadius: BorderRadius.circular(10.r),
+  //                                 borderSide: BorderSide.none,
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 20.h),
+  //                           //! Discount
+  //                           Text(
+  //                             AppStrings.enterTheDiscount.tr(context),
+  //                             style: TextStyle(
+  //                               fontSize: 16.sp,
+  //                               fontWeight: FontWeight.w400,
+  //                               color: const Color(0xff09031B),
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 12.h),
+  //                           TextFormField(
+  //                             controller: cubit.discountController,
+  //                             keyboardType: TextInputType.number,
+  //                             decoration: InputDecoration(
+  //                               hintText:
+  //                                   AppStrings.serviceDiscount.tr(context),
+  //                               hintStyle: TextStyle(
+  //                                 fontSize: 14.sp,
+  //                                 fontWeight: FontWeight.w400,
+  //                                 color: AppColors.grey,
+  //                               ),
+  //                               suffix: Row(
+  //                                 mainAxisSize: MainAxisSize.min,
+  //                                 children: [
+  //                                   Text("egp".tr(context)),
+  //                                 ],
+  //                               ),
+  //                               filled: true,
+  //                               fillColor: Colors.grey.shade200,
+  //                               border: OutlineInputBorder(
+  //                                 borderRadius: BorderRadius.circular(10.r),
+  //                                 borderSide: BorderSide.none,
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           SizedBox(height: 20.h),
+  //                           state is SetSessionPriceLoadingState
+  //                               ? const CustomLoadingIndicator()
+  //                               : CustomElevatedButton(
+  //                                   text: "send".tr(context),
+  //                                   color: AppColors.primaryColor,
+  //                                   textColor: Colors.white,
+  //                                   onPressed: () {
+  //                                     if (priceFormKey.currentState!
+  //                                         .validate()) {
+  //                                       FocusScope.of(context).unfocus();
+  //                                       cubit.setSessionPrice();
+  //                                     }
+  //                                   },
+  //                                 ),
+  //                         ],
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //         );
+  //       }).whenComplete(() {
+  //     // ignore: use_build_context_synchronously
+  //     oldContext.read<SessionCubit>().priceController.clear();
+  //   });
+  // }
 
   Widget _buildStep1({required Function() onTap}) {
     return Padding(
