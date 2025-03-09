@@ -28,9 +28,11 @@ class ExpertProfilePage extends StatelessWidget {
   const ExpertProfilePage({
     super.key,
     this.id,
+    this.isExpert,
   });
 
   final int? id;
+  final bool? isExpert;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +67,13 @@ class ExpertProfilePage extends StatelessWidget {
                     SizedBox(height: 20.h),
                     //! Header
                     CustomHeader(
-                      title: AppStrings.beautyExpertDetails.tr(context),
+                      title: isExpert != null
+                          ? isExpert == true
+                              ? AppStrings.beautyExpertDetails.tr(context)
+                              : AppStrings.salonDetails.tr(context)
+                          : context.read<GlobalCubit>().isExpert
+                              ? AppStrings.beautyExpertDetails.tr(context)
+                              : AppStrings.salonDetails.tr(context),
                       onBackPress: () {
                         Navigator.pop(context);
                       },

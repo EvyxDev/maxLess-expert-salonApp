@@ -52,6 +52,8 @@ class PostCard extends StatelessWidget {
                                   context.read<GlobalCubit>().userId
                               ? null
                               : model.expert?.id,
+                          isExpert:
+                              model.expert?.type == "expert" ? true : false,
                         ));
                   },
                   child: Row(
