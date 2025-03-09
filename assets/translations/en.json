@@ -24,7 +24,7 @@
   "login": "Login",
   "no_account_prompt": "Don't have an account?",
   "sign_up": "Sign up",
-  "check_email_title": "Please check your email",
+  "check_email_title": "Please check your WhatsApp",
   "otp_description": "We’ve sent you a code to {email}",
   "verify_button": "Verify",
   "resend_code_ready": "Send code again",

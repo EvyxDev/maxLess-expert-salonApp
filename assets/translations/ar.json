@@ -34,7 +34,7 @@
   "email_label": "البريد الإلكتروني",
   "email_hint": "أدخل بريدك الإلكتروني",
   "send_code_button": "إرسال الرمز",
-  "check_email_title": "يرجى التحقق من بريدك الإلكتروني",
+  "check_email_title": "يرجى التحقق من WhatsApp",
   "otp_description": "لقد أرسلنا لك رمزًا إلى {email}",
   "verify_button": "تحقق",
   "resend_code_ready": "إرسال الرمز مرة أخرى",
