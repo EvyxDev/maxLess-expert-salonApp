@@ -9,6 +9,8 @@ import 'package:upgrader/upgrader.dart';
 import '../constants/app_colors.dart';
 import '../services/service_locator.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MaxLiss extends StatelessWidget {
   const MaxLiss({super.key});
 
@@ -20,6 +22,7 @@ class MaxLiss extends StatelessWidget {
           designSize: const Size(375, 812),
           builder: (context, child) {
             return MaterialApp(
+              navigatorKey: navigatorKey,
               builder: (context, child) {
                 final mediaQueryData = MediaQuery.of(context);
                 final scale = mediaQueryData.textScaler

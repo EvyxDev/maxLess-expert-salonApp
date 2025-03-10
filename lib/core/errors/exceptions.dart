@@ -1,5 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:maxless/core/constants/app_constants.dart';
+import 'package:maxless/features/base/intro/presentation/presentation/pages/splash.dart';
 
+import '../app/maxliss.dart';
+import '../cubit/global_cubit.dart';
+import '../network/local_network.dart';
+import '../services/service_locator.dart';
 import 'error_model.dart';
 
 //!ServerException
@@ -96,12 +103,25 @@ handleDioException(DioException e) {
           throw BadResponseException(ErrorModel.fromJson(e.response!.data));
 
         case 401: //unauthorized
+
           throw UnauthorizedException(ErrorModel.fromJson(e.response!.data));
 
         case 403: //forbidden
           throw ForbiddenException(ErrorModel.fromJson(e.response!.data));
 
         case 404: //not found
+          sl<CacheHelper>().removeKey(key: AppConstants.token);
+          sl<CacheHelper>().removeKey(key: AppConstants.user);
+          sl<CacheHelper>().removeKey(key: AppConstants.wssToken);
+          sl<CacheHelper>().removeKey(key: AppConstants.cookie);
+          sl<GlobalCubit>().isExpert = true;
+          sl<GlobalCubit>().isSalon = false;
+          navigatorKey.currentState?.pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) {
+              return const SplashScreen();
+            }),
+            (route) => false,
+          );
           throw NotFoundException(ErrorModel.fromJson(e.response!.data));
 
         case 409: //cofficient
