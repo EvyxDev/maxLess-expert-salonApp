@@ -16,6 +16,7 @@ class UserModel {
       lat,
       lon,
       price,
+      address,
       createdAt,
       updatedAt;
   final List<SlotModel> slots;
@@ -40,6 +41,7 @@ class UserModel {
     required this.ratingCount,
     required this.community,
     required this.wssToken,
+    required this.address
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
@@ -60,6 +62,7 @@ class UserModel {
       updatedAt: map[ApiKey.updatedAt],
       experience: map[ApiKey.experience],
       ratingCount: map[ApiKey.ratingCount],
+      address: map[ApiKey.address],
       slots: map[ApiKey.slots] != null
           ? (map[ApiKey.slots] as List)
               .map((e) => SlotModel.fromJson(e))
@@ -89,6 +92,7 @@ class UserModel {
       ApiKey.price: price,
       ApiKey.createdAt: createdAt,
       ApiKey.updatedAt: updatedAt,
+      ApiKey.address: address,
       ApiKey.experience: experience,
       ApiKey.slots: slots.map((e) => e.toJson()).toList(),
       ApiKey.community: community.map((e) => e.toJson()).toList(),

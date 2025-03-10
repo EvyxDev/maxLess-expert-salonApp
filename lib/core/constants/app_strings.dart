@@ -16,6 +16,10 @@ class AppStrings {
   static const String completed = "completed";
   static const String canceled = "canceled";
   static const String acceptRequest = "acceptRequest";
+  static const String address = "address";
+  static const String setLocation = "setLocation";
+  static const String editLocation = "editLocation";
+  static const String selectLocation = "selectLocation";
   //! Validations
   static const String thisFieldIsRequired = "thisFieldIsRequired";
   static const String otpRequired = "otpRequired";

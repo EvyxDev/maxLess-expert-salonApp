@@ -45,14 +45,16 @@ class CustomElevatedButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            text,
-            style: CustomTextStyle.roboto500sized16White.copyWith(
-              color: textColor ?? AppColors.backgroundColor,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            child: Text(
+              text,
+              style: CustomTextStyle.roboto500sized16White.copyWith(
+                color: textColor ?? AppColors.backgroundColor,
+              ),
             ),
           ),
           icon ?? const SizedBox(),
-          icon == null ? const SizedBox() : SizedBox(width: 8.w),
         ],
       ),
     );

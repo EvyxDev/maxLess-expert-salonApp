@@ -498,5 +498,9 @@
   "serviceDiscount": "Service discount",
   "completed ": "Completed",
   "canceled ": "Canceled",
-  "acceptRequest": "Accept Request"
+  "acceptRequest": "Accept Request",
+  "address": "Address",
+  "setLocation": "Set Address",
+  "editLocation": "Edit Address",
+  "selectLocation": "Select Location"
 }

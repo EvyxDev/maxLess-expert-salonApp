@@ -6,11 +6,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
 import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/constants/app_colors.dart';
+import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/navigation.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
+import 'package:maxless/features/address/presentation/screens/address_screen.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
@@ -130,6 +132,16 @@ class Sidebar extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             child: _buildLanguageField(context),
           ),
+          //! Address
+          if (context.read<GlobalCubit>().isSalon)
+            _buildNavItem(
+              context,
+              icon: "lib/assets/address.svg",
+              label: AppStrings.address.tr(context),
+              onTap: () {
+                navigateTo(context, const AddressScreen());
+              },
+            ),
           //! Requests
           _buildNavItem(
             context,

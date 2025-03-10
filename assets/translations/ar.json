@@ -498,5 +498,9 @@
   "serviceDiscount": "خصم الجلسة",
   "completed ": "مكتمل",
   "canceled ": "تم الإلغاء",
-  "acceptRequest": "قبول الطلب"
+  "acceptRequest": "قبول الطلب",
+  "address": "العنوان",
+  "setLocation": "تعيين العنوان",
+  "editLocation": "تعديل العنوان",
+  "selectLocation": "أختر العنوان"
 }

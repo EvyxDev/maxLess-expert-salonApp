@@ -86,28 +86,29 @@ class PostCard extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10.w),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //! Name
-                          Text(
-                            model.expert?.name ?? "...",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //! Name
+                            Text(
+                              model.expert?.name ?? "...",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
                             ),
-                          ),
-                          //! Location
-                          Text(
-                            model.expert?.location ?? "...",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 12.sp,
+                            //! Location
+                            Text(
+                              model.expert?.location ?? "...",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 12.sp,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                      const Spacer(),
                       //! Post Time
                       Text(
                         model.time ?? "...",

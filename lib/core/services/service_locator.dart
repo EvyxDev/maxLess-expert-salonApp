@@ -5,6 +5,7 @@ import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/network/network_info.dart';
+import 'package:maxless/features/address/data/repo/set_address_repo.dart';
 import 'package:maxless/features/auth/data/repository/auth_repo.dart';
 import 'package:maxless/features/chatting/data/repository/chatting_repo.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
@@ -35,4 +36,5 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => NotificationsRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => ChattingRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => SessionRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => SetAddressRepo(sl<DioConsumer>()));
 }

@@ -82,6 +82,9 @@ class EndPoints {
 
   //! Get Reviews
   static const String getReviews = "${baseUrl}expert/get-reviews";
+
+  //! Set Salon Address
+  static const String setSalonAddress = "${baseUrl}expert/update-lat-long";
 }
 
 class ApiKey {
@@ -158,4 +161,5 @@ class ApiKey {
   static const String totalPrice = "total_price";
   static const String booking = "booking";
   static const String rate = "rate";
+  static const String address = "address";
 }

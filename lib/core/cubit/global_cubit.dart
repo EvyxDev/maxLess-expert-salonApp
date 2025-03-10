@@ -71,7 +71,13 @@ class GlobalCubit extends Cubit<GlobalState> {
   //! User Data
   int? userId;
   double? userRating;
-  String? userName, userEmail, userPhone, userImageUrl;
+  String? userName,
+      userEmail,
+      userPhone,
+      userImageUrl,
+      address,
+      salonLat,
+      salonLon;
   getUserData() async {
     if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
       Map<String, dynamic> userJson =
@@ -83,6 +89,9 @@ class GlobalCubit extends Cubit<GlobalState> {
       userPhone = model.phone;
       userImageUrl = model.image;
       userRating = model.rating;
+      address = model.address;
+      salonLat = model.lat;
+      salonLon = model.lon;
       emit(GetUserDataState());
     }
   }
