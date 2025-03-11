@@ -14,18 +14,31 @@ class CommunityCubit extends Cubit<CommunityState> {
 
   init() async {
     await getExpertCommunity();
+    scrollController.addListener(
+      () {
+        if (scrollController.offset ==
+            scrollController.position.maxScrollExtent) {
+          pageIndex++;
+          getExpertCommunity(pageIndex: pageIndex);
+        }
+      },
+    );
   }
 
-  final Dio dio = Dio();
+  int pageIndex = 1;
+  ScrollController scrollController = ScrollController();
+
   //! Get Community
   List<CommunityItemModel> community = [];
-  Future<void> getExpertCommunity() async {
+  Future<void> getExpertCommunity({int? pageIndex}) async {
     emit(GetCommunityLoadingState());
-    final result = await sl<CommunityRepo>().expertCommunity();
+    final result = await sl<CommunityRepo>().expertCommunity(page: pageIndex);
     result.fold(
       (l) => emit(GetCommunityErrorState(message: l)),
       (r) {
-        community = r.data;
+        for (var item in r.data) {
+          community.add(item);
+        }
         emit(GetCommunitySuccessState());
       },
     );

@@ -112,6 +112,7 @@ class CommunityBody extends StatelessWidget {
                 //! Communities Listview
                 Expanded(
                   child: ListView.builder(
+                    controller: cubit.scrollController,
                     padding: EdgeInsets.all(16.w),
                     itemCount: cubit.community.length,
                     itemBuilder: (context, index) {

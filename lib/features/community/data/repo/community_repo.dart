@@ -14,9 +14,14 @@ class CommunityRepo {
   CommunityRepo(this.api);
 
   //! Get Community
-  Future<Either<String, CommunityModel>> expertCommunity() async {
+  Future<Either<String, CommunityModel>> expertCommunity({int? page}) async {
     try {
-      final Response response = await api.get(EndPoints.expertCommunity);
+      final Response response = await api.get(
+        EndPoints.expertCommunity,
+        queryParameters: {
+          "page": page,
+        },
+      );
       return Right(CommunityModel.fromJson(response.data));
     } on ServerException catch (e) {
       return Left(e.errorModel.detail);

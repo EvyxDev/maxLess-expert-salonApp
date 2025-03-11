@@ -445,34 +445,35 @@ class ExpertProfilePage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 10.w),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //! User Name
-                            Text(
-                              model.expert?.name ?? "...",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.sp,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //! User Name
+                              Text(
+                                model.expert?.name ?? "...",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14.sp,
+                                ),
                               ),
-                            ),
-                            //! Locations
-                            Text(
-                              model.expert?.location ?? "...",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12.sp,
+                              //! Locations
+                              Text(
+                                model.expert?.location ?? "...",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.sp,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                    const Spacer(),
                     Column(
                       children: [
                         canEdit == true
