@@ -74,4 +74,24 @@ class ProfileRepo {
       return Left(e.toString());
     }
   }
+
+  //! Update Profile Image
+  Future<Either<String, String>> updateProfileImage(
+      {required MultipartFile? image}) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.updateProfileImage,
+        isFormData: true,
+        data: {
+          ApiKey.image: image,
+        },
+      );
+      ResponseModel model = ResponseModel.fromJson(response.data);
+      return Right(model.message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
 }

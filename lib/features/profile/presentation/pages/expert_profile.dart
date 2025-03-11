@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
 import 'package:maxless/core/component/custom_header.dart';
 import 'package:maxless/core/component/custom_loading_indicator.dart';
@@ -23,6 +24,7 @@ import 'package:maxless/features/community/presentation/cubit/community_cubit.da
 import 'package:maxless/features/community/presentation/widgets/add_post_bottom_sheet.dart';
 import 'package:maxless/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:maxless/features/profile/presentation/pages/reviews_view.dart';
+import 'package:maxless/features/profile/presentation/widgets/pick_image_source_bottom_sheet.dart';
 
 class ExpertProfilePage extends StatelessWidget {
   const ExpertProfilePage({
@@ -40,12 +42,28 @@ class ExpertProfilePage extends StatelessWidget {
       create: (context) => (ProfileCubit()
         ..showProfileDetails(id: id ?? context.read<GlobalCubit>().userId!)),
       child: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is GetProfileErrorState) {
             showToast(
               context,
               message: state.message,
               state: ToastStates.error,
+            );
+          }
+          if (state is UpdateProfileImageErrorState) {
+            showToast(
+              context,
+              message: state.message,
+              state: ToastStates.error,
+            );
+          }
+          if (state is UpdateProfileImageSuccessState) {
+            context.read<GlobalCubit>().updateUserData();
+            showToast(
+              // ignore: use_build_context_synchronously
+              context,
+              message: state.message,
+              state: ToastStates.success,
             );
           }
         },
@@ -54,7 +72,10 @@ class ExpertProfilePage extends StatelessWidget {
           return Scaffold(
             backgroundColor: AppColors.white,
             body: CustomModalProgressIndicator(
-              inAsyncCall: state is GetProfileLoadingState ? true : false,
+              inAsyncCall: state is GetProfileLoadingState ||
+                      state is UpdateProfileImageLoadingState
+                  ? true
+                  : false,
               child: RefreshIndicator(
                 color: AppColors.primaryColor,
                 onRefresh: () {
@@ -91,27 +112,80 @@ class ExpertProfilePage extends StatelessWidget {
                                   ? Center(
                                       child: Column(
                                         children: [
-                                          //!Pp Image
-                                          CustomCachedImage(
-                                            imageUrl: cubit.user!.image,
-                                            h: 107.h,
-                                            w: 107.h,
-                                            borderRadius: 100,
-                                            errorWidget: Container(
-                                              height: 107.h,
-                                              width: 107.h,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                border: Border.all(
-                                                  color: AppColors.primaryColor,
+                                          //! Image
+                                          SizedBox(
+                                            height: 107.h,
+                                            width: 107.h,
+                                            child: Stack(
+                                              children: [
+                                                //! Image
+                                                CustomCachedImage(
+                                                  imageUrl: cubit.user!.image,
+                                                  h: 107.h,
+                                                  w: 107.h,
+                                                  borderRadius: 100,
+                                                  errorWidget: Container(
+                                                    height: 107.h,
+                                                    width: 107.h,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              100),
+                                                      border: Border.all(
+                                                        color: AppColors
+                                                            .primaryColor,
+                                                      ),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.person,
+                                                      size: 60.h,
+                                                      color: AppColors
+                                                          .primaryColor,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              child: Icon(
-                                                Icons.person,
-                                                size: 60.h,
-                                                color: AppColors.primaryColor,
-                                              ),
+                                                //! Edit Icon
+                                                if (id == null)
+                                                  GestureDetector(
+                                                    onTap: () async {
+                                                      ImageSource? source =
+                                                          await pickeImageSourceBottomSheet(
+                                                              context);
+                                                      if (source != null) {
+                                                        await cubit
+                                                            .updateProfileImage(
+                                                                // ignore: use_build_context_synchronously
+                                                                context,
+                                                                source: source);
+                                                      }
+                                                    },
+                                                    child: Align(
+                                                      alignment:
+                                                          AlignmentDirectional
+                                                              .bottomEnd,
+                                                      child: Container(
+                                                        width: 28.h,
+                                                        height: 28.h,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: AppColors
+                                                              .primaryColor,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(50),
+                                                        ),
+                                                        child: Center(
+                                                          child: Icon(
+                                                            Icons.edit,
+                                                            color:
+                                                                AppColors.white,
+                                                            size: 16.h,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ],
                                             ),
                                           ),
                                           SizedBox(height: 10.h),

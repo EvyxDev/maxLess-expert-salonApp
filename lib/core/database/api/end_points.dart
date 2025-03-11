@@ -85,6 +85,9 @@ class EndPoints {
 
   //! Set Salon Address
   static const String setSalonAddress = "${baseUrl}expert/update-lat-long";
+
+  //! Update Profile Image
+  static const String updateProfileImage = "${baseUrl}expert/update-image";
 }
 
 class ApiKey {

@@ -103,13 +103,6 @@ handleDioException(DioException e) {
           throw BadResponseException(ErrorModel.fromJson(e.response!.data));
 
         case 401: //unauthorized
-
-          throw UnauthorizedException(ErrorModel.fromJson(e.response!.data));
-
-        case 403: //forbidden
-          throw ForbiddenException(ErrorModel.fromJson(e.response!.data));
-
-        case 404: //not found
           sl<CacheHelper>().removeKey(key: AppConstants.token);
           sl<CacheHelper>().removeKey(key: AppConstants.user);
           sl<CacheHelper>().removeKey(key: AppConstants.wssToken);
@@ -122,6 +115,12 @@ handleDioException(DioException e) {
             }),
             (route) => false,
           );
+          throw UnauthorizedException(ErrorModel.fromJson(e.response!.data));
+
+        case 403: //forbidden
+          throw ForbiddenException(ErrorModel.fromJson(e.response!.data));
+
+        case 404: //not found
           throw NotFoundException(ErrorModel.fromJson(e.response!.data));
 
         case 409: //cofficient

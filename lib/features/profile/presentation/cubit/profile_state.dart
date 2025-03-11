@@ -42,3 +42,19 @@ final class GetReviewsErrorState extends ProfileState {
 }
 
 final class GetReviewsSuccessState extends ProfileState {}
+
+final class PickImageState extends ProfileState {}
+
+final class UpdateProfileImageLoadingState extends ProfileState {}
+
+final class UpdateProfileImageErrorState extends ProfileState {
+  final String message;
+
+  const UpdateProfileImageErrorState({required this.message});
+}
+
+final class UpdateProfileImageSuccessState extends ProfileState {
+  final String message;
+
+  const UpdateProfileImageSuccessState({required this.message});
+}

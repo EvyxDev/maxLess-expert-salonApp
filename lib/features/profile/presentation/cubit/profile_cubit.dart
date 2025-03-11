@@ -1,5 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
@@ -89,6 +93,39 @@ class ProfileCubit extends Cubit<ProfileState> {
       (r) {
         reviews = r;
         emit(GetReviewsSuccessState());
+      },
+    );
+  }
+
+  //! Upload Xfile to API
+  Future<MultipartFile> uploadToApi(XFile image) async {
+    return await MultipartFile.fromFile(
+      image.path,
+      filename: image.path.split('/').last,
+    );
+  }
+
+  //! Update Profile Image
+  Future<void> updateProfileImage(BuildContext context,
+      {required ImageSource source}) async {
+    XFile? pickedImage;
+    ImagePicker picker = ImagePicker();
+
+    pickedImage = await picker.pickImage(source: source);
+    if (pickedImage != null) {
+      pickedImage = pickedImage;
+      emit(PickImageState());
+    }
+    emit(UpdateProfileImageLoadingState());
+    final result = await sl<ProfileRepo>().updateProfileImage(
+      image: pickedImage != null ? await uploadToApi(pickedImage) : null,
+    );
+
+    result.fold(
+      (l) => emit(UpdateProfileImageErrorState(message: l)),
+      (r) {
+        showProfileDetails(id: context.read<GlobalCubit>().userId!);
+        emit(UpdateProfileImageSuccessState(message: r));
       },
     );
   }
