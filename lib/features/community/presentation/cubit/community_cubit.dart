@@ -18,14 +18,17 @@ class CommunityCubit extends Cubit<CommunityState> {
       () {
         if (scrollController.offset ==
             scrollController.position.maxScrollExtent) {
-          pageIndex++;
-          getExpertCommunity(pageIndex: pageIndex);
+          if (pageIndex != lastPage) {
+            pageIndex++;
+            getExpertCommunity(pageIndex: pageIndex);
+          }
         }
       },
     );
   }
 
   int pageIndex = 1;
+  int? lastPage;
   ScrollController scrollController = ScrollController();
 
   //! Get Community
@@ -36,6 +39,7 @@ class CommunityCubit extends Cubit<CommunityState> {
     result.fold(
       (l) => emit(GetCommunityErrorState(message: l)),
       (r) {
+        lastPage ??= r.pagination.lastPage;
         for (var item in r.data) {
           community.add(item);
         }

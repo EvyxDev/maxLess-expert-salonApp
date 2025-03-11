@@ -38,7 +38,12 @@ class CommunityPage extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
-                const CommunityBody(),
+                state is GetCommunityLoadingState &&
+                        context.read<CommunityCubit>().community.isEmpty
+                    ? const Expanded(
+                        child: Center(child: CustomLoadingIndicator()),
+                      )
+                    : const CommunityBody(),
                 if (state is GetCommunityLoadingState &&
                     context.read<CommunityCubit>().community.isNotEmpty)
                   Padding(
