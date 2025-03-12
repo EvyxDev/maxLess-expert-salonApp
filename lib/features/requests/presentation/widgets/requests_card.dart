@@ -223,12 +223,12 @@ class _RequestCardState extends State<RequestCard>
                                             onTap: () async {
                                               cubit.launchGoogleMapLink(
                                                   lat: widget.model.lat!,
-                                                  lon: widget.model.lat!);
+                                                  lon: widget.model.lon!);
                                             },
                                             child: Text(
                                               cubit.formateGoogleMapLink(
                                                   lat: widget.model.lat!,
-                                                  lon: widget.model.lat!),
+                                                  lon: widget.model.lon!),
                                               style: TextStyle(
                                                 fontSize: 12.sp,
                                                 color: AppColors.primaryColor,
