@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/home/data/models/booking_item_model.dart';
@@ -79,6 +81,19 @@ class HomeCubit extends Cubit<HomeState> {
     result.fold(
       (l) => emit(CheckSessionPriceErrorState(message: l)),
       (r) => emit(CheckSessionPriceSuccess(result: r)),
+    );
+  }
+
+  //! Freeze Toggle
+  Future<void> freezeToggle(BuildContext context, value) async {
+    emit(FreezeToggleLoadingState());
+    final result = await sl<HomeRepo>().freezeToggle(value: value);
+    result.fold(
+      (l) => emit(FreezeToggleErrorState(message: l)),
+      (r) async {
+        await context.read<GlobalCubit>().updateUserData();
+        emit(FreezeToggleSuccessState(message: r));
+      },
     );
   }
 }

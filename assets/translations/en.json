@@ -502,5 +502,7 @@
   "address": "Address",
   "setLocation": "Set Address",
   "editLocation": "Edit Address",
-  "selectLocation": "Select Location"
+  "selectLocation": "Select Location",
+  "freeze": "Freeze",
+  "unfreeze": "Unfreeze"
 }

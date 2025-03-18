@@ -15,11 +15,12 @@ class CustomElevatedButton extends StatelessWidget {
     this.icon,
     this.elevation,
     this.borderRadius,
+    this.heigth,
   });
   final VoidCallback? onPressed;
   final String text;
   final Color? textColor;
-  final double? width;
+  final double? width, heigth;
   final double? borderRadius;
   final Color? color;
   final Color? borderColor;
@@ -33,7 +34,8 @@ class CustomElevatedButton extends StatelessWidget {
         backgroundColor: color ?? AppColors.primaryColor,
         elevation: elevation ?? 0,
         shadowColor: AppColors.lightGrey,
-        fixedSize: Size(width ?? MediaQuery.of(context).size.width, 56.h),
+        fixedSize:
+            Size(width ?? MediaQuery.of(context).size.width, heigth ?? 56.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(borderRadius ?? 12),
           side: BorderSide(

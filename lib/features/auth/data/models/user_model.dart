@@ -4,7 +4,7 @@ import 'package:maxless/features/community/data/models/community_item_model.dart
 import 'slot_model.dart';
 
 class UserModel {
-  final int? id, experience, ratingCount;
+  final int? id, experience, ratingCount, freeze;
   final double? rating;
   final String? wssToken,
       name,
@@ -41,7 +41,8 @@ class UserModel {
     required this.ratingCount,
     required this.community,
     required this.wssToken,
-    required this.address
+    required this.address,
+    required this.freeze,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> map) {
@@ -63,6 +64,7 @@ class UserModel {
       experience: map[ApiKey.experience],
       ratingCount: map[ApiKey.ratingCount],
       address: map[ApiKey.address],
+      freeze: map["freeze"],
       slots: map[ApiKey.slots] != null
           ? (map[ApiKey.slots] as List)
               .map((e) => SlotModel.fromJson(e))
@@ -93,6 +95,7 @@ class UserModel {
       ApiKey.createdAt: createdAt,
       ApiKey.updatedAt: updatedAt,
       ApiKey.address: address,
+      "freeze": freeze,
       ApiKey.experience: experience,
       ApiKey.slots: slots.map((e) => e.toJson()).toList(),
       ApiKey.community: community.map((e) => e.toJson()).toList(),

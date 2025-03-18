@@ -502,5 +502,7 @@
   "address": "العنوان",
   "setLocation": "تعيين العنوان",
   "editLocation": "تعديل العنوان",
-  "selectLocation": "أختر العنوان"
+  "selectLocation": "أختر العنوان",
+  "freeze": "إيقاف مؤقت",
+  "unfreeze": "إلغاء الإيقاف المؤقت"
 }

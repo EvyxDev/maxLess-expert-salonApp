@@ -46,3 +46,17 @@ final class CheckSessionPriceSuccess extends HomeState {
 
   const CheckSessionPriceSuccess({required this.result});
 }
+
+final class FreezeToggleLoadingState extends HomeState {}
+
+final class FreezeToggleErrorState extends HomeState {
+  final String message;
+
+  const FreezeToggleErrorState({required this.message});
+}
+
+final class FreezeToggleSuccessState extends HomeState {
+  final String message;
+
+  const FreezeToggleSuccessState({required this.message});
+}

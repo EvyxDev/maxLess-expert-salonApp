@@ -32,4 +32,24 @@ class HomeRepo {
       return Left(e.toString());
     }
   }
+
+  //! Freeze
+  Future<Either<String, String>> freezeToggle({required int value}) async {
+    try {
+      final Response response = await api.post(
+        EndPoints.freeze,
+        isFormData: true,
+        data: {
+          "freeze": value,
+        },
+      );
+      return Right(ResponseModel.fromJson(response.data).message ?? "");
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
 }

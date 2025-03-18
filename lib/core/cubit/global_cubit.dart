@@ -69,7 +69,7 @@ class GlobalCubit extends Cubit<GlobalState> {
   }
 
   //! User Data
-  int? userId;
+  int? userId, freeze;
   double? userRating;
   String? userName,
       userEmail,
@@ -92,6 +92,7 @@ class GlobalCubit extends Cubit<GlobalState> {
       address = model.address;
       salonLat = model.lat;
       salonLon = model.lon;
+      freeze = model.freeze;
       emit(GetUserDataState());
     }
   }

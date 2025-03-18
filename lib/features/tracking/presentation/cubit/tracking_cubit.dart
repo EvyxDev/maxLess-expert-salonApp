@@ -173,6 +173,7 @@ class TrackingCubit extends Cubit<TrackingState> {
   //!WebSocket
   late WebSocketChannel channel;
   void initWebSocket(GlobalCubit globalCubit) {
+    log("========== WSS Token: ${sl<CacheHelper>().getDataString(key: AppConstants.wssToken)}");
     //! Connect
     channel = WebSocketChannel.connect(
       Uri.parse(

@@ -88,6 +88,9 @@ class EndPoints {
 
   //! Update Profile Image
   static const String updateProfileImage = "${baseUrl}expert/update-image";
+
+  //! Freeze
+  static const String freeze = "${baseUrl}expert/freeze-expert";
 }
 
 class ApiKey {
