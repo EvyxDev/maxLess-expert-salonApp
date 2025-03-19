@@ -2,7 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSApplicationQueriesSchemes</key>
+<key>LSApplicationQueriesSchemes</key>
+		<key>LSApplicationQueriesSchemes</key>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -21,11 +22,16 @@
 	<key>NSPushNotifications</key>
 	<string>We use push notifications to notify you of important events.</string>
 	<array>
+	<array>
 	<string>sms</string>
 	<string>tel</string>
 	</array>
 	<key>NSCameraUsageDescription</key>
-	<string>We need camera access to scan QR codes and capture images.</string>
+	<string>We need camera access to scan QR codes and capture images and capture images for products.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need camera access to scan QR codes and capture images and capture images for products.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need access to your location to to track expert while she present service to you.</string>
 	<key>NSAllowsArbitraryLoadsInWebContent</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -39,7 +45,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Maxliss Expert&Salon</string>
+	<string>Maxliss Expert-Salon</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
