@@ -26,11 +26,12 @@ class LocalNotificationService {
 
   //basic Notification
   static void showBasicNotification(RemoteMessage message) async {
-    AndroidNotificationDetails android = const AndroidNotificationDetails(
+    AndroidNotificationDetails android = AndroidNotificationDetails(
       'channel_id',
       'channel_name',
       importance: Importance.max,
       priority: Priority.high,
+      icon: "@drawable/launcher_icon",
     );
     NotificationDetails details = NotificationDetails(
       android: android,

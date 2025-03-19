@@ -3,14 +3,17 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:maxless/core/constants/app_constants.dart';
+import 'package:maxless/core/services/service_locator.dart';
 
+import '../network/local_network.dart';
 import 'local_notification_service.dart';
 
 class NotificationHandler {
   static FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   static String? fcmToken = '';
   static Future init() async {
-    /// Request for permission
+    //! Request for permission
     await firebaseMessaging.requestPermission(
       alert: true,
       announcement: true,
@@ -21,13 +24,13 @@ class NotificationHandler {
       sound: true,
     );
 
-    /// Get the token
+    //! Get the token
     fcmToken = await firebaseMessaging.getToken();
     if (!kReleaseMode) log('FCM Token: $fcmToken');
-
+    sl<CacheHelper>().saveData(key: AppConstants.fcmToken, value: fcmToken);
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
 
-    /// Handle foreground message
+    //! Handle foreground message
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       LocalNotificationService.showBasicNotification(message);
       if (!kReleaseMode) {
@@ -36,7 +39,7 @@ class NotificationHandler {
     });
   }
 
-  /// Handle background message
+  //! Handle background message
   static Future<void> handleBackgroundMessage(RemoteMessage message) async {
     await Firebase.initializeApp();
     LocalNotificationService.showBasicNotification(message);

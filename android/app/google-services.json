@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "629503468316",
-    "project_id": "maxliss",
-    "storage_bucket": "maxliss.firebasestorage.app"
+    "project_number": "644712028793",
+    "firebase_url": "https://maxliss-71841-default-rtdb.firebaseio.com",
+    "project_id": "maxliss-71841",
+    "storage_bucket": "maxliss-71841.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:629503468316:android:0635da892753706307d0d9",
+        "mobilesdk_app_id": "1:644712028793:android:3f7c88e6fb1aaf8e9752a8",
         "android_client_info": {
           "package_name": "com.maxliss.evyx"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDjYMTpO19Mjaiwbem__ki5HyTv97ukVcE"
+          "current_key": "AIzaSyDnOS6TBeiaRZVPVoapi1WfX42Pa29yj3o"
         }
       ],
       "services": {

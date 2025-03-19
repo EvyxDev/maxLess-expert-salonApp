@@ -41,48 +41,54 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCphV3SeCpIXsr9aPPdcKHgUI9IH16rsBE',
-    appId: '1:629503468316:web:e4811e684516642707d0d9',
-    messagingSenderId: '629503468316',
-    projectId: 'maxliss',
-    authDomain: 'maxliss.firebaseapp.com',
-    storageBucket: 'maxliss.firebasestorage.app',
-    measurementId: 'G-BTECR98WZX',
+    apiKey: 'AIzaSyCVNoytosVF1qDar90RLfEbAsUNwI0zCAk',
+    appId: '1:644712028793:web:570989500495e3349752a8',
+    messagingSenderId: '644712028793',
+    projectId: 'maxliss-71841',
+    authDomain: 'maxliss-71841.firebaseapp.com',
+    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
+    storageBucket: 'maxliss-71841.firebasestorage.app',
+    measurementId: 'G-841ZG97VX9',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDjYMTpO19Mjaiwbem__ki5HyTv97ukVcE',
-    appId: '1:629503468316:android:0635da892753706307d0d9',
-    messagingSenderId: '629503468316',
-    projectId: 'maxliss',
-    storageBucket: 'maxliss.firebasestorage.app',
+    apiKey: 'AIzaSyDnOS6TBeiaRZVPVoapi1WfX42Pa29yj3o',
+    appId: '1:644712028793:android:3f7c88e6fb1aaf8e9752a8',
+    messagingSenderId: '644712028793',
+    projectId: 'maxliss-71841',
+    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
+    storageBucket: 'maxliss-71841.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCrzkBRbR0m_aQ-QFkv0ETI7yNbmb9s7SU',
-    appId: '1:629503468316:ios:cb7a491cc526688a07d0d9',
-    messagingSenderId: '629503468316',
-    projectId: 'maxliss',
-    storageBucket: 'maxliss.firebasestorage.app',
-    iosBundleId: 'com.maxliss.evyx',
+    apiKey: 'AIzaSyAzJW0DlfLrcCj8tpbhSyUy6gI0XS8Jj-Q',
+    appId: '1:644712028793:ios:2f5bbdaee48e28759752a8',
+    messagingSenderId: '644712028793',
+    projectId: 'maxliss-71841',
+    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
+    storageBucket: 'maxliss-71841.firebasestorage.app',
+    iosBundleId: 'com.evyx.expert',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCrzkBRbR0m_aQ-QFkv0ETI7yNbmb9s7SU',
-    appId: '1:629503468316:ios:cb7a491cc526688a07d0d9',
-    messagingSenderId: '629503468316',
-    projectId: 'maxliss',
-    storageBucket: 'maxliss.firebasestorage.app',
-    iosBundleId: 'com.maxliss.evyx',
+    apiKey: 'AIzaSyAzJW0DlfLrcCj8tpbhSyUy6gI0XS8Jj-Q',
+    appId: '1:644712028793:ios:0022bddfc0892b069752a8',
+    messagingSenderId: '644712028793',
+    projectId: 'maxliss-71841',
+    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
+    storageBucket: 'maxliss-71841.firebasestorage.app',
+    iosBundleId: 'com.example.expert',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCphV3SeCpIXsr9aPPdcKHgUI9IH16rsBE',
-    appId: '1:629503468316:web:7f7a6adb1845cbc707d0d9',
-    messagingSenderId: '629503468316',
-    projectId: 'maxliss',
-    authDomain: 'maxliss.firebaseapp.com',
-    storageBucket: 'maxliss.firebasestorage.app',
-    measurementId: 'G-DJXM290VR0',
+    apiKey: 'AIzaSyCVNoytosVF1qDar90RLfEbAsUNwI0zCAk',
+    appId: '1:644712028793:web:82d46a3c92cb128b9752a8',
+    messagingSenderId: '644712028793',
+    projectId: 'maxliss-71841',
+    authDomain: 'maxliss-71841.firebaseapp.com',
+    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
+    storageBucket: 'maxliss-71841.firebasestorage.app',
+    measurementId: 'G-LKLGQ4ZMTN',
   );
+
 }

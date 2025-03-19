@@ -65,8 +65,6 @@ dependencies:
   intl: ^0.19.0
   web_socket_channel: ^3.0.2
   firebase_core: ^3.11.0
-  firebase_database: ^11.3.2
-  cloud_firestore: ^5.6.3
   mobile_scanner: ^6.0.6
   upgrader: ^11.3.1
   firebase_messaging: ^15.2.4
