@@ -1,8 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/database/api/end_points.dart';
 import 'package:maxless/core/errors/exceptions.dart';
+import 'package:maxless/core/network/local_network.dart';
+import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/auth/data/models/login_model.dart';
 import 'package:maxless/features/auth/data/models/response_model.dart';
 
@@ -49,6 +52,8 @@ class AuthRepo {
           ApiKey.phone: phone,
           ApiKey.otp: otp,
           ApiKey.type: type,
+          "fcm_token":
+              sl<CacheHelper>().getDataString(key: AppConstants.fcmToken),
         },
       );
       return Right(LoginModel.fromJson(response.data));

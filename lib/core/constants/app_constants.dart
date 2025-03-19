@@ -8,4 +8,5 @@ class AppConstants {
   static const String expertPhone = "expertPhone";
   static const String salonPhone = "salonPhone";
   static const String cookie = "cookie";
+  static const String fcmToken = "fcmToken";
 }
