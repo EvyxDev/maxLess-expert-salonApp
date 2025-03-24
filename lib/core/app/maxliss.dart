@@ -21,52 +21,52 @@ class MaxLiss extends StatelessWidget {
         return ScreenUtilInit(
           designSize: const Size(375, 812),
           builder: (context, child) {
-            return MaterialApp(
-              navigatorKey: navigatorKey,
-              builder: (context, child) {
-                final mediaQueryData = MediaQuery.of(context);
-                final scale = mediaQueryData.textScaler
-                    .clamp(minScaleFactor: 1.0, maxScaleFactor: 1.0);
-                return MediaQuery(
-                  data: MediaQuery.of(context).copyWith(textScaler: scale),
-                  child: child!,
-                );
-              },
-              debugShowCheckedModeBanner: false,
-              //!Localization Settings
-              localizationsDelegates: localizationsDelegatesList,
-              supportedLocales: supportedLocalesList,
-              locale: Locale(sl<GlobalCubit>().language),
-              theme: ThemeData(
-                fontFamily: context.read<GlobalCubit>().language == "ar"
-                    ? 'Beiruti'
-                    : "Jost",
-                textTheme: ThemeData.dark().textTheme.apply(
-                      bodyColor: Colors.black,
-                      displayColor: Colors.black,
-                      fontFamily: context.read<GlobalCubit>().language == "ar"
-                          ? 'Beiruti'
-                          : "Jost",
-                    ),
-                textSelectionTheme: TextSelectionThemeData(
-                  cursorColor: AppColors.primaryColor,
-                  selectionColor: AppColors.primaryColor.withOpacity(.3),
-                  selectionHandleColor: AppColors.primaryColor,
+            return UpgradeAlert(
+              dialogStyle: UpgradeDialogStyle.cupertino,
+              showLater: false,
+              barrierDismissible: false,
+              showIgnore: false,
+              showReleaseNotes: true,
+              child: MaterialApp(
+                navigatorKey: navigatorKey,
+                builder: (context, child) {
+                  final mediaQueryData = MediaQuery.of(context);
+                  final scale = mediaQueryData.textScaler
+                      .clamp(minScaleFactor: 1.0, maxScaleFactor: 1.0);
+                  return MediaQuery(
+                    data: mediaQueryData.copyWith(textScaler: scale),
+                    child: child!,
+                  );
+                },
+                debugShowCheckedModeBanner: false,
+                //!Localization Settings
+                localizationsDelegates: localizationsDelegatesList,
+                supportedLocales: supportedLocalesList,
+                locale: Locale(sl<GlobalCubit>().language),
+                theme: ThemeData(
+                  fontFamily: context.read<GlobalCubit>().language == "ar"
+                      ? 'Beiruti'
+                      : "Jost",
+                  textTheme: ThemeData.dark().textTheme.apply(
+                        bodyColor: Colors.black,
+                        displayColor: Colors.black,
+                        fontFamily: context.read<GlobalCubit>().language == "ar"
+                            ? 'Beiruti'
+                            : "Jost",
+                      ),
+                  textSelectionTheme: TextSelectionThemeData(
+                    cursorColor: AppColors.primaryColor,
+                    selectionColor: AppColors.primaryColor.withOpacity(.3),
+                    selectionHandleColor: AppColors.primaryColor,
+                  ),
+                  primarySwatch: Colors.blue,
                 ),
-                primarySwatch: Colors.blue,
-              ),
-              //!App Scroll Behavior
-              scrollBehavior: ScrollConfiguration.of(context)
-                  .copyWith(physics: const ClampingScrollPhysics()),
+                //!App Scroll Behavior
+                scrollBehavior: ScrollConfiguration.of(context)
+                    .copyWith(physics: const ClampingScrollPhysics()),
 
-              //!Routing
-              home: UpgradeAlert(
-                dialogStyle: UpgradeDialogStyle.cupertino,
-                showLater: false,
-                barrierDismissible: false,
-                showIgnore: false,
-                showReleaseNotes: true,
-                child: const SplashScreen(),
+                //!Routing
+                home: const SplashScreen(),
               ),
             );
           },

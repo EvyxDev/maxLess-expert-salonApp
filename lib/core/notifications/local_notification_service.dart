@@ -14,7 +14,7 @@ class LocalNotificationService {
 
   static Future init() async {
     InitializationSettings settings = const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      android: AndroidInitializationSettings('@mi/launcher_icon'),
       iOS: DarwinInitializationSettings(),
     );
     flutterLocalNotificationsPlugin.initialize(
@@ -26,12 +26,12 @@ class LocalNotificationService {
 
   //basic Notification
   static void showBasicNotification(RemoteMessage message) async {
-    AndroidNotificationDetails android = AndroidNotificationDetails(
+    AndroidNotificationDetails android = const AndroidNotificationDetails(
       'channel_id',
       'channel_name',
       importance: Importance.max,
       priority: Priority.high,
-      icon: "@drawable/launcher_icon",
+      icon: "@drawable/ic_notification",
     );
     NotificationDetails details = NotificationDetails(
       android: android,

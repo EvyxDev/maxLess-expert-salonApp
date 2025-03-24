@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -25,9 +28,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
-        return windows;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -40,20 +49,9 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCVNoytosVF1qDar90RLfEbAsUNwI0zCAk',
-    appId: '1:644712028793:web:570989500495e3349752a8',
-    messagingSenderId: '644712028793',
-    projectId: 'maxliss-71841',
-    authDomain: 'maxliss-71841.firebaseapp.com',
-    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
-    storageBucket: 'maxliss-71841.firebasestorage.app',
-    measurementId: 'G-841ZG97VX9',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDnOS6TBeiaRZVPVoapi1WfX42Pa29yj3o',
-    appId: '1:644712028793:android:3f7c88e6fb1aaf8e9752a8',
+    appId: '1:644712028793:android:9829455ccae77ccf9752a8',
     messagingSenderId: '644712028793',
     projectId: 'maxliss-71841',
     databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
@@ -62,33 +60,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyAzJW0DlfLrcCj8tpbhSyUy6gI0XS8Jj-Q',
-    appId: '1:644712028793:ios:2f5bbdaee48e28759752a8',
+    appId: '1:644712028793:ios:8884e667e6d94e579752a8',
     messagingSenderId: '644712028793',
     projectId: 'maxliss-71841',
     databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
     storageBucket: 'maxliss-71841.firebasestorage.app',
     iosBundleId: 'com.evyx.expert',
   );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAzJW0DlfLrcCj8tpbhSyUy6gI0XS8Jj-Q',
-    appId: '1:644712028793:ios:0022bddfc0892b069752a8',
-    messagingSenderId: '644712028793',
-    projectId: 'maxliss-71841',
-    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
-    storageBucket: 'maxliss-71841.firebasestorage.app',
-    iosBundleId: 'com.example.expert',
-  );
-
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCVNoytosVF1qDar90RLfEbAsUNwI0zCAk',
-    appId: '1:644712028793:web:82d46a3c92cb128b9752a8',
-    messagingSenderId: '644712028793',
-    projectId: 'maxliss-71841',
-    authDomain: 'maxliss-71841.firebaseapp.com',
-    databaseURL: 'https://maxliss-71841-default-rtdb.firebaseio.com',
-    storageBucket: 'maxliss-71841.firebasestorage.app',
-    measurementId: 'G-LKLGQ4ZMTN',
-  );
-
 }

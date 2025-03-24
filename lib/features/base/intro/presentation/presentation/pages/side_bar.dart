@@ -5,12 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:maxless/core/component/custom_cached_image.dart';
 import 'package:maxless/core/component/custom_header.dart';
-import 'package:maxless/core/component/custom_loading_indicator.dart';
-import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
 import 'package:maxless/core/constants/navigation.dart';
-import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/core/network/local_network.dart';
@@ -18,12 +15,12 @@ import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/address/presentation/screens/address_screen.dart';
 import 'package:maxless/features/community/presentation/screens/community.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
-import 'package:maxless/features/home/presentation/cubit/home_cubit.dart';
 import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 import 'package:maxless/features/profile/presentation/pages/reviews_view.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 import 'package:maxless/features/wallet/presentation/screens/wallet.dart';
 
+import '../widgets/freeze_button.dart';
 import '../widgets/logout_alert_dialog.dart';
 
 class Sidebar extends StatelessWidget {
@@ -146,48 +143,7 @@ class Sidebar extends StatelessWidget {
                   },
                 ),
                 //! Freeze Button
-                BlocBuilder<GlobalCubit, GlobalState>(
-                  builder: (context, state) {
-                    return BlocConsumer<HomeCubit, HomeState>(
-                      listener: (context, state) {
-                        if (state is FreezeToggleSuccessState) {
-                          showToast(
-                            context,
-                            message: state.message,
-                            state: ToastStates.success,
-                          );
-                        }
-                        if (state is FreezeToggleErrorState) {
-                          showToast(
-                            context,
-                            message: state.message,
-                            state: ToastStates.error,
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          child: state is FreezeToggleLoadingState
-                              ? const CustomLoadingIndicator()
-                              : CustomElevatedButton(
-                                  text: context.read<GlobalCubit>().freeze == 1
-                                      ? "unfreeze".tr(context)
-                                      : "freeze".tr(context),
-                                  onPressed: () {
-                                    context.read<HomeCubit>().freezeToggle(
-                                        context,
-                                        context.read<GlobalCubit>().freeze == 1
-                                            ? 0
-                                            : 1);
-                                  },
-                                  heigth: 40.h,
-                                ),
-                        );
-                      },
-                    );
-                  },
-                ),
+                const FreezeButton(),
                 //! Language
                 Padding(
                   padding:
