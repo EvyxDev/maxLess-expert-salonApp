@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,8 +21,14 @@ class NotificationHandler {
       sound: true,
     );
 
-    fcmToken = await firebaseMessaging.getToken();
-    if (!kReleaseMode) log('FCM Token: $fcmToken');
+    //! Get the token
+    if (Platform.isIOS) {
+      await firebaseMessaging.getAPNSToken();
+      fcmToken = await firebaseMessaging.getToken();
+    } else {
+      fcmToken = await firebaseMessaging.getToken();
+    }
+    log('FCM Token: $fcmToken');
 
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
 
