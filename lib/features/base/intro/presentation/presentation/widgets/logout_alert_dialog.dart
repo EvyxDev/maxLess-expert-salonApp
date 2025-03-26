@@ -56,7 +56,7 @@ void logoutAlertDialog(BuildContext context) {
                             borderRadius: 10,
                             borderColor: AppColors.primaryColor,
                             textColor: AppColors.primaryColor,
-                            onPressed: () {
+                            onPressed: () async {
                               sl<CacheHelper>()
                                   .removeKey(key: AppConstants.token);
                               sl<CacheHelper>()
@@ -69,6 +69,8 @@ void logoutAlertDialog(BuildContext context) {
                               context.read<GlobalCubit>().isSalon = false;
                               navigateAndFinish(context, const Login());
                               context.read<GlobalCubit>().getUserData();
+                              context.read<GlobalCubit>().getUserData();
+                              await sl<GlobalCubit>().removeFcmToken();
                               // context.read<GlobalCubit>().isExpert
                               //     ? cubit.expertLogout()
                               //     : null;

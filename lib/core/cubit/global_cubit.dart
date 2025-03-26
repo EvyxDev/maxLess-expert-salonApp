@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/network/local_network.dart';
@@ -135,6 +137,16 @@ class GlobalCubit extends Cubit<GlobalState> {
       launchUrl(Uri.parse("https://www.google.com/maps?q=$lat,$lon"));
     } else {
       throw "Could Not Open Link";
+    }
+  }
+
+  //! Remove FCM Token
+  Future<void> removeFcmToken() async {
+    try {
+      await FirebaseMessaging.instance.deleteToken();
+      debugPrint('FCM token deleted successfully');
+    } catch (e) {
+      debugPrint('Error deleting FCM token: $e');
     }
   }
 }

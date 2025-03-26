@@ -115,6 +115,7 @@ handleDioException(DioException e) {
             }),
             (route) => false,
           );
+          sl<GlobalCubit>().removeFcmToken();
           throw UnauthorizedException(ErrorModel.fromJson(e.response!.data));
 
         case 403: //forbidden

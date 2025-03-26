@@ -7,9 +7,6 @@ import 'package:maxless/core/app/maxliss.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
-
-// import 'package:maxless/firebase_options.dart';
-
 import 'core/notifications/local_notification_service.dart';
 import 'core/notifications/notification_handler.dart';
 import 'firebase_options.dart';
