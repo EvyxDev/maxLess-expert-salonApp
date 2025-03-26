@@ -5,9 +5,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:maxless/core/app/maxliss.dart';
-import 'package:maxless/core/constants/app_constants.dart';
-import 'package:maxless/core/network/local_network.dart';
-import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/history/presentation/pages/history.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 
@@ -19,57 +16,17 @@ class LocalNotificationService {
   static StreamController<NotificationResponse> streamController =
       StreamController();
   static onTap(NotificationResponse notificationResponse) {
-    streamController.add(notificationResponse);
+    // streamController.add(notificationResponse);
     Map<String, dynamic>? map =
         jsonDecode(notificationResponse.payload ?? "{}");
-    if (map != null) {
-      switch (map["type"]) {
-        case "booking-new":
-          if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(builder: (context) {
-                return const RequestsScreen();
-              }),
-            );
-            break;
-          }
-        case "booking-completed":
-          if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(builder: (context) {
-                return const HistoryScreen();
-              }),
-            );
-          }
-          break;
-        case "booking-canceled":
-          if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(builder: (context) {
-                return const HistoryScreen(
-                  initialTabIndex: 1,
-                );
-              }),
-            );
-          }
-          break;
-        default:
-          if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
-            navigatorKey.currentState?.push(
-              MaterialPageRoute(builder: (context) {
-                return const NotificationPage();
-              }),
-            );
-          }
-      }
+    if ((map?.isEmpty ?? false) && navigatorKey.currentState != null) {
+      navigateBasedOnPayload(map ?? {});
     } else {
-      if (sl<CacheHelper>().getData(key: AppConstants.token) != null) {
-        navigatorKey.currentState?.push(
-          MaterialPageRoute(builder: (context) {
-            return const NotificationPage();
-          }),
-        );
-      }
+      Future.delayed(const Duration(milliseconds: 500), () {
+        if (navigatorKey.currentState != null && (map?.isNotEmpty ?? false)) {
+          navigateBasedOnPayload(map ?? {});
+        }
+      });
     }
   }
 
@@ -83,6 +40,10 @@ class LocalNotificationService {
       onDidReceiveNotificationResponse: onTap,
       onDidReceiveBackgroundNotificationResponse: onTap,
     );
+
+    streamController.stream.listen((response) {
+      onTap(response);
+    });
   }
 
   //basic Notification
@@ -104,5 +65,51 @@ class LocalNotificationService {
       details,
       payload: jsonEncode(message.data),
     );
+  }
+
+  static void navigateBasedOnPayload(Map<String, dynamic> map) {
+    final String? type = map["type"];
+    if (type == null) {
+      debugPrint("No Type In Payload: $map");
+      navigatorKey.currentState?.push(
+        MaterialPageRoute(builder: (context) {
+          return const NotificationPage();
+        }),
+      );
+
+      return;
+    }
+
+    switch (map["type"]) {
+      case "booking-new":
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) {
+            return const RequestsScreen();
+          }),
+        );
+        break;
+      case "booking-completed":
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) {
+            return const HistoryScreen();
+          }),
+        );
+        break;
+      case "booking-canceled":
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) {
+            return const HistoryScreen(
+              initialTabIndex: 1,
+            );
+          }),
+        );
+        break;
+      default:
+        navigatorKey.currentState?.push(
+          MaterialPageRoute(builder: (context) {
+            return const NotificationPage();
+          }),
+        );
+    }
   }
 }

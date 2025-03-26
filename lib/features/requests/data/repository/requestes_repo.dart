@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/database/api/end_points.dart';
 import 'package:maxless/core/errors/exceptions.dart';
@@ -24,7 +25,7 @@ class RequestesRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -51,7 +52,7 @@ class RequestesRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -77,7 +78,7 @@ class RequestesRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -108,7 +109,7 @@ class RequestesRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -138,7 +139,7 @@ class RequestesRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 }

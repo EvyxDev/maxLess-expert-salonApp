@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
+import 'package:maxless/core/app/maxliss.dart';
 
 import 'local_notification_service.dart';
 
@@ -48,13 +49,16 @@ class NotificationHandler {
       }
     });
 
-    // Handle notifications when the app is opened from a terminated state
-    // checkInitialMessage();
-
     //! Handle taps on notifications when the app is in background
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      LocalNotificationService.showBasicNotification(message);
+      _handleNavigation(message.data);
     });
+
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleNavigation(initialMessage.data);
+    }
   }
 
   //! Handle background message
@@ -62,5 +66,20 @@ class NotificationHandler {
     LocalNotificationService.showBasicNotification(message);
 
     if (!kReleaseMode) log('Notification: ${message.notification?.title}');
+  }
+
+  static void _handleNavigation(Map<String, dynamic> data) {
+    if (navigatorKey.currentState != null && data.isNotEmpty) {
+      LocalNotificationService.navigateBasedOnPayload(data);
+    } else {
+      Future.delayed(
+        const Duration(milliseconds: 500),
+        () {
+          if (navigatorKey.currentState != null && data.isNotEmpty) {
+            LocalNotificationService.navigateBasedOnPayload(data);
+          }
+        },
+      );
+    }
   }
 }

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/localization_settings.dart';
 import 'package:maxless/features/base/intro/presentation/presentation/pages/splash.dart';
-import 'package:upgrader/upgrader.dart';
 
 import '../constants/app_colors.dart';
 import '../services/service_locator.dart';
@@ -21,53 +20,46 @@ class MaxLiss extends StatelessWidget {
         return ScreenUtilInit(
           designSize: const Size(375, 812),
           builder: (context, child) {
-            return UpgradeAlert(
-              dialogStyle: UpgradeDialogStyle.cupertino,
-              showLater: false,
-              barrierDismissible: false,
-              showIgnore: false,
-              showReleaseNotes: true,
-              child: MaterialApp(
-                navigatorKey: navigatorKey,
-                builder: (context, child) {
-                  final mediaQueryData = MediaQuery.of(context);
-                  final scale = mediaQueryData.textScaler
-                      .clamp(minScaleFactor: 1.0, maxScaleFactor: 1.0);
-                  return MediaQuery(
-                    data: mediaQueryData.copyWith(textScaler: scale),
-                    child: child!,
-                  );
-                },
-                debugShowCheckedModeBanner: false,
-                //!Localization Settings
-                localizationsDelegates: localizationsDelegatesList,
-                supportedLocales: supportedLocalesList,
-                locale: Locale(sl<GlobalCubit>().language),
-                theme: ThemeData(
-                  fontFamily: context.read<GlobalCubit>().language == "ar"
-                      ? 'Beiruti'
-                      : "Jost",
-                  textTheme: ThemeData.dark().textTheme.apply(
-                        bodyColor: Colors.black,
-                        displayColor: Colors.black,
-                        fontFamily: context.read<GlobalCubit>().language == "ar"
-                            ? 'Beiruti'
-                            : "Jost",
-                      ),
-                  textSelectionTheme: TextSelectionThemeData(
-                    cursorColor: AppColors.primaryColor,
-                    selectionColor: AppColors.primaryColor.withOpacity(.3),
-                    selectionHandleColor: AppColors.primaryColor,
-                  ),
-                  primarySwatch: Colors.blue,
+            return MaterialApp(
+              navigatorKey: navigatorKey,
+              builder: (context, child) {
+                final mediaQueryData = MediaQuery.of(context);
+                final scale = mediaQueryData.textScaler
+                    .clamp(minScaleFactor: 1.0, maxScaleFactor: 1.0);
+                return MediaQuery(
+                  data: mediaQueryData.copyWith(textScaler: scale),
+                  child: child!,
+                );
+              },
+              debugShowCheckedModeBanner: false,
+              //!Localization Settings
+              localizationsDelegates: localizationsDelegatesList,
+              supportedLocales: supportedLocalesList,
+              locale: Locale(sl<GlobalCubit>().language),
+              theme: ThemeData(
+                fontFamily: context.read<GlobalCubit>().language == "ar"
+                    ? 'Beiruti'
+                    : "Jost",
+                textTheme: ThemeData.dark().textTheme.apply(
+                      bodyColor: Colors.black,
+                      displayColor: Colors.black,
+                      fontFamily: context.read<GlobalCubit>().language == "ar"
+                          ? 'Beiruti'
+                          : "Jost",
+                    ),
+                textSelectionTheme: TextSelectionThemeData(
+                  cursorColor: AppColors.primaryColor,
+                  selectionColor: AppColors.primaryColor.withOpacity(.3),
+                  selectionHandleColor: AppColors.primaryColor,
                 ),
-                //!App Scroll Behavior
-                scrollBehavior: ScrollConfiguration.of(context)
-                    .copyWith(physics: const ClampingScrollPhysics()),
-
-                //!Routing
-                home: const SplashScreen(),
+                primarySwatch: Colors.blue,
               ),
+              //!App Scroll Behavior
+              scrollBehavior: ScrollConfiguration.of(context)
+                  .copyWith(physics: const ClampingScrollPhysics()),
+
+              //!Routing
+              home: const SplashScreen(),
             );
           },
         );

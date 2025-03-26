@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:maxless/core/constants/app_constants.dart';
 import 'package:maxless/core/database/api/dio_consumer.dart';
 import 'package:maxless/core/database/api/end_points.dart';
 import 'package:maxless/core/errors/exceptions.dart';
@@ -32,7 +33,7 @@ class AuthRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -50,8 +51,7 @@ class AuthRepo {
           ApiKey.phone: phone,
           ApiKey.otp: otp,
           ApiKey.type: type,
-          "fcm_token":
-              NotificationHandler.fcmToken ?? "",
+          "fcm_token": NotificationHandler.fcmToken ?? "",
         },
       );
       return Right(LoginModel.fromJson(response.data));
@@ -60,7 +60,7 @@ class AuthRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -74,7 +74,7 @@ class AuthRepo {
     } on NoInternetException catch (e) {
       return Left(e.errorModel.detail);
     } catch (e) {
-      return Left(e.toString());
+      return Left(AppConstants.errorMessage());
     }
   }
 
@@ -95,6 +95,8 @@ class AuthRepo {
       return Right(ResponseModel.fromJson(response.data).message ?? "...");
     } on ServerException catch (e) {
       return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(AppConstants.errorMessage());
     }
   }
 }
