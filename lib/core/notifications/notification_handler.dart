@@ -63,7 +63,9 @@ class NotificationHandler {
 
   //! Handle background message
   static Future<void> handleBackgroundMessage(RemoteMessage message) async {
-    LocalNotificationService.showBasicNotification(message);
+    if (message.notification == null) {
+      LocalNotificationService.showBasicNotification(message);
+    }
 
     if (!kReleaseMode) log('Notification: ${message.notification?.title}');
   }
