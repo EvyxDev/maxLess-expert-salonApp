@@ -19,5 +19,6 @@ class AppColors {
   static const Color black = Colors.black;
   static const Color lightGrey = Color.fromARGB(204, 203, 203, 203);
   static const Color grey = Color(0xff7C7C7C);
+  static const Color pink = Color(0xffFFE2EC);
   static const Color transparent = Colors.transparent;
 }

@@ -26,6 +26,8 @@ import 'package:maxless/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:maxless/features/profile/presentation/pages/reviews_view.dart';
 import 'package:maxless/features/profile/presentation/widgets/pick_image_source_bottom_sheet.dart';
 
+import '../../../community/presentation/widgets/post_hold_to_approval_alert_dialog.dart';
+
 class ExpertProfilePage extends StatelessWidget {
   const ExpertProfilePage({
     super.key,
@@ -319,12 +321,14 @@ class ExpertProfilePage extends StatelessWidget {
                                       onTap: () async {
                                         await addPostBottomSheet(context).then(
                                           (value) {
-                                            cubit.showProfileDetails(
-                                                id: id ??
-                                                    // ignore: use_build_context_synchronously
-                                                    context
-                                                        .read<GlobalCubit>()
-                                                        .userId!);
+                                            if (value != null) {
+                                              showDialog(
+                                                // ignore: use_build_context_synchronously
+                                                context: context,
+                                                builder: (context) =>
+                                                    const PostHoldToApprovalAlertDialog(),
+                                              );
+                                            }
                                           },
                                         );
                                       },

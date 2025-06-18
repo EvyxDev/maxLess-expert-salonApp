@@ -20,6 +20,7 @@ import 'package:maxless/features/profile/presentation/pages/reviews_view.dart';
 import 'package:maxless/features/requests/presentation/pages/request.dart';
 import 'package:maxless/features/wallet/presentation/screens/wallet.dart';
 
+import '../../../../../schedule/presentation/view/schedule_view.dart';
 import '../widgets/freeze_button.dart';
 import '../widgets/logout_alert_dialog.dart';
 
@@ -209,6 +210,18 @@ class Sidebar extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const CommunityPage()),
+                    );
+                  },
+                ),
+                //! Schedule
+                _buildNavItem(
+                  context,
+                  icon: "lib/assets/schedule.svg",
+                  label: "schedule".tr(context),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ScheduleView()),
                     );
                   },
                 ),

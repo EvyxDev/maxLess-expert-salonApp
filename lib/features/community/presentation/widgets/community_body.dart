@@ -10,6 +10,7 @@ import 'package:maxless/features/community/presentation/cubit/community_cubit.da
 import 'package:maxless/features/community/presentation/widgets/post_card.dart';
 
 import 'add_post_bottom_sheet.dart';
+import 'post_hold_to_approval_alert_dialog.dart';
 
 class CommunityBody extends StatelessWidget {
   const CommunityBody({super.key});
@@ -33,7 +34,12 @@ class CommunityBody extends StatelessWidget {
                   onTap: () async {
                     await addPostBottomSheet(context).then((value) {
                       if (value != null) {
-                        cubit.addPostToList(value);
+                        showDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          builder: (context) =>
+                              const PostHoldToApprovalAlertDialog(),
+                        );
                       }
                     });
                   },
