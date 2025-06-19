@@ -169,8 +169,8 @@ class HomeBookingCardDialog extends StatelessWidget {
             //   });
             // } else {
             //   // ignore: use_build_context_synchronously
-              // ignore: use_build_context_synchronously
-              navigateTo(context, ReceiptDetailsPage(model: model));
+            // ignore: use_build_context_synchronously
+            navigateTo(context, ReceiptDetailsPage(model: model));
             // }
           }
           if (state is CheckSessionPriceErrorState) {

@@ -91,148 +91,142 @@ class HomePage extends StatelessWidget {
                                   ? Container()
                                   : cubit.bookings.isNotEmpty
                                       ? ListView.builder(
-                                        itemCount: cubit.bookings.length,
-                                        itemBuilder: (context, index) {
-                                          final colors = [
-                                            const Color(0xffFFB017),
-                                            const Color(0xff42CF96),
-                                            const Color(0xffE48FFF),
-                                          ];
-                                          return Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 16.w,
-                                                vertical: 8.h),
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center,
-                                                  children: [
-                                                    //! Time Section
-                                                    Column(
-                                                      children: [
-                                                        //! Start Time
-                                                        Text(
-                                                          cubit.formateTime(cubit
-                                                                  .bookings[
-                                                                      index]
-                                                                  .expertSlot
-                                                                  ?.start ??
-                                                              "00:00:00"),
-                                                          style: TextStyle(
+                                          itemCount: cubit.bookings.length,
+                                          itemBuilder: (context, index) {
+                                            final colors = [
+                                              const Color(0xffFFB017),
+                                              const Color(0xff42CF96),
+                                              const Color(0xffE48FFF),
+                                            ];
+                                            return Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 16.w,
+                                                  vertical: 8.h),
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      //! Time Section
+                                                      Column(
+                                                        children: [
+                                                          //! Start Time
+                                                          Text(
+                                                            cubit.formateTime(cubit
+                                                                    .bookings[
+                                                                        index]
+                                                                    .expertSlot
+                                                                    ?.start ??
+                                                                "00:00:00"),
+                                                            style: TextStyle(
+                                                                color: const Color(
+                                                                    0xff585A66),
+                                                                fontSize: 12.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w400),
+                                                          ),
+                                                          SizedBox(height: 5.h),
+                                                          Container(
+                                                            width: 2.w,
+                                                            height: 100.h,
+                                                            color: Colors.grey
+                                                                .withOpacity(
+                                                                    0.5), // الخط الرابط
+                                                          ),
+                                                          SizedBox(height: 5.h),
+                                                          //! End Time
+                                                          Text(
+                                                            cubit.formateTime(cubit
+                                                                    .bookings[
+                                                                        index]
+                                                                    .expertSlot
+                                                                    ?.end ??
+                                                                "00:00:00"),
+                                                            style: TextStyle(
                                                               color: const Color(
                                                                   0xff585A66),
-                                                              fontSize:
-                                                                  12.sp,
+                                                              fontSize: 12.sp,
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w400),
-                                                        ),
-                                                        SizedBox(
-                                                            height: 5.h),
-                                                        Container(
-                                                          width: 2.w,
-                                                          height: 100.h,
-                                                          color: Colors.grey
-                                                              .withOpacity(
-                                                                  0.5), // الخط الرابط
-                                                        ),
-                                                        SizedBox(
-                                                            height: 5.h),
-                                                        //! End Time
-                                                        Text(
-                                                          cubit.formateTime(cubit
-                                                                  .bookings[
-                                                                      index]
-                                                                  .expertSlot
-                                                                  ?.end ??
-                                                              "00:00:00"),
-                                                          style: TextStyle(
-                                                            color: const Color(
-                                                                0xff585A66),
-                                                            fontSize: 12.sp,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(width: 16.w),
-                                      
-                                                    //! Card
-                                                    HomeBookingCard(
-                                                        model:
-                                                            cubit.bookings[
-                                                                index],
-                                                        color: colors[index %
-                                                            colors.length]),
-                                                  ],
-                                                ),
-                                      
-                                                SizedBox(height: 20.h),
-                                      
-                                                //! Bottom Line
-                                                Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .center,
-                                                  children: [
-                                                    // الوقت على اليسار
-                                                    Text(
-                                                      cubit.formateTime(cubit
-                                                              .bookings[
-                                                                  index]
-                                                              .expertSlot
-                                                              ?.end ??
-                                                          "00:00:00"),
-                                                      style: TextStyle(
-                                                        color: const Color(
-                                                            0xff585A66),
-                                                        fontSize: 12.sp,
-                                                        fontWeight:
-                                                            FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 10.w),
-                                      
-                                                    // النقطة والخط
-                                                    Expanded(
-                                                      child: Row(
-                                                        children: [
-                                                          // النقطة
-                                                          Container(
-                                                            width: 10.w,
-                                                            height: 10.h,
-                                                            decoration:
-                                                                const BoxDecoration(
-                                                              color: AppColors
-                                                                  .primaryColor,
-                                                              shape: BoxShape
-                                                                  .circle,
-                                                            ),
-                                                          ),
-                                                          // الخط
-                                                          Expanded(
-                                                            child:
-                                                                Container(
-                                                              height: 2.h,
-                                                              color: AppColors
-                                                                  .primaryColor, // نفس لون النقطة
+                                                                      .w400,
                                                             ),
                                                           ),
                                                         ],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 10.h),
-                                              ],
-                                            ),
-                                          );
-                                        },
-                                      )
+                                                      SizedBox(width: 16.w),
+
+                                                      //! Card
+                                                      HomeBookingCard(
+                                                          model: cubit
+                                                              .bookings[index],
+                                                          color: colors[index %
+                                                              colors.length]),
+                                                    ],
+                                                  ),
+
+                                                  SizedBox(height: 20.h),
+
+                                                  //! Bottom Line
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      // الوقت على اليسار
+                                                      Text(
+                                                        cubit.formateTime(cubit
+                                                                .bookings[index]
+                                                                .expertSlot
+                                                                ?.end ??
+                                                            "00:00:00"),
+                                                        style: TextStyle(
+                                                          color: const Color(
+                                                              0xff585A66),
+                                                          fontSize: 12.sp,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 10.w),
+
+                                                      // النقطة والخط
+                                                      Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            // النقطة
+                                                            Container(
+                                                              width: 10.w,
+                                                              height: 10.h,
+                                                              decoration:
+                                                                  const BoxDecoration(
+                                                                color: AppColors
+                                                                    .primaryColor,
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                            ),
+                                                            // الخط
+                                                            Expanded(
+                                                              child: Container(
+                                                                height: 2.h,
+                                                                color: AppColors
+                                                                    .primaryColor, // نفس لون النقطة
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 10.h),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        )
                                       : Center(
                                           child: Padding(
                                             padding: EdgeInsets.symmetric(

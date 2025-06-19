@@ -11,7 +11,9 @@ class ScheduleView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ScheduleCubit()..daysScrollListener(),
+      create: (context) => ScheduleCubit()
+        // ..daysScrollListener()
+        ..getUnAvilableDays(),
       child: const Scaffold(
         backgroundColor: AppColors.white,
         body: ScheduleBody(),

@@ -91,6 +91,9 @@ class EndPoints {
 
   //! Freeze
   static const String freeze = "${baseUrl}expert/freeze-expert";
+
+  //! UnAvailable Days
+  static const String unAvailableDays = "${baseUrl}expert/unavailable-days";
 }
 
 class ApiKey {

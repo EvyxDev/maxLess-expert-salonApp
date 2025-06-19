@@ -16,6 +16,8 @@ import 'package:maxless/features/requests/data/repository/requestes_repo.dart';
 import 'package:maxless/features/reservation/data/repository/session_repo.dart';
 import 'package:maxless/features/wallet/data/repository/wallet_repo.dart';
 
+import '../../features/schedule/data/repository/schedule_repo.dart';
+
 final sl = GetIt.instance;
 void initServiceLocator() {
   //!external
@@ -37,4 +39,5 @@ void initServiceLocator() {
   sl.registerLazySingleton(() => ChattingRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => SessionRepo(sl<DioConsumer>()));
   sl.registerLazySingleton(() => SetAddressRepo(sl<DioConsumer>()));
+  sl.registerLazySingleton(() => ScheduleRepo(sl<DioConsumer>()));
 }

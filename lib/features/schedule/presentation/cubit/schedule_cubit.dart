@@ -3,12 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
+import 'package:maxless/features/schedule/data/models/unavilable_day.dart';
+
+import '../../data/repository/schedule_repo.dart';
 
 part 'schedule_state.dart';
 
 class ScheduleCubit extends Cubit<ScheduleState> {
   ScheduleCubit() : super(ScheduleInitial());
-
+  final ScheduleRepo repo = sl<ScheduleRepo>();
   ScrollController daysScrollController = ScrollController();
 
   //! Month
@@ -42,7 +45,7 @@ class ScheduleCubit extends Cubit<ScheduleState> {
   String getDayAbbreviation({required DateTime date}) {
     String fullDay =
         DateFormat('EEEE', sl<CacheHelper>().getCachedLanguage()).format(date);
-    return fullDay.substring(0, 3);
+    return fullDay;
   }
 
   daysScrollListener() {
@@ -57,5 +60,18 @@ class ScheduleCubit extends Cubit<ScheduleState> {
         emit(ShadowToggleState());
       }
     });
+  }
+
+  List<UnavilableDay> unAvailableDays = [];
+  getUnAvilableDays() async {
+    emit(GetUnAvilableDaysLoading());
+    final result = await repo.getUnAvilableDays();
+    result.fold(
+      (error) => emit(GetUnAvilableDaysFailure(error)),
+      (unAvailableDaysList) {
+        unAvailableDays = unAvailableDaysList;
+        emit(GetUnAvilableDaysSuccess());
+      },
+    );
   }
 }
