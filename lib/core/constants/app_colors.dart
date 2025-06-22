@@ -10,10 +10,13 @@ class AppColors {
   static const Color gradientOne = Color(0xffD7F0EF);
   static const Color gradientTwo = Color(0xffF2FAFA);
   static const Color gradientThree = Color(0xff029F9A);
+  static const Color offWhite = Color(0xffF5F5F5);
+
   static const Color gradientFour = Color(0xff073433);
   static const Color orange = Color(0xffFFB948);
   static const Color green = Color(0xff00B686);
   static const Color red = Color(0xffFF5A5F);
+  static const Color red2 = Color.fromARGB(255, 192, 31, 37);
   static const Color darkOrange = Color(0xffE59400);
   static const Color white = Colors.white;
   static const Color black = Colors.black;

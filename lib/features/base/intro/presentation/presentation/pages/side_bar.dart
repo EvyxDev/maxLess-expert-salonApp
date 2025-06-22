@@ -229,7 +229,7 @@ class Sidebar extends StatelessWidget {
                 _buildNavItem(
                   context,
                   icon: "lib/assets/icons/new/wallet.svg",
-                  label: "Wallet",
+                  label: "wallet".tr(context),
                   onTap: () {
                     Navigator.push(
                       context,

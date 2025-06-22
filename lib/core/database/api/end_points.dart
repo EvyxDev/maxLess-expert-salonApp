@@ -94,6 +94,12 @@ class EndPoints {
 
   //! UnAvailable Days
   static const String unAvailableDays = "${baseUrl}expert/unavailable-days";
+  static const String markUnavailable =
+      "${baseUrl}expert/availability/mark-unavailable";
+  static const String markAvailable =
+      "${baseUrl}expert/availability/mark-available";
+  static const String putExceptions = "${baseUrl}expert/exceptions";
+  static String availabilityByDate(day) => "${baseUrl}expert/availability/$day";
 }
 
 class ApiKey {
