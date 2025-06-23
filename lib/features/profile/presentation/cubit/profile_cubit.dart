@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +11,11 @@ import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
 import 'package:maxless/features/profile/data/models/review_model.dart';
+import 'package:maxless/features/profile/data/models/states/my_states.dart';
 import 'package:maxless/features/profile/data/repository/profile_repo.dart';
+
+import '../../data/models/states/city.dart';
+import '../../data/models/states/datum.dart';
 
 part 'profile_state.dart';
 
@@ -40,6 +46,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> showProfileDetails({required int id}) async {
     emit(GetProfileLoadingState());
     final result = await sl<ProfileRepo>().showProfileDetails(id: id);
+    await getSates();
+    await getMySates();
     result.fold(
       (l) => emit(GetProfileErrorState(message: l)),
       (r) {
@@ -126,6 +134,31 @@ class ProfileCubit extends Cubit<ProfileState> {
       (r) {
         showProfileDetails(id: context.read<GlobalCubit>().userId!);
         emit(UpdateProfileImageSuccessState(message: r));
+      },
+    );
+  }
+
+  //! Get States
+  List<Governorate> governorates = [];
+  List<City> cities = [];
+  getSates() async {
+    final result = await sl<ProfileRepo>().getStates();
+    result.fold(
+      (l) => {log(l)},
+      (r) {
+        governorates = r.governorates ?? [];
+        log(governorates.length.toString());
+      },
+    );
+  }
+
+  MyStates? myStates;
+  getMySates() async {
+    final result = await sl<ProfileRepo>().getMyStates();
+    result.fold(
+      (l) => {},
+      (r) {
+        myStates = r;
       },
     );
   }

@@ -9,11 +9,38 @@ import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:maxless/features/profile/data/models/profile_model.dart';
 
 import '../models/review_model.dart';
+import '../models/states/my_states.dart';
+import '../models/states/states.dart';
 
 class ProfileRepo {
   final DioConsumer api;
 
   ProfileRepo(this.api);
+
+  //! Get States
+  Future<Either<String, States>> getStates() async {
+    try {
+      final Response response = await api.get(EndPoints.states);
+
+      return Right(States.fromJson(response.data));
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    }
+  }
+
+  //! Get States
+  Future<Either<String, MyStates>> getMyStates() async {
+    try {
+      final Response response = await api.get(EndPoints.myStates);
+      return Right(MyStates.fromJson(response.data));
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    }
+  }
 
   //! Get Profile
   Future<Either<String, ProfileModel>> getExpertProfile() async {

@@ -19,10 +19,14 @@ class AppStrings {
   static const String address = "address";
   static const String setLocation = "setLocation";
   static const String editLocation = "editLocation";
+  static const String editProfile = "editProfile";
   static const String selectLocation = "selectLocation";
   //! Validations
   static const String thisFieldIsRequired = "thisFieldIsRequired";
   static const String otpRequired = "otpRequired";
   static const String addAtLeastOneImage = "addAtLeastOneImage";
   static const String invalidCode = "invalidCode";
+  static const String primaryCity = "primaryCity";
+  static const String secondaryCity = "secondaryCity";
+  static const String governorate = "governorate";
 }

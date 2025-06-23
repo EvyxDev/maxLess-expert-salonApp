@@ -61,8 +61,8 @@ class _SelectSlotTimeBottomSheetState extends State<SelectSlotTimeBottomSheet> {
                   icon: const RotatedBox(
                     quarterTurns: 1,
                     child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 24,
+                      Icons.keyboard_arrow_left_outlined,
+                      size: 32,
                     ),
                   ),
                 ),
@@ -94,8 +94,8 @@ class _SelectSlotTimeBottomSheetState extends State<SelectSlotTimeBottomSheet> {
                   icon: const RotatedBox(
                     quarterTurns: 3,
                     child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 24,
+                      Icons.keyboard_arrow_left_outlined,
+                      size: 32,
                     ),
                   ),
                 ),
@@ -131,8 +131,8 @@ class _SelectSlotTimeBottomSheetState extends State<SelectSlotTimeBottomSheet> {
                   icon: const RotatedBox(
                     quarterTurns: 1,
                     child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 24,
+                      Icons.keyboard_arrow_left_outlined,
+                      size: 32,
                     ),
                   ),
                 ),
@@ -164,8 +164,8 @@ class _SelectSlotTimeBottomSheetState extends State<SelectSlotTimeBottomSheet> {
                   icon: const RotatedBox(
                     quarterTurns: 3,
                     child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 24,
+                      Icons.keyboard_arrow_left_outlined,
+                      size: 32,
                     ),
                   ),
                 ),

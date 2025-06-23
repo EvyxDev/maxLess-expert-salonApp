@@ -32,6 +32,8 @@ class EndPoints {
 
   //! Profile
   static const String expertProfile = "${baseUrl}expert/profile";
+  static const String states = "${baseUrl}states";
+  static const String myStates = "${baseUrl}expert/get-location";
 
   static String showProfileDetails({required int id}) {
     return "${baseUrl}expert/show/$id";
