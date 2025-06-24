@@ -8,13 +8,18 @@ import 'package:maxless/core/component/custom_modal_progress_indicator.dart';
 import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/constants/app_strings.dart';
-import 'package:maxless/core/constants/widgets/text_style.dart';
+import 'package:maxless/core/constants/widgets/custom_button.dart';
 import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/profile/presentation/cubit/profile_cubit.dart';
 import 'package:maxless/features/profile/presentation/widgets/pick_image_source_bottom_sheet.dart';
+import 'package:multi_select_flutter/chip_display/multi_select_chip_display.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 
 import '../../../../core/component/custom_drop_down_button.dart';
+import '../../../../core/constants/widgets/text_style.dart';
+import '../cubit/profile_state.dart';
 
 class EditExpertProfilePage extends StatelessWidget {
   const EditExpertProfilePage({
@@ -178,51 +183,172 @@ class EditExpertProfilePage extends StatelessWidget {
                                           ),
 
                                           SizedBox(height: 5.h),
-                                          CustomDropDownButton(
-                                            items: cubit.governorates
-                                                .map((element) =>
-                                                    DropdownMenuItem(
-                                                      value: element.id,
-                                                      child: Text(
-                                                        "${element.name}",
-                                                        style: CustomTextStyle
-                                                            .font400sized14Black,
+                                          //! Governorate
+                                          Form(
+                                            key: cubit.formKey,
+                                            child: Column(
+                                              children: [
+                                                CustomDropDownButton(
+                                                  items: cubit.governorates
+                                                      .map((element) =>
+                                                          DropdownMenuItem(
+                                                            value: element.name,
+                                                            child: Text(
+                                                              "${element.name}",
+                                                              style: CustomTextStyle
+                                                                  .font400sized14Black,
+                                                            ),
+                                                          ))
+                                                      .toList(),
+                                                  label: AppStrings.governorate
+                                                      .tr(context),
+                                                  value:
+                                                      cubit.selectedGovernorate,
+                                                  enabled: true,
+                                                  onChanged: (value) {
+                                                    cubit.selectGovernorate(
+                                                        value);
+                                                  },
+                                                  validator: (value) {
+                                                    if (value == null ||
+                                                        value == "") {
+                                                      return AppStrings
+                                                          .thisFieldIsRequired
+                                                          .tr(context);
+                                                    }
+                                                    return null;
+                                                  },
+                                                ),
+                                                SizedBox(height: 10.h),
+                                                if (cubit.selectedGovernorate !=
+                                                        'القاهرة' &&
+                                                    cubit.selectedGovernorate !=
+                                                        "المدن الجديدة")
+                                                  CustomDropDownButton(
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value == "") {
+                                                        return AppStrings
+                                                            .thisFieldIsRequired
+                                                            .tr(context);
+                                                      }
+                                                      return null;
+                                                    },
+                                                    items: cubit.cities
+                                                        .map((element) =>
+                                                            DropdownMenuItem(
+                                                              value:
+                                                                  element.name,
+                                                              child: Text(
+                                                                "${element.name}",
+                                                                style: CustomTextStyle
+                                                                    .font400sized14Black,
+                                                              ),
+                                                            ))
+                                                        .toList(),
+                                                    label: AppStrings
+                                                        .primaryCity
+                                                        .tr(context),
+                                                    value:
+                                                        cubit.selectedMainCity,
+                                                    enabled: true,
+                                                    onChanged: (value) {
+                                                      cubit.selectMainCity(
+                                                          value);
+                                                    },
+                                                  ),
+                                                SizedBox(height: 10.h),
+                                                if (cubit.selectedGovernorate !=
+                                                        'القاهرة' &&
+                                                    cubit.selectedGovernorate !=
+                                                        "المدن الجديدة")
+                                                  MultiSelectDialogField(
+                                                    colorator: (p0) {
+                                                      return AppColors
+                                                          .primaryColor;
+                                                    },
+                                                    items: cubit.cities
+                                                        .map((e) =>
+                                                            MultiSelectItem(
+                                                                e.name,
+                                                                e.name ?? ""))
+                                                        .toList(),
+                                                    title: Text(AppStrings
+                                                        .secondaryCity
+                                                        .tr(context)),
+                                                    checkColor: AppColors.white,
+                                                    chipDisplay:
+                                                        MultiSelectChipDisplay(
+                                                            onTap: (p0) {},
+                                                            shape:
+                                                                RoundedRectangleBorder(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              side:
+                                                                  const BorderSide(
+                                                                color: AppColors
+                                                                    .grey,
+                                                                width: 1,
+                                                              ),
+                                                            ),
+                                                            chipColor:
+                                                                AppColors.white,
+                                                            // icon: const Icon(
+                                                            //   Icons.close,
+                                                            //   color: AppColors
+                                                            //       .white,
+                                                            // ),
+                                                            colorator: (p0) {
+                                                              return AppColors
+                                                                  .white;
+                                                            },
+                                                            textStyle:
+                                                                CustomTextStyle
+                                                                    .font400sized12Black),
+                                                    dialogHeight: 200,
+                                                    backgroundColor:
+                                                        AppColors.white,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      border: Border.all(
+                                                        color:
+                                                            AppColors.lightGrey,
+                                                        width: 1,
                                                       ),
-                                                    ))
-                                                .toList(),
-                                            label: AppStrings.governorate
-                                                .tr(context),
-                                            value: null,
-                                            enabled: true,
-                                            onChanged: (value) {},
-                                          ),
-
-                                          SizedBox(height: 10.h),
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: CustomDropDownButton(
-                                                  items: const [],
-                                                  label: AppStrings.primaryCity
-                                                      .tr(context),
-                                                  value: null,
-                                                  enabled: true,
-                                                  onChanged: (value) {},
-                                                ),
-                                              ),
-                                              SizedBox(width: 16.w),
-                                              Expanded(
-                                                child: CustomDropDownButton(
-                                                  items: const [],
-                                                  label: AppStrings
-                                                      .secondaryCity
-                                                      .tr(context),
-                                                  value: null,
-                                                  enabled: true,
-                                                  onChanged: (value) {},
-                                                ),
-                                              ),
-                                            ],
+                                                    ),
+                                                    // validator: (value) {
+                                                    //   if ((value ?? [])
+                                                    //       .isEmpty) {
+                                                    //     return AppStrings
+                                                    //         .thisFieldIsRequired
+                                                    //         .tr(context);
+                                                    //   }
+                                                    //   return null;
+                                                    // },
+                                                    buttonIcon: const Icon(
+                                                      Icons.arrow_drop_down,
+                                                      color: AppColors.black,
+                                                    ),
+                                                    buttonText: Text(
+                                                      AppStrings.secondaryCity
+                                                          .tr(context),
+                                                      style: CustomTextStyle
+                                                          .font400sized14Black,
+                                                    ),
+                                                    onConfirm: (values) {
+                                                      cubit.selectSubCities(
+                                                          values);
+                                                    },
+                                                    initialValue:
+                                                        cubit.selectedSubCities,
+                                                  ),
+                                              ],
+                                            ),
                                           ),
 
                                           SizedBox(height: 10.h),
@@ -234,7 +360,27 @@ class EditExpertProfilePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                    )
+                    ),
+
+                    //! Save Button
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                      child: CustomElevatedButton(
+                        onPressed: cubit.isDataChanged()
+                            ? () {
+                                if (cubit.formKey.currentState!.validate()) {
+                                  cubit.storLoactions();
+                                }
+                              }
+                            : null,
+                        borderColor: cubit.isDataChanged()
+                            ? AppColors.primaryColor
+                            : AppColors.lightGrey,
+                        text: "save".tr(context),
+                      ),
+                    ),
+
+                    SizedBox(height: 24.h),
                   ],
                 ),
               ),

@@ -54,6 +54,7 @@ class MaxLiss extends StatelessWidget {
                 ),
                 primarySwatch: Colors.blue,
               ),
+
               //!App Scroll Behavior
               scrollBehavior: ScrollConfiguration.of(context)
                   .copyWith(physics: const ClampingScrollPhysics()),

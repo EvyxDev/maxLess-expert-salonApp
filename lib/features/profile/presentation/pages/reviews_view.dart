@@ -7,6 +7,7 @@ import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
 import 'package:maxless/core/locale/app_loacl.dart';
 import 'package:maxless/features/profile/presentation/cubit/profile_cubit.dart';
+import '../cubit/profile_state.dart';
 
 class ReviewsView extends StatelessWidget {
   const ReviewsView({

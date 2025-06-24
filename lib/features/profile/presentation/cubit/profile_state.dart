@@ -1,11 +1,4 @@
-part of 'profile_cubit.dart';
-
-sealed class ProfileState extends Equatable {
-  const ProfileState();
-
-  @override
-  List<Object> get props => [];
-}
+class ProfileState {}
 
 final class ProfileInitial extends ProfileState {}
 
@@ -14,23 +7,27 @@ final class GetProfileLoadingState extends ProfileState {}
 final class GetProfileErrorState extends ProfileState {
   final String message;
 
-  const GetProfileErrorState({required this.message});
+  GetProfileErrorState({required this.message});
 }
 
-final class GetProfileSuccessState extends ProfileState {}
+final class GetProfileSuccessState extends ProfileState {
+  final String? message;
+
+  GetProfileSuccessState({this.message});
+}
 
 final class LikeProfileCommunityLoadingState extends ProfileState {}
 
 final class LikeProfileCommunityErrorState extends ProfileState {
   final String message;
 
-  const LikeProfileCommunityErrorState({required this.message});
+  LikeProfileCommunityErrorState({required this.message});
 }
 
 final class LikeProfileCommunitySuccessState extends ProfileState {
   final String message;
 
-  const LikeProfileCommunitySuccessState({required this.message});
+  LikeProfileCommunitySuccessState({required this.message});
 }
 
 final class GetReviewsLoadingState extends ProfileState {}
@@ -38,7 +35,7 @@ final class GetReviewsLoadingState extends ProfileState {}
 final class GetReviewsErrorState extends ProfileState {
   final String message;
 
-  const GetReviewsErrorState({required this.message});
+  GetReviewsErrorState({required this.message});
 }
 
 final class GetReviewsSuccessState extends ProfileState {}
@@ -50,11 +47,11 @@ final class UpdateProfileImageLoadingState extends ProfileState {}
 final class UpdateProfileImageErrorState extends ProfileState {
   final String message;
 
-  const UpdateProfileImageErrorState({required this.message});
+  UpdateProfileImageErrorState({required this.message});
 }
 
 final class UpdateProfileImageSuccessState extends ProfileState {
   final String message;
 
-  const UpdateProfileImageSuccessState({required this.message});
+  UpdateProfileImageSuccessState({required this.message});
 }

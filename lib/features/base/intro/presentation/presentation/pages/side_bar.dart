@@ -155,15 +155,17 @@ class Sidebar extends StatelessWidget {
                           ),
                         ),
                         //! Edit Profile Button
-                        IconButton(
-                          onPressed: () {
-                            navigateTo(context, const EditExpertProfilePage());
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            color: AppColors.primaryColor,
+                        if (context.read<GlobalCubit>().isExpert)
+                          IconButton(
+                            onPressed: () {
+                              navigateTo(
+                                  context, const EditExpertProfilePage());
+                            },
+                            icon: const Icon(
+                              Icons.edit,
+                              color: AppColors.primaryColor,
+                            ),
                           ),
-                        ),
                       ],
                     );
                   },

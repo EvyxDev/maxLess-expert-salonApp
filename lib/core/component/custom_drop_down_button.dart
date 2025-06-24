@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants/app_colors.dart';
 import '../constants/widgets/text_style.dart';
 
-
 class CustomDropDownButton extends StatelessWidget {
   const CustomDropDownButton({
     super.key,
@@ -33,10 +32,9 @@ class CustomDropDownButton extends StatelessWidget {
       value: value,
       borderRadius: BorderRadius.circular(8),
       items: items,
-      onChanged:
-          enabled
-              ? onChanged
-              : null, // Disable the dropdown if enabled is false
+      onChanged: enabled
+          ? onChanged
+          : null, // Disable the dropdown if enabled is false
       dropdownColor: AppColors.white,
       focusColor: const Color(0xff121212),
       validator: validator,
@@ -47,7 +45,7 @@ class CustomDropDownButton extends StatelessWidget {
         enabledBorder: getBorderStyle(context),
         focusedBorder: getBorderStyle(context),
         errorBorder: getBorderStyle(context),
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 2.h),
       ),
       isExpanded: true,
     );

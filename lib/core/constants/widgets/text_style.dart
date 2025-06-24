@@ -327,4 +327,10 @@ abstract class CustomTextStyle {
     color: AppColors.black,
     overflow: TextOverflow.ellipsis,
   );
+  static final font400sized12Black = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 12.sp,
+    color: AppColors.black,
+    overflow: TextOverflow.ellipsis,
+  );
 }

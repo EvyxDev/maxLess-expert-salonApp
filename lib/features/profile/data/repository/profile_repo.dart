@@ -30,11 +30,25 @@ class ProfileRepo {
     }
   }
 
-  //! Get States
+  //! Get My States
   Future<Either<String, MyStates>> getMyStates() async {
     try {
       final Response response = await api.get(EndPoints.myStates);
       return Right(MyStates.fromJson(response.data));
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } on NoInternetException catch (e) {
+      return Left(e.errorModel.detail);
+    }
+  }
+
+  //!
+  Future<Either<String, String>> storeLocations(
+      Map<String, dynamic> data) async {
+    try {
+      final Response response =
+          await api.post(EndPoints.storeLocations, data: data);
+      return Right(response.data['message']);
     } on ServerException catch (e) {
       return Left(e.errorModel.detail);
     } on NoInternetException catch (e) {

@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,13 +10,12 @@ import 'package:maxless/features/auth/data/models/user_model.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/data/repo/community_repo.dart';
 import 'package:maxless/features/profile/data/models/review_model.dart';
+import 'package:maxless/features/profile/data/models/states/city.dart';
 import 'package:maxless/features/profile/data/models/states/my_states.dart';
 import 'package:maxless/features/profile/data/repository/profile_repo.dart';
 
-import '../../data/models/states/city.dart';
 import '../../data/models/states/datum.dart';
-
-part 'profile_state.dart';
+import 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitial());
@@ -147,7 +145,6 @@ class ProfileCubit extends Cubit<ProfileState> {
       (l) => {log(l)},
       (r) {
         governorates = r.governorates ?? [];
-        log(governorates.length.toString());
       },
     );
   }
@@ -158,7 +155,96 @@ class ProfileCubit extends Cubit<ProfileState> {
     result.fold(
       (l) => {},
       (r) {
+        selectedGovernorate = r.state;
+        selectedMainCity = r.mainCity;
+        selectedSubCities = r.subCities ?? [];
         myStates = r;
+        cities = governorates
+                .firstWhere((e) => e.name == selectedGovernorate)
+                .cities ??
+            [];
+      },
+    );
+  }
+
+  String? selectedGovernorate;
+  void selectGovernorate(String? value) {
+    selectedGovernorate = value;
+    selectedMainCity = null;
+    selectedSubCities = [];
+    cities =
+        governorates.firstWhere((e) => e.name == selectedGovernorate).cities ??
+            [];
+    emit(ProfileInitial());
+  }
+
+  String? selectedMainCity;
+  void selectMainCity(String? value) {
+    selectedMainCity = value;
+    emit(ProfileInitial());
+  }
+
+  List selectedSubCities = [];
+  void selectSubCities(List value) {
+    selectedSubCities = value;
+    emit(ProfileInitial());
+  }
+
+  bool isDataChanged() {
+    if (myStates == null) return false;
+
+    final bool isGovernorateChanged = selectedGovernorate != myStates!.state;
+
+    final bool isMainCityChanged = selectedMainCity != myStates!.mainCity;
+
+    final bool isSubCitiesChanged = selectedSubCities.length !=
+            (myStates!.subCities?.length ?? 0) ||
+        !selectedSubCities.every((city) => myStates!.subCities!.contains(city));
+
+    return isGovernorateChanged || isMainCityChanged || isSubCitiesChanged;
+  }
+
+  GlobalKey<FormState> formKey = GlobalKey();
+
+  storLoactions() async {
+    emit(GetProfileLoadingState());
+    int? mainCityId;
+    int? governorateId;
+
+    if (selectedGovernorate != null) {
+      governorateId =
+          governorates.firstWhere((e) => e.name == selectedGovernorate).id;
+    }
+
+    if (selectedMainCity != null) {
+      mainCityId = cities.firstWhere((e) => e.name == selectedMainCity).id;
+    }
+
+    List<int> secondaryCityIds = [];
+    if (selectedSubCities.isNotEmpty) {
+      secondaryCityIds = cities
+          .where((c) => selectedSubCities.contains(c.name))
+          .map((c) => c.id!)
+          .toList();
+    }
+
+    final body = {
+      "state_id": governorateId,
+      "main_city_id": mainCityId,
+      if (secondaryCityIds.isNotEmpty) "sub_city_ids": secondaryCityIds,
+    };
+
+    final result = await sl<ProfileRepo>().storeLocations(body);
+
+    result.fold(
+      (l) => emit(GetProfileErrorState(message: l)),
+      (r) {
+        myStates = MyStates(
+          state: selectedGovernorate,
+          mainCity: selectedMainCity,
+          subCities: selectedSubCities,
+        );
+        emit(GetProfileSuccessState(message: r));
       },
     );
   }
