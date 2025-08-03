@@ -32,3 +32,13 @@ final class ArrivedLocationSuccessState extends TrackingState {
 }
 
 final class SendMessageState extends TrackingState {}
+
+final class SendStartTrackingLoadingState extends TrackingState {}
+
+final class SendStartTrackingErrorState extends TrackingState {
+  final String message;
+
+  const SendStartTrackingErrorState({required this.message});
+}
+
+final class SendStartTrackingSuccessState extends TrackingState {}

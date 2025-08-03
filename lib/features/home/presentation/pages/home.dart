@@ -109,54 +109,54 @@ class HomePage extends StatelessWidget {
                                                         CrossAxisAlignment
                                                             .center,
                                                     children: [
-                                                      //! Time Section
-                                                      Column(
-                                                        children: [
-                                                          //! Start Time
-                                                          Text(
-                                                            cubit.formateTime(cubit
-                                                                    .bookings[
-                                                                        index]
-                                                                    .expertSlot
-                                                                    ?.start ??
-                                                                "00:00:00"),
-                                                            style: TextStyle(
-                                                                color: const Color(
-                                                                    0xff585A66),
-                                                                fontSize: 12.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                          ),
-                                                          SizedBox(height: 5.h),
-                                                          Container(
-                                                            width: 2.w,
-                                                            height: 100.h,
-                                                            color: Colors.grey
-                                                                .withOpacity(
-                                                                    0.5), // الخط الرابط
-                                                          ),
-                                                          SizedBox(height: 5.h),
-                                                          //! End Time
-                                                          Text(
-                                                            cubit.formateTime(cubit
-                                                                    .bookings[
-                                                                        index]
-                                                                    .expertSlot
-                                                                    ?.end ??
-                                                                "00:00:00"),
-                                                            style: TextStyle(
-                                                              color: const Color(
-                                                                  0xff585A66),
-                                                              fontSize: 12.sp,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(width: 16.w),
+                                                      // //! Time Section
+                                                      // Column(
+                                                      //   children: [
+                                                      //     //! Start Time
+                                                      //     Text(
+                                                      //       cubit.formateTime(cubit
+                                                      //               .bookings[
+                                                      //                   index]
+                                                      //               .expertSlot
+                                                      //               ?.start ??
+                                                      //           "00:00:00"),
+                                                      //       style: TextStyle(
+                                                      //           color: const Color(
+                                                      //               0xff585A66),
+                                                      //           fontSize: 12.sp,
+                                                      //           fontWeight:
+                                                      //               FontWeight
+                                                      //                   .w400),
+                                                      //     ),
+                                                      //     SizedBox(height: 5.h),
+                                                      //     Container(
+                                                      //       width: 2.w,
+                                                      //       height: 100.h,
+                                                      //       color: Colors.grey
+                                                      //           .withOpacity(
+                                                      //               0.5), // الخط الرابط
+                                                      //     ),
+                                                      //     SizedBox(height: 5.h),
+                                                      //     //! End Time
+                                                      //     Text(
+                                                      //       cubit.formateTime(cubit
+                                                      //               .bookings[
+                                                      //                   index]
+                                                      //               .expertSlot
+                                                      //               ?.end ??
+                                                      //           "00:00:00"),
+                                                      //       style: TextStyle(
+                                                      //         color: const Color(
+                                                      //             0xff585A66),
+                                                      //         fontSize: 12.sp,
+                                                      //         fontWeight:
+                                                      //             FontWeight
+                                                      //                 .w400,
+                                                      //       ),
+                                                      //     ),
+                                                      //   ],
+                                                      // ),
+                                                      // SizedBox(width: 16.w),
 
                                                       //! Card
                                                       HomeBookingCard(
@@ -176,21 +176,21 @@ class HomePage extends StatelessWidget {
                                                             .center,
                                                     children: [
                                                       // الوقت على اليسار
-                                                      Text(
-                                                        cubit.formateTime(cubit
-                                                                .bookings[index]
-                                                                .expertSlot
-                                                                ?.end ??
-                                                            "00:00:00"),
-                                                        style: TextStyle(
-                                                          color: const Color(
-                                                              0xff585A66),
-                                                          fontSize: 12.sp,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 10.w),
+                                                      // Text(
+                                                      //   cubit.formateTime(cubit
+                                                      //           .bookings[index]
+                                                      //           .expertSlot
+                                                      //           ?.end ??
+                                                      //       "00:00:00"),
+                                                      //   style: TextStyle(
+                                                      //     color: const Color(
+                                                      //         0xff585A66),
+                                                      //     fontSize: 12.sp,
+                                                      //     fontWeight:
+                                                      //         FontWeight.w400,
+                                                      //   ),
+                                                      // ),
+                                                      // SizedBox(width: 10.w),
 
                                                       // النقطة والخط
                                                       Expanded(

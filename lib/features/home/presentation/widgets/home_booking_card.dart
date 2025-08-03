@@ -99,18 +99,7 @@ class HomeBookingCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            cubit.formateTime(
-                                model.expertSlot?.start ?? "00:00:00"),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                          Text(
-                            cubit.formateTime(
-                                model.expertSlot?.end ?? "00:00:00"),
+                            cubit.formateTime(model.time ?? "00:00:00"),
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 12.sp,

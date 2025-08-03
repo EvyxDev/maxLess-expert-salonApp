@@ -366,16 +366,12 @@ class ExpertProfilePage extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            IconButton(
-                                              icon: Icon(
-                                                CupertinoIcons.cloud_upload,
-                                                color: Colors.grey,
-                                                size: 20.sp,
-                                              ),
-                                              onPressed: () {
-                                                // حدث عند الضغط على زر الرفع
-                                              },
+                                            Icon(
+                                              CupertinoIcons.cloud_upload,
+                                              color: Colors.grey,
+                                              size: 20.sp,
                                             ),
+                                            SizedBox(width: 16.w),
                                           ],
                                         ),
                                       ),
@@ -452,7 +448,7 @@ class ExpertProfilePage extends StatelessWidget {
                     SizedBox(width: 10.w),
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Column(

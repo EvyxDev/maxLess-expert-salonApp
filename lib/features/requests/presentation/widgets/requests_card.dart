@@ -31,6 +31,16 @@ class _RequestCardState extends State<RequestCard>
     with SingleTickerProviderStateMixin {
   bool isExpanded = false;
 
+  bool isMoreThanOneDayFromNow() {
+    if (widget.model.date == null || widget.model.time == null) return false;
+    final enteredDate =
+        DateTime.parse("${widget.model.date} ${widget.model.time}");
+    final now = DateTime.now();
+
+    final difference = enteredDate.difference(now);
+    return difference.inHours >= 24;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<RequestsCubit, RequestsState>(
@@ -116,7 +126,7 @@ class _RequestCardState extends State<RequestCard>
                   // ),
                   const Spacer(),
                   Text(
-                    "${cubit.formateTime(widget.model.expertSlot?.start ?? "00:00:00")} - ${cubit.formateTime(widget.model.expertSlot?.end ?? "00:00:00")}",
+                    cubit.formateTime(widget.model.time ?? "00:00:00"),
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: const Color(0xff525252),
@@ -349,44 +359,45 @@ class _RequestCardState extends State<RequestCard>
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   //! Cancel Button
-                                  Expanded(
-                                    child: OutlinedButton(
-                                      onPressed: () async {
-                                        await _showCancelDialog(
-                                          context,
-                                        )?.then(
-                                          (value) async {
-                                            if (value == true) {
-                                              // ignore: use_build_context_synchronously
-                                              await showReasonDialog(context)
-                                                  ?.then((value) {
-                                                value == true
-                                                    ? cubit.init()
-                                                    : null;
-                                              });
-                                            }
-                                          },
-                                        );
-                                      },
-                                      style: OutlinedButton.styleFrom(
-                                        side: const BorderSide(
-                                            color: AppColors.primaryColor),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
+                                  if (isMoreThanOneDayFromNow())
+                                    Expanded(
+                                      child: OutlinedButton(
+                                        onPressed: () async {
+                                          await _showCancelDialog(
+                                            context,
+                                          )?.then(
+                                            (value) async {
+                                              if (value == true) {
+                                                // ignore: use_build_context_synchronously
+                                                await showReasonDialog(context)
+                                                    ?.then((value) {
+                                                  value == true
+                                                      ? cubit.init()
+                                                      : null;
+                                                });
+                                              }
+                                            },
+                                          );
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                          side: const BorderSide(
+                                              color: AppColors.primaryColor),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.r),
+                                          ),
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: 12.h),
                                         ),
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 12.h),
-                                      ),
-                                      child: Text(
-                                        "cancel_button".tr(context),
-                                        style: TextStyle(
-                                          fontSize: 14.sp,
-                                          color: AppColors.primaryColor,
+                                        child: Text(
+                                          "cancel_button".tr(context),
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            color: AppColors.primaryColor,
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
                                 ],
                               ),
                           ],

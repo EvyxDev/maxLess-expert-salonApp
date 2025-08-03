@@ -15,7 +15,10 @@ class RequestesRepo {
   //! Get Requests
   Future<Either<String, List<BookingItemModel>>> getExpertRequests() async {
     try {
-      final Response response = await api.get(EndPoints.getExpertRequests);
+      final Response response = await api.get(
+        // EndPoints.getExpertRequests,
+        "${EndPoints.baseUrl}expert/booking-expert/expert",
+      );
       ResponseModel model = ResponseModel.fromJson(response.data);
       return Right((model.data as List)
           .map((e) => BookingItemModel.fromJson(e))

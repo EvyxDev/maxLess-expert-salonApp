@@ -58,6 +58,19 @@ class TrackingCubit extends Cubit<TrackingState> {
     );
   }
 
+  //! Send Start Tracking
+  Future<void> sendStartTracking({required int expertId}) async {
+    emit(SendStartTrackingLoadingState());
+    final result = await sl<SessionRepo>().startTracking(
+      expertId: expertId,
+      bookingId: bookingId,
+    );
+    result.fold(
+      (error) => emit(SendStartTrackingErrorState(message: error)),
+      (message) => emit(SendStartTrackingSuccessState()),
+    );
+  }
+
   GoogleMapController? mapController;
   LatLng? expertLocation;
   LatLng? userLocation;
@@ -69,26 +82,69 @@ class TrackingCubit extends Cubit<TrackingState> {
   String? arrivalTime;
   String? remainingDistance;
 
-  Future<void> startTracking() async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied ||
-        permission == LocationPermission.deniedForever) {
-      log("Location permission denied.");
-      return;
-    }
-    positionStream = Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: 50,
-      ),
-    ).listen((Position position) async {
-      expertLocation = LatLng(position.latitude, position.longitude);
+  // Future<void> startTracking() async {
+  //   try {
+  //     LocationPermission permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied ||
+  //         permission == LocationPermission.deniedForever) {
+  //       log("Location permission denied.");
+  //       return;
+  //     }
+  //     positionStream = Geolocator.getPositionStream(
+  //       locationSettings: const LocationSettings(
+  //         accuracy: LocationAccuracy.high,
+  //         distanceFilter: 50,
+  //       ),
+  //     ).listen((Position position) async {
+  //       expertLocation = LatLng(position.latitude, position.longitude);
+  //       mapController?.animateCamera(CameraUpdate.newLatLng(expertLocation!));
+
+  //       await getRoute();
+
+  //       emit(GetCurrentLocationSuccessState());
+  //     });
+  //   } catch (e) {
+  //     log(e.toString());
+  //   }
+  // }
+
+  Future<void> startTracking({required int expertId}) async {
+    try {
+      LocationPermission permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        log("Location permission denied.");
+        return;
+      }
+
+      // Get the current position immediately
+      Position currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      expertLocation =
+          LatLng(currentPosition.latitude, currentPosition.longitude);
       mapController?.animateCamera(CameraUpdate.newLatLng(expertLocation!));
-
       await getRoute();
-
       emit(GetCurrentLocationSuccessState());
-    });
+
+      // Then start listening to location changes
+      positionStream = Geolocator.getPositionStream(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          distanceFilter: 50,
+        ),
+      ).listen((Position position) async {
+        expertLocation = LatLng(position.latitude, position.longitude);
+        mapController?.animateCamera(CameraUpdate.newLatLng(expertLocation!));
+
+        await getRoute();
+        emit(GetCurrentLocationSuccessState());
+      });
+    } catch (e) {
+      log(e.toString());
+    }
+    sendStartTracking(expertId: expertId);
   }
 
   void stopTracking() {
@@ -173,7 +229,7 @@ class TrackingCubit extends Cubit<TrackingState> {
   //!WebSocket
   late WebSocketChannel channel;
   void initWebSocket(GlobalCubit globalCubit) {
-    log("========== WSS Token: ${sl<CacheHelper>().getDataString(key: AppConstants.wssToken)}");
+    // log("========== WSS Token: ${sl<CacheHelper>().getDataString(key: AppConstants.wssToken)}");
     //! Connect
     channel = WebSocketChannel.connect(
       Uri.parse(

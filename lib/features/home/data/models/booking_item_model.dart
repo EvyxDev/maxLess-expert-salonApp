@@ -7,7 +7,7 @@ class BookingItemModel {
   final int? id, orderId, status;
   final UserModel? user, expert;
   final SlotModel? expertSlot;
-  final String? date, createdAt, updatedAt, code;
+  final String? date, time, createdAt, updatedAt, code;
   final List<AnswerAndQuestionModel> answersAndQuestions;
   final double? lat, lon;
 
@@ -25,6 +25,7 @@ class BookingItemModel {
     required this.lat,
     required this.lon,
     required this.code,
+    required this.time,
   });
 
   factory BookingItemModel.fromJson(Map<String, dynamic> map) {
@@ -33,8 +34,12 @@ class BookingItemModel {
       orderId: map[ApiKey.orderId],
       status: map[ApiKey.status],
       user: UserModel.fromJson(map[ApiKey.user]),
-      expert: UserModel.fromJson(map[ApiKey.expert]),
-      expertSlot: SlotModel.fromJson(map[ApiKey.expertSlot]),
+      expert: map[ApiKey.expert] != null
+          ? UserModel.fromJson(map[ApiKey.expert])
+          : null,
+      expertSlot: map[ApiKey.expertSlot] != null
+          ? SlotModel.fromJson(map[ApiKey.expertSlot])
+          : null,
       date: map[ApiKey.date],
       createdAt: map[ApiKey.createdAt],
       updatedAt: map[ApiKey.updatedAt],
@@ -46,6 +51,7 @@ class BookingItemModel {
               .toList()
           : [],
       code: map[ApiKey.code],
+      time: map[ApiKey.time],
     );
   }
 }

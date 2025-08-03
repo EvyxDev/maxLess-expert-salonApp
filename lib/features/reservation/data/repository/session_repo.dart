@@ -12,6 +12,28 @@ class SessionRepo {
 
   SessionRepo(this.api);
 
+  //! Start Tracking
+  Future<Either<String, String>> startTracking({
+    required int expertId,
+    required int bookingId,
+  }) async {
+    try {
+      Response response = await api.post(
+        EndPoints.startTracking,
+        isFormData: true,
+        data: {
+          "expert_id": expertId,
+          "booking_id": bookingId,
+        },
+      );
+      return Right(response.data["message"]);
+    } on ServerException catch (e) {
+      return Left(e.errorModel.detail);
+    } catch (e) {
+      return Left(AppConstants.errorMessage());
+    }
+  }
+
   //! Start Session
   Future<Either<String, String>> startSession({
     required int bookingId,
@@ -159,6 +181,7 @@ class SessionRepo {
     required int expertId,
     required int userId,
     required int rating,
+    required int bookingId,
   }) async {
     try {
       final Response response = await api.post(
@@ -169,6 +192,7 @@ class SessionRepo {
           ApiKey.expertId: expertId,
           ApiKey.userId: userId,
           ApiKey.rating: rating,
+          ApiKey.bookingId: bookingId,
         },
       );
       ResponseModel model = ResponseModel.fromJson(response.data);

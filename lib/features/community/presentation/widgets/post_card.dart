@@ -6,13 +6,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:maxless/core/component/custom_post_image.dart';
 import 'package:maxless/core/component/custom_toast.dart';
 import 'package:maxless/core/constants/app_colors.dart';
-import 'package:maxless/core/constants/navigation.dart';
-import 'package:maxless/core/cubit/global_cubit.dart';
 import 'package:maxless/core/network/local_network.dart';
 import 'package:maxless/core/services/service_locator.dart';
 import 'package:maxless/features/community/data/models/community_item_model.dart';
 import 'package:maxless/features/community/presentation/cubit/community_cubit.dart';
-import 'package:maxless/features/profile/presentation/pages/expert_profile.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key, required this.model});
@@ -45,16 +42,16 @@ class PostCard extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    navigateTo(
-                        context,
-                        ExpertProfilePage(
-                          id: model.expert?.id ==
-                                  context.read<GlobalCubit>().userId
-                              ? null
-                              : model.expert?.id,
-                          isExpert:
-                              model.expert?.type == "expert" ? true : false,
-                        ));
+                    // navigateTo(
+                    //     context,
+                    //     ExpertProfilePage(
+                    //       id: model.expert?.id ==
+                    //               context.read<GlobalCubit>().userId
+                    //           ? null
+                    //           : model.expert?.id,
+                    //       isExpert:
+                    //           model.expert?.type == "expert" ? true : false,
+                    //     ));
                   },
                   child: Row(
                     children: [
@@ -64,25 +61,29 @@ class PostCard extends StatelessWidget {
                         width: 35.h,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            model.expert?.image ?? "",
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                height: 40.h,
-                                width: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(40),
-                                  border: Border.all(
-                                    color: AppColors.primaryColor,
-                                  ),
-                                ),
-                                child: const Icon(
-                                  Icons.person,
-                                  color: AppColors.primaryColor,
-                                ),
-                              );
-                            },
+                          child: Image.asset(
+                            "assets/images/app_icon.png",
+                            height: 40.h,
                           ),
+                          // child: Image.network(
+                          //   model.expert?.image ?? "",
+                          //   errorBuilder: (context, error, stackTrace) {
+                          //     return Container(
+                          //       height: 40.h,
+                          //       width: 40.h,
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(40),
+                          //         border: Border.all(
+                          //           color: AppColors.primaryColor,
+                          //         ),
+                          //       ),
+                          //       child: const Icon(
+                          //         Icons.person,
+                          //         color: AppColors.primaryColor,
+                          //       ),
+                          //     );
+                          //   },
+                          // ),
                         ),
                       ),
                       SizedBox(width: 10.w),
@@ -92,20 +93,21 @@ class PostCard extends StatelessWidget {
                           children: [
                             //! Name
                             Text(
-                              model.expert?.name ?? "...",
+                              // model.expert?.name ?? "...",
+                              "Maxliss",
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.sp,
                               ),
                             ),
                             //! Location
-                            Text(
-                              model.expert?.location ?? "...",
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12.sp,
-                              ),
-                            ),
+                            // Text(
+                            //   model.expert?.location ?? "...",
+                            //   style: TextStyle(
+                            //     color: Colors.grey,
+                            //     fontSize: 12.sp,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),

@@ -79,7 +79,7 @@ class _HistoryCardState extends State<HistoryCard>
                   const Spacer(),
                   //! Start & End Time
                   Text(
-                    "${cubit.formateTime(widget.model.expertSlot?.start ?? "00:00:00")} - ${cubit.formateTime(widget.model.expertSlot?.end ?? "00:00:00")}",
+                    cubit.formateTime(widget.model.time ?? "00:00:00"),
                     style: TextStyle(
                       fontSize: 12.sp,
                       color: const Color(0xff525252),

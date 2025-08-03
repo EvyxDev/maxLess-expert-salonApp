@@ -125,6 +125,7 @@ class SessionCubit extends Cubit<SessionState> {
   Future<void> expertSessionFeedback(BuildContext context) async {
     emit(FeedbackLoadingState());
     final result = await sl<SessionRepo>().expertSessionFeedback(
+      bookingId: bookingId,
       review: feedbackController.text,
       expertId: context.read<GlobalCubit>().userId!,
       userId: bookingModel.user?.id ?? 0,

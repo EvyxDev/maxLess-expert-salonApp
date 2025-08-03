@@ -282,7 +282,11 @@ class _LocationScreenState extends State<LocationScreen> {
                                       borderRadius: 8,
                                       onPressed: () async {
                                         if (!isTracking) {
-                                          await cubit.startTracking();
+                                          await cubit.startTracking(
+                                            expertId: context
+                                                .read<GlobalCubit>()
+                                                .userId!,
+                                          );
                                           cubit.sendMessage();
 
                                           setState(() {

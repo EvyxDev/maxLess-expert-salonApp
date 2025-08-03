@@ -103,6 +103,9 @@ class EndPoints {
       "${baseUrl}expert/availability/mark-available";
   static const String putExceptions = "${baseUrl}expert/exceptions";
   static String availabilityByDate(day) => "${baseUrl}expert/availability/$day";
+
+  //! Start Tracking
+  static const String startTracking = "${baseUrl}expert/start-tracking";
 }
 
 class ApiKey {

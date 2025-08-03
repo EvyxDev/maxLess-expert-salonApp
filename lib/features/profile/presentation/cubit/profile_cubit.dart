@@ -121,10 +121,12 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (pickedImage != null) {
       pickedImage = pickedImage;
       emit(PickImageState());
+    } else {
+      return;
     }
     emit(UpdateProfileImageLoadingState());
     final result = await sl<ProfileRepo>().updateProfileImage(
-      image: pickedImage != null ? await uploadToApi(pickedImage) : null,
+      image: await uploadToApi(pickedImage),
     );
 
     result.fold(
@@ -191,7 +193,15 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   bool isDataChanged() {
-    if (myStates == null) return false;
+    if (myStates == null) {
+      if (selectedGovernorate != null ||
+          selectedMainCity != null ||
+          selectedSubCities.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     final bool isGovernorateChanged = selectedGovernorate != myStates!.state;
 
